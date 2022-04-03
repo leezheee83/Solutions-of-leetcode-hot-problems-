@@ -61,6 +61,12 @@ class Solution {
 }
 ```
 
+### 560. Subarray Sum Equals K  TODO
+
+### 128. Longest Consecutive Sequence TODO
+
+
+
 ## Linked List
 
 ### 2. Add Two Numbers 
