@@ -61,7 +61,66 @@ class Solution {
 }
 ```
 
-### 560. Subarray Sum Equals K  TODO
+### 560. Subarray Sum Equals K  
+
+Given an array of integers `nums` and an integer `k`, return *the total number of subarrays whose sum equals to `k`*.
+
+**Example 1:**
+
+```
+Input: nums = [1,1,1], k = 2
+Output: 2
+```
+
+**Example 2:**
+
+```
+Input: nums = [1,2,3], k = 3
+Output: 2
+```
+
+**Solution 1:**  
+
+1. there`s has other time-consuming, so I prefer to use Hash Map to deal this 
+
+2. we can follow the  cumulative sum of all nums elemens,  until we find 
+   $$
+   sum[i] - sum[j] = k
+   $$
+    the sum of elements lying between indices i and *j* is k
+
+3. Based on these thoughts, we make use of a hashmap  which is used to store the cumulative sum item
+4.  Every time we encounter a new sum, we make a new entry in the hashmap corresponding to that sum, If the same sum item occurs again, we increment the count corresponding to that sum in the hashmap
+5. we counted the number of occurrences of [sum-k], that means we alse get the number of times a subarray with sum k, because  *sum - (sum -k) = k*
+
+**Complexity Analysis**
+
+- Time complexity : *O*(*n*). The entire n**u**ms array is traversed only once.
+- Space complexity : O(n). Hashmap can contain up to n distinct entries in the worst case.
+
+```java
+class Solution {
+    public int subarraySum(int[] nums, int k) {
+        int result = 0;
+        int sum = 0;
+        HashMap < Integer, Integer > map = new HashMap < > ();
+        map.put(0,1);
+        for (int i=0 ;i < nums.length; i++){
+            sum += nums[i];
+            
+            if (map.containsKey(sum - k)){
+                result += map.get(sum -k);
+            }
+            map.put(sum, map.getOrDefault(sum,0) + 1);
+        }
+        
+        return result;
+        
+    }
+}
+```
+
+
 
 ### 128. Longest Consecutive Sequence TODO
 
