@@ -124,7 +124,154 @@ class Solution {
 
 ### 128. Longest Consecutive Sequence TODO
 
+### 19. **Remove Nth Node From End of List**
 
+#### solution 1 
+
+1. get the size of the linked list by walking through entire list.
+2. Do `size - n - 1` to see how many steps we need to take before retrive the node we about to remove
+3. Walk that many steps and remove the node.
+4. Return the head of the list.
+
+```python
+class Solution {
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        int size = length_of(head);
+        if (n == size) {
+            return head.next;
+        } else {
+            int steps = size - n - 1;
+            ListNode node = head;
+            while (steps-- > 0) {
+                node = node.next;
+            }
+            node.next = node.next.next; // remove node
+            return head;
+        }
+    }
+
+    private int length_of(ListNode head) {
+        ListNode n = head;
+        int size = 0;
+        while (n != null) {
+            size++;
+            n = n.next;
+        }
+        return size;
+    }
+}
+```
+
+#### solution 2
+
+fast & slow pointer
+
+1. We will have two pointers which will iterate over the linked list say fast and slow both initalized with head means pointing to the first node.
+
+2. Now we will move the fast pointer to the number specified i.e, if we need to remove the last 2nd node then our fast node must be at last node and slow node must be just before deleting node and if we observe there the difference between both pointer will be of that N node.
+
+   So, Idea is to move the fast pointer N times ahead than slow and then after move both pointer by one till fast reaches last node.
+
+3. Once fast pointer reaches last node we will update the next filed of the node at which slow is pointing.
+
+4. After hat we will free up the space of that deleted node bu making it reference to None to avoid dangling pointer.
+
+5. Then we will return the head pointer.
+
+```python
+class Solution:
+    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
+        LengthOfList = 0
+        fast = slow = head
+        for i in range (n):
+            fast = fast.next
+        if not fast:
+            return head.next
+        else:
+            while(fast.next):
+                fast = fast.next
+                slow = slow.next
+            DeletedNodePointer = slow.next
+            slow.next = slow.next.next
+            DeletedNodePointer.next = None #Removing dangling pointer
+            return (head)
+```
+
+### 148 Sort List
+
+Given the `head` of a linked list, return *the list after sorting it in **ascending order***.
+
+- The number of nodes in the list is in the range `[0, 5 * 104]`.
+- `-105 <= Node.val <= 105`
+
+#### solution 1 
+
+somehow tricky. Extract all the element into an array, sort and then fill the values in the linkedlist.
+
+```python
+class Solution:
+    def sortList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        arr, itr = [], head    # take an array to store all the extracted values
+        while itr:             # iterate and copy
+            arr.append(itr.val)    
+            itr = itr.next
+        arr.sort()             # sort it
+        itr, i = head, 0       # take i to traverse the array along with linked list
+				
+        while itr:             # fill the sorted values
+            itr.val = arr[i]  
+            i += 1
+            itr = itr.next
+        return head
+```
+
+Time Complexity: O(NlogN)
+Space Complexity: O(N)
+
+#### solution 2
+
+mergesort, could be devided into three subproblems:
+
+**1. Merge Sort an Array (Leetcode 912)** [Clickhere](https://leetcode.com/problems/sort-an-array/)
+**2. Middle of the Linked List( Leetcode 876)** [Clickhere](https://leetcode.com/problems/middle-of-the-linked-list/)
+**3. Merge Two Sorted Lists( Leetcode 21)** [Clickhere](https://leetcode.com/problems/merge-two-sorted-lists/)
+
+```python
+class Solution:
+    def getMid(self, head):            # we will be using two pointers
+        slow = fast = head             # what we want? Middle right, but we will stop the loop at one node before the middle
+        while fast and fast.next:      # try to think about odd and even length of the list to completely understand the while loop
+            fast = fast.next.next
+            if fast: slow = slow.next
+        mid, slow.next = slow.next, None   # assign None to the last node's next of left half, that is why we broke the loop one node before the middle.
+        return mid
+        
+    def merge(self, left, right):
+        head = prev = None    # taking prev pointers to point previous
+        while left and right:  
+		#Find the minimum value node and change its pointer to next accordingly
+            mini = right        
+            if left.val < right.val:
+                mini = left
+                left = left.next
+            else: right = right.next
+        
+            if not head: head = prev = mini      # if head is None assign the head
+            else: prev.next = prev = mini        # point the previous next and prev to minimum node just found
+        if left: prev.next = left                # adding the remainings of left, while loop could have stopped because of right
+        if right: prev.next = right              # adding the remainings of right, while loop could have stopped because of left
+        return head
+        
+    def sortList(self, head: Optional[ListNode]):
+        if not (head and head.next): return head     # if lesser than 2 element no need to divide
+        mid = self.getMid(head)                      # get the middle node
+        left = self.sortList(head)                   # further divide the left part list
+        right = self.sortList(mid)                   # further divide the right part of the list
+        return self.merge(left, right)               # merge the sorted lists
+```
+
+Time Complexity: O(NlogN)
+Space Complexity: O(N)
 
 ## Linked List
 
