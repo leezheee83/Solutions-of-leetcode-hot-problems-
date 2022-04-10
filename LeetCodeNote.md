@@ -251,6 +251,46 @@ class Solution {
 
 
 
+#### solution 2
+
+in the solution 1, if one String element is so long,  that will be very time Consuming , so we using character counts  to be the Keys in HashMap
+
+**Intuition**
+
+Two strings are anagrams if and only if their character counts (respective number of occurrences of each character) are the same.
+
+**Algorithm**
+
+We can transform each string s into a character count List, the  Count List consisting of 26 non-negative integers representing the letter from  a to z . We use these counts as the keys for our hash map.
+
+**Complexity Analysis**
+
+- Time Complexity: O(NK), where N is the length of  giving  strs List, and K is the maximum length of a element in `strs`. Counting each string is linear in the size of the string, and we count every string.
+- Space Complexity: O(NK), the total information content stored in `ans`.
+
+```python
+class Solution(object):
+    def groupAnagrams(self, strs):
+        """
+        :type strs: List[str]
+        :rtype: List[List[str]]
+        """
+        ans = collections.defaultdict(list)
+         
+        for s in strs:
+            count = [0] * 26  # a ...Z
+            
+            for c in s:
+                count[ord(c) - ord('a')] += 1
+            ans[tuple(count)].append(s)
+        
+        return ans.values()
+```
+
+
+
+
+
 ### 19. **Remove Nth Node From End of List**
 
 #### solution 1 
