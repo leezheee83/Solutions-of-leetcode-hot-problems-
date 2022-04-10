@@ -79,7 +79,7 @@ Input: nums = [1,2,3], k = 3
 Output: 2
 ```
 
-**Solution 1:**  
+#### **Solution 1:**  
 
 1. there`s has other time-consuming, so I prefer to use Hash Map to deal this 
 
@@ -122,7 +122,134 @@ class Solution {
 
 
 
-### 128. Longest Consecutive Sequence TODO
+### 128. Longest Consecutive Sequence 
+
+Given an unsorted array of integers `nums`, return *the length of the longest consecutive elements sequence.*
+
+You must write an algorithm that runs in `O(n)` time
+
+**Example 1:**
+
+``` text
+Input: nums = [100,4,200,1,3,2]
+Output: 4
+Explanation: The longest consecutive elements sequence is [1, 2, 3, 4]. Therefore its length is 4.
+```
+
+#### solution 1
+
+Sorting is valid, but time complexity is O(NLogN). could we have a better solution? yes 
+
+#### solution 2
+
+**Intuition**
+
+It turns out that our initial brute force solution was on the right track, but missing a few optimizations necessary to reach *O*(*n*) time complexity.
+
+**Algorithm**
+
+This optimized algorithm contains only two changes from the brute force approach: 1. the numbers are stored in a `HashSet` (or `Set`, in Python) to allow O(1) lookups, and we only attempt to build sequences from numbers that are not already part of a longer sequence.
+
+2. This is accomplished by first ensuring that the number that would immediately precede the current number in a sequence is not present, as that number would necessarily be part of a longer sequence.
+
+**Complexity Analysis**
+
+- Time complexity : *O*(*n*).
+
+  Although the time complexity appears to be quadratic due to the `while` loop nested within the `for` loop, closer inspection reveals it to be linear. Because the `while` loop is reached only when `currentNum` marks the beginning of a sequence (i.e. `currentNum-1` is not present in `nums`), the `while` loop can only run for n iterations throughout the entire runtime of the algorithm. This means that despite looking like O*(*n*⋅*n*) complexity, the nested loops actually run in O(n + n) = O(n)* time. All other computations occur in constant time, so the overall runtime is linear.
+
+- Space complexity : *O*(*n*).
+
+  In order to set up O(1) containment lookups, we allocate linear space for a hash table to store the O(n)  numbers in `nums`. Other than that, the space complexity is identical to that of the brute force solution.
+
+```Java
+class Solution {
+    public int longestConsecutive(int[] nums) {
+        
+        // we need a HastSet to Save time 
+        Set<Integer> num_set = new HashSet<Integer>();
+        for(int num : nums){
+            num_set.add(num);
+        }
+        
+        int longestStreak = 0;
+        
+        for (int num: num_set){
+            // check if its the start of a sequence 
+            // if not that means curretn num is not the smallest of the longest Consecutive (the begin one)
+            if ( !num_set.contains(num-1)){
+                int currentNum = num;
+                int currentStreak  = 1;
+                while( num_set.contains(currentNum+1)){
+                    currentNum += 1;
+                    currentStreak += 1;
+                }
+                
+                longestStreak = Math.max(longestStreak,currentStreak);
+            }
+            
+        }
+        return longestStreak;
+    }
+}
+```
+
+### 49. Group Anagrams
+
+Given an array of strings `strs`, group **the anagrams** together. You can return the answer in **any order**.
+
+An **Anagram** is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.
+
+**Example 1:**
+
+```
+Input: strs = ["eat","tea","tan","ate","nat","bat"]
+Output: [["bat"],["nat","tan"],["ate","eat","tea"]]
+```
+
+```Java
+
+```
+
+#### solution 1 
+
+**Intuition**
+
+Two strings are anagrams if and only if their sorted strings are equal.
+
+**Algorithm**
+
+Maintain a map `ans : {String -> List}` where each key \text{K}K is a sorted string, and each value is the list of strings from the initial input that when sorted, are equal to \text{K}K.
+
+In Java, we will store the key as a string, eg. `code`. In Python, we will store the key as a hashable tuple, eg. `('c', 'o', 'd', 'e')`.
+
+**Complexity Analysis**
+
+- Time Complexity: O(NK log K) where *N* is the length of `strs`, and *K* is the maximum length of a string in `strs`. The outer loop has complexity *O*(*N*) as we iterate through each string. Then, we sort each string inO*(*K*log*K*) time.
+- Space Complexity: O(NK) the total information content stored in`ans`.
+
+```Java
+class Solution {
+    public List<List<String>> groupAnagrams(String[] strs) {
+        if (strs.length == 0) return new ArrayList();
+        
+        Map<String, List> ans = new HashMap<String, List>();
+        for (String s:strs){
+            
+            char[] currentString = s.toCharArray();
+            Arrays.sort(currentString);
+            String key = String.valueOf(currentString);
+            // if currentString not exist, just creat the new List to save s
+            if ( !ans.containsKey(key)) ans.put(key,new ArrayList());
+            ans.get(key).add(s);
+        }
+        
+        return new ArrayList(ans.values());
+    }
+}
+```
+
+
 
 ### 19. **Remove Nth Node From End of List**
 
