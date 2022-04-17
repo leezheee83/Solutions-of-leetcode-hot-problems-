@@ -4,7 +4,7 @@
 
 ## Array & HashMap
 
-### 1. [Twp Sum](https://leetcode-cn.com/problems/two-sum/)
+### 1. [Twp Sum](https://leetcode.com/problems/two-sum/)
 
 Given an array of integers `nums` and an integer `target`, return *indices of the two numbers such that they add up to `target`*.You may assume that each input would have ***exactly\* one solution**, and you may not use the *same* element twice.You can return the answer in any order.
 
@@ -15,8 +15,6 @@ Input: nums = [2,7,11,15], target = 9
 Output: [0,1]
 Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
 ```
-
-#### 
 
 #### **Solution 1:**  
 
@@ -455,7 +453,7 @@ public :
 
 
 
-### [209.  Minimum Size Subarray Sum](https://leetcode-cn.com/problems/minimum-size-subarray-sum/)
+### [209.  Minimum Size Subarray Sum](https://leetcode.com/problems/minimum-size-subarray-sum/)
 
 Given an array of positive integers `nums` and a positive integer `target`, return the minimal length of a **contiguous subarray** `[numsl, numsl+1, ..., numsr-1, numsr]` of which the sum is greater than or equal to `target`. If there is no such subarray, return `0` instead.
 
