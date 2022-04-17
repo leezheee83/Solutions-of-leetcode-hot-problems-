@@ -291,78 +291,9 @@ class Solution(object):
 
 
 
-### 19. **Remove Nth Node From End of List**
 
-#### solution 1 
 
-1. get the size of the linked list by walking through entire list.
-2. Do `size - n - 1` to see how many steps we need to take before retrive the node we about to remove
-3. Walk that many steps and remove the node.
-4. Return the head of the list.
-
-```python
-class Solution {
-    public ListNode removeNthFromEnd(ListNode head, int n) {
-        int size = length_of(head);
-        if (n == size) {
-            return head.next;
-        } else {
-            int steps = size - n - 1;
-            ListNode node = head;
-            while (steps-- > 0) {
-                node = node.next;
-            }
-            node.next = node.next.next; // remove node
-            return head;
-        }
-    }
-
-    private int length_of(ListNode head) {
-        ListNode n = head;
-        int size = 0;
-        while (n != null) {
-            size++;
-            n = n.next;
-        }
-        return size;
-    }
-}
-```
-
-#### solution 2
-
-fast & slow pointer
-
-1. We will have two pointers which will iterate over the linked list say fast and slow both initalized with head means pointing to the first node.
-
-2. Now we will move the fast pointer to the number specified i.e, if we need to remove the last 2nd node then our fast node must be at last node and slow node must be just before deleting node and if we observe there the difference between both pointer will be of that N node.
-
-   So, Idea is to move the fast pointer N times ahead than slow and then after move both pointer by one till fast reaches last node.
-
-3. Once fast pointer reaches last node we will update the next filed of the node at which slow is pointing.
-
-4. After hat we will free up the space of that deleted node bu making it reference to None to avoid dangling pointer.
-
-5. Then we will return the head pointer.
-
-```python
-class Solution:
-    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
-        LengthOfList = 0
-        fast = slow = head
-        for i in range (n):
-            fast = fast.next
-        if not fast:
-            return head.next
-        else:
-            while(fast.next):
-                fast = fast.next
-                slow = slow.next
-            DeletedNodePointer = slow.next
-            slow.next = slow.next.next
-            DeletedNodePointer.next = None #Removing dangling pointer
-            return (head)
-```
+## Sorting
 
 ### 148 Sort List
 
@@ -499,3 +430,77 @@ class Solution {
 }
 ```
 
+### 19. **Remove Nth Node From End of List**
+
+#### solution 1 
+
+1. get the size of the linked list by walking through entire list.
+2. Do `size - n - 1` to see how many steps we need to take before retrive the node we about to remove
+3. Walk that many steps and remove the node.
+4. Return the head of the list.
+
+```python
+class Solution {
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        int size = length_of(head);
+        if (n == size) {
+            return head.next;
+        } else {
+            int steps = size - n - 1;
+            ListNode node = head;
+            while (steps-- > 0) {
+                node = node.next;
+            }
+            node.next = node.next.next; // remove node
+            return head;
+        }
+    }
+
+    private int length_of(ListNode head) {
+        ListNode n = head;
+        int size = 0;
+        while (n != null) {
+            size++;
+            n = n.next;
+        }
+        return size;
+    }
+}
+```
+
+#### solution 2
+
+fast & slow pointer
+
+1. We will have two pointers which will iterate over the linked list say fast and slow both initalized with head means pointing to the first node.
+
+2. Now we will move the fast pointer to the number specified i.e, if we need to remove the last 2nd node then our fast node must be at last node and slow node must be just before deleting node and if we observe there the difference between both pointer will be of that N node.
+
+   So, Idea is to move the fast pointer N times ahead than slow and then after move both pointer by one till fast reaches last node.
+
+3. Once fast pointer reaches last node we will update the next filed of the node at which slow is pointing.
+
+4. After hat we will free up the space of that deleted node bu making it reference to None to avoid dangling pointer.
+
+5. Then we will return the head pointer.
+
+```python
+class Solution:
+    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
+        LengthOfList = 0
+        fast = slow = head
+        for i in range (n):
+            fast = fast.next
+        if not fast:
+            return head.next
+        else:
+            while(fast.next):
+                fast = fast.next
+                slow = slow.next
+            DeletedNodePointer = slow.next
+            slow.next = slow.next.next
+            DeletedNodePointer.next = None #Removing dangling pointer
+            return (head)
+```
+
+### 
