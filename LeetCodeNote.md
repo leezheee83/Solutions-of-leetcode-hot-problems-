@@ -61,7 +61,7 @@ class Solution {
 }
 ```
 
-### 560. Subarray Sum Equals K  
+### [560. Subarray Sum Equals K](https://leetcode.com/problems/subarray-sum-equals-k/)  
 
 Given an array of integers `nums` and an integer `k`, return *the total number of subarrays whose sum equals to `k`*.
 
@@ -122,7 +122,7 @@ class Solution {
 
 
 
-### 128. Longest Consecutive Sequence 
+### [128. Longest Consecutive Sequence](https://leetcode.com/problems/longest-consecutive-sequence/) 
 
 Given an unsorted array of integers `nums`, return *the length of the longest consecutive elements sequence.*
 
@@ -194,7 +194,7 @@ class Solution {
 }
 ```
 
-### 49. Group Anagrams
+### [49. Group Anagrams](https://leetcode.com/problems/group-anagrams/)
 
 Given an array of strings `strs`, group **the anagrams** together. You can return the answer in **any order**.
 
@@ -207,9 +207,7 @@ Input: strs = ["eat","tea","tan","ate","nat","bat"]
 Output: [["bat"],["nat","tan"],["ate","eat","tea"]]
 ```
 
-```Java
 
-```
 
 #### solution 1 
 
@@ -295,7 +293,7 @@ class Solution(object):
 
 ## Sorting
 
-### 148 Sort List
+### [148 Sort List](https://leetcode.com/problems/sort-list/)
 
 Given the `head` of a linked list, return *the list after sorting it in **ascending order***.
 
@@ -373,7 +371,7 @@ Space Complexity: O(N)
 
 ## Sliding Window (using  Hash Map)
 
-### 3. Longest Substring Without Repeating Characters
+### [3. Longest Substring Without Repeating Characters](https://leetcode.com/problems/longest-substring-without-repeating-characters/)
 
 Given a string `s`, find the length of the **longest substring** without repeating characters.
 
@@ -514,7 +512,9 @@ int minSubArrayLen(int target, vector<int> &nums){
   - Each element can be visited atmost twice, once by the right $pointer(i)$ and (atmost) once by the $ left pointer$.
 - Space complexity: $O(1)$ extra space. Only constant space required. 
 
-### 2. Add Two Numbers 
+## Linked List
+
+### [2. Add Two Numbers](https://leetcode.com/problems/add-two-numbers/) 
 
 You are given two **non-empty** linked lists representing two non-negative integers. The digits are stored in **reverse order**, and each of their nodes contains a single digit. Add the two numbers and return the sum as a linked list.
 
@@ -571,7 +571,7 @@ class Solution {
 }
 ```
 
-### 19. **Remove Nth Node From End of List**
+### [19. **Remove Nth Node From End of List**](https://leetcode.com/problems/remove-nth-node-from-end-of-list/)
 
 #### solution 1 
 
