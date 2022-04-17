@@ -371,7 +371,148 @@ class Solution:
 Time Complexity: O(NlogN)
 Space Complexity: O(N)
 
-## Linked List
+## Sliding Window (using  Hash Map)
+
+### 3. Longest Substring Without Repeating Characters
+
+Given a string `s`, find the length of the **longest substring** without repeating characters.
+
+**Example 1:**
+
+```
+Input: s = "abcabcbb"
+Output: 3
+Explanation: The answer is "abc", with the length of 3.
+```
+
+**Example 2:**
+
+```
+Input: s = "bbbbb"
+Output: 1
+Explanation: The answer is "b", with the length of 1.
+```
+
+
+
+#### Approach 1: Brute Force
+
+**Intuition**
+
+Check all the substring one by one to see if it has no duplicate character.
+
+**Algorithm**
+
+1. iterate（Brute tranvers） through all the possible substrings of the given string `s`
+2.  To check one of the subString has duplicate characters, we can use a set
+
+**Complexity Analysis**
+
+Time complexity : O*(*n*3).
+
+#### Approach 2: Sliding Window.
+
+**Intuition**
+
+The naive approach is very straightforward. But it is too slow. So how can we optimize it?
+
+if there exist a  subString  S(i,j)  respond to  the index i  to j-1 and it is already checked to have no duplicate characters, we only need to check current character S[j] is already in subString S[i,j]  or not. 
+
+It`s easy to think about to use a Hash Set as a Sliding window,(Sliding  window reduce the Checking time cost to  O(1) )
+
+**Algorithm**
+
+Sliding window has two pointer, Left pointer .right pointer, using this two point to maintain a window, [*i*,*j*) (left-closed, right-open). and hash Set can be the container of Sliding window
+
+
+
+```C++
+class Solution{
+public :
+    int lengthOfLongestSubstring(string s) {
+         // key=charters,value = the number of key
+        unordered_map<char,int> mp;
+        int res = 0, left = 0, right = 0;
+        
+        for( ;right < s.size(); ++right){
+            mp[s[right]]++;
+            // if find duplicate character, left move one step, window shrinked 
+            while( mp[s[right]] > 1){
+                mp[s[left]]--;
+                left++;
+            }
+            // after clean all duplicate  characters ,then cal the legth
+            res = max(res, right-left+1);
+        }
+      	
+        return res;
+    }
+};
+```
+
+**Complexity Analysis**
+
+- Time complexity : O*(2*n*)=*O*(*n*). In the worst case each character will be visited twice by i and j.
+- Space complexity : O(min(m, n)), Same as the previous approach. We need *O*(*k*) space for the sliding window, where k is the size of the `Set`. The size of the Set is upper bounded by the size of the string *n* and the size of the charset/alphabet *m*.
+
+
+
+### [209.  Minimum Size Subarray Sum](https://leetcode-cn.com/problems/minimum-size-subarray-sum/)
+
+Given an array of positive integers `nums` and a positive integer `target`, return the minimal length of a **contiguous subarray** `[numsl, numsl+1, ..., numsr-1, numsr]` of which the sum is greater than or equal to `target`. If there is no such subarray, return `0` instead.
+
+**Example 1:**
+
+```tex
+Input: target = 7, nums = [2,3,1,2,4,3]
+Output: 2
+Explanation: The subarray [4,3] has the minimal length under the problem constraint.
+```
+
+#### Approach #1 Brute force : 
+
+**Intuition**
+
+Do as directed in question. Find the sum for all the possible subarrays and update the ans when we get a better subarray that fulfill the requirements$ (sum≥ target).$
+
+Time complexity: O(n^3).
+
+#### Approach 2: Sliding Window.
+
+**Intuition**
+
+1. Until now, we have kept the starting index of subarray fixed, and found the last position. Instead, we could move the starting index of the current subarray as soon as we know that no better could be done with this index as the starting index. 
+
+2. We could keep Sliding Window to cumulate the item sum , and make optimal moves so as to keep the sum greater than s as well as maintain the lowest size possible.
+
+**Algorithm**
+
+- **Algorithm**
+  - Initialize $ left$ pointer to 0 and $sum$ to 0
+  - Iterate over the $nums$
+    - Add $nums[i]$ to $sum$ ： add num to Window
+    - move windows to the end by giving rules 
+
+```c++
+int minSubArrayLen(int target, vector<int> &nums){
+    int ans = INT_MAX;
+    int left = 0, windowSum = 0;
+    for(int right =0; right < nums.size(); ++i){
+        windowSum += nums[right];
+        while (windowSum >= target){ 
+            ans = min(ans,right-left+1);
+            windowSum -= nums[left++];
+        }
+    }
+    return (ans != INT_MAX) ? ans : 0; 
+}
+```
+
+**Complexity analysis**
+
+- Time complexity: $O(N)$
+  - Each element can be visited atmost twice, once by the right $pointer(i)$ and (atmost) once by the $ left pointer$.
+- Space complexity: $O(1)$ extra space. Only constant space required. 
 
 ### 2. Add Two Numbers 
 
@@ -396,7 +537,7 @@ Output: [0]
 
 - WE have to **Traverse Both Lists** & add **sum to new list**.
 - **Sum is equivalent to val1 + val2 + carry** from previous Operation.
-- THe **resulting node** will be **sum%10.**
+- The **resulting node** will be **sum%10.**
 - **Carry is updated** by **sum/10** for next Opeartion.
 
 Cost :  **Time Complexity** **O(n).** ,**Space Compelxity** **O(max(l1,l2))**
@@ -503,4 +644,4 @@ class Solution:
             return (head)
 ```
 
-### 
+## 
