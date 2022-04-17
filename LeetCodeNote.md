@@ -369,7 +369,7 @@ class Solution:
 Time Complexity: O(NlogN)
 Space Complexity: O(N)
 
-## Sliding Window (using  Hash Map)
+## Sliding Window
 
 ### [3. Longest Substring Without Repeating Characters](https://leetcode.com/problems/longest-substring-without-repeating-characters/)
 
@@ -467,7 +467,7 @@ Output: 2
 Explanation: The subarray [4,3] has the minimal length under the problem constraint.
 ```
 
-#### Approach #1 Brute force : 
+#### Approach 1 Brute force : 
 
 **Intuition**
 
