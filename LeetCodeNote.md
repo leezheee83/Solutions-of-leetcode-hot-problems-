@@ -400,7 +400,7 @@ Check all the substring one by one to see if it has no duplicate character.
 **Algorithm**
 
 1. iterate（Brute tranvers） through all the possible substrings of the given string `s`
-2.  To check one of the subString has duplicate characters, we can use a set
+2.  To check one of the subStrings has duplicate characters or not, we can use a set
 
 **Complexity Analysis**
 
@@ -418,7 +418,7 @@ It`s easy to think about to use a Hash Set as a Sliding window,(Sliding  window 
 
 **Algorithm**
 
-Sliding window has two pointer, Left pointer .right pointer, using this two point to maintain a window, [*i*,*j*) (left-closed, right-open). and hash Set can be the container of Sliding window
+Sliding window has two pointer, Left pointer .right pointer, using this two point to maintain a window [*i*,*j*) (left-closed, right-open). and hash Set can be the container of Sliding window
 
 
 
@@ -479,7 +479,7 @@ Time complexity: O(n^3).
 
 1. Until now, we have kept the starting index of subarray fixed, and found the last position. Instead, we could move the starting index of the current subarray as soon as we know that no better could be done with this index as the starting index. 
 
-2. We could keep Sliding Window to cumulate the item sum , and make optimal moves so as to keep the sum greater than s as well as maintain the lowest size possible.
+2. We could keep Sliding Window to cumulate the item sum , and make optimal moves so as to keep the sum greater than target as well as maintain the lowest size possible.
 
 **Algorithm**
 
@@ -642,4 +642,76 @@ class Solution:
             return (head)
 ```
 
-## 
+## Binary Search
+
+### [33. Search in Rotated Sorted Array](https://leetcode.com/problems/search-in-rotated-sorted-array/)
+
+![image-20220421154948056](LeetCodeNote.assets/image-20220421154948056.png)
+
+**Example 1:**
+
+```
+Input: nums = [4,5,6,7,0,1,2], target = 0
+Output: 4
+```
+
+**Example 2:**
+
+```
+Input: nums = [4,5,6,7,0,1,2], target = 3
+Output: -1
+```
+
+[Video Explanation Link](https://www.youtube.com/watch?v=QdVrY3stDD4) （not elegant enough）
+
+
+
+#### Approach 1:  modified Binary Search:
+
+**Intuition**
+
+1. the demanded complexity is O(log n), it`s a clue of using  Binary Search
+2. the pivot must be the smallest element, we can Divide array into sorted parts at the  pivot,  then we can using BS to Search target in two parts; The truth is that there is no need to find  pivot  particularly;
+3. Using Binary Search to Divide the array into two parts, one of them must be sorted, the other may be sorted or not. 
+4. At this time, the sorted part is searched by binary method. 
+5. The unsorted part is then divided into two parts, one of which must be sorted, the other may be sorted or Not.  
+6. Repeat the algorithm like that , until we find the target 
+
+```c++
+class Solution {
+public:
+    int search(vector<int>& nums, int target) {
+        if (nums.size() == 0) return -1;
+        
+        int left = 0, right = nums.size()-1;
+        
+        // right = size -1, so left must be less or equal right
+        while (left <= right){
+            // use bit operation to avoid integer Overflow
+            int mid = left + ((right - left)>>1);
+            // finded the target 
+            if (nums[mid] == target) return mid;
+            
+            if (nums[mid] >= nums[left]){
+                // jump into left part Whatever it`s sorted or not 
+                // keep divide the array until every parts are sorted for using BS （alreay finded pivot）
+                
+                if(nums[left] <= target && target < nums[mid]) right = mid - 1;
+                else left = mid + 1;
+                
+            }else{
+                if(nums[mid] < target && target <= nums[right]) left = mid + 1;
+                else right = mid - 1;
+            }
+        }
+        
+        return -1;
+    }
+};
+```
+
+**Complexity analysis**
+
+- Time complexity: $O(Log N)$
+- Space complexity: $O(1)$ extra space. Only constant level  space required. 
+
