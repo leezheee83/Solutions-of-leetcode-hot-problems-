@@ -670,7 +670,7 @@ Output: -1
 
 **Intuition**
 
-1. the demanded complexity is O(log n), it`s a clue of using  Binary Search
+1. the demanded complexity is O(log n), it`s a clue of using  Binary Search, and it's a Modified Binary Search problem
 2. the pivot must be the smallest element, we can Divide array into sorted parts at the  pivot,  then we can using BS to Search target in two parts; The truth is that there is no need to find  pivot  particularly;
 3. Using Binary Search to Divide the array into two parts, one of them must be sorted, the other may be sorted or not. 
 4. At this time, the sorted part is searched by binary method. 
@@ -715,3 +715,90 @@ public:
 - Time complexity: $O(Log N)$
 - Space complexity: $O(1)$ extra space. Only constant level  space required. 
 
+
+
+### [34. Find First and Last Position of Element in Sorted Array](https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/)
+
+Given an array of integers `nums` sorted in non-decreasing order, find the starting and ending position of a given `target` value.
+
+If `target` is not found in the array, return `[-1, -1]`.
+
+You must write an algorithm with `O(log n)` runtime complexity.
+
+**Example 1:**
+
+```
+Input: nums = [5,7,7,8,8,10], target = 8
+Output: [3,4]
+```
+
+**Example 2:**
+
+```
+Input: nums = [5,7,7,8,8,10], target = 6
+Output: [-1,-1]
+```
+
+[Video Explanation Link](https://www.youtube.com/watch?v=bU-q1OJ0KWw)
+
+**Intuition**
+
+1. the demanded complexity is O(log n), there's noting  `O(log n)` runtime complexity except for Binary Search
+2. it is a variation of regular Binary Search problem, the key is to control the index boundary of Binary Search
+
+```C++
+class Solution {
+public:
+    vector<int> searchRange(vector<int>& nums, int target) {
+        vector<int> res;
+        int left = binarySearchLeft(nums,target);
+        int right = binarySearchRight(nums,target);
+        res.push_back(left);
+        res.push_back(right);
+        return res;
+    }
+    
+    int binarySearchLeft(vector<int>& nums, int target){
+        // almost rigular BS
+        int left = 0, right = nums.size() -1;
+        int ans = -1;
+        while (left <= right){
+            // use bit operation to avoid integer Overflow
+            int mid = left + ((right - left)>>1);
+            // using bigger than or equal to move the index to leftMost target index 
+            // it would`t stop at index[3]. index will keep move to left part array to find leftmost one    
+            // [1,8,8,8,8,8,8]
+            if( nums[mid] >= target){
+                right = mid - 1;
+            }else{
+                left = mid + 1;
+            }
+            
+            if(nums[mid] == target) ans = mid;
+        }
+        
+        return ans;
+    }
+    // the Search logic of leftSearch and rightSearch is just same 
+    int binarySearchRight(vector<int>& nums, int target){
+        int left = 0, right = nums.size() -1;
+        int ans = -1;
+        while (left <= right){
+            int mid = left + ((right - left)>>1);
+            if( nums[mid] <= target){
+                left = mid + 1;
+            }else{
+                right = mid - 1;
+            }
+            
+            if(nums[mid] == target) ans = mid;
+        }
+        return ans;
+    }
+};
+```
+
+**Complexity analysis**
+
+- Time complexity: $O(Log N)$
+- Space complexity: $O(1)$ extra space. Only constant level space required. 
