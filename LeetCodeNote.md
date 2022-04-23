@@ -671,8 +671,8 @@ Output: -1
 **Intuition**
 
 1. the demanded complexity is O(log n), it`s a clue of using  Binary Search, and it's a Modified Binary Search problem
-2. the pivot must be the smallest element, we can Divide array into sorted parts at the  pivot,  then we can using BS to Search target in two parts; The truth is that there is no need to find  pivot  particularly;
-3. Using Binary Search to Divide the array into two parts, one of them must be sorted, the other may be sorted or not. 
+2. the pivot must be the smallest element, we can Divide array into sorted parts at the  pivot,  then we can using BS to Search target in two parts; and we do not need to find  this pivot  particularly;
+3. Just Using Binary Search to Divide the array into two parts, one of them must be sorted, the other may be sorted or not. 
 4. At this time, the sorted part is searched by binary method. 
 5. The unsorted part is then divided into two parts, one of which must be sorted, the other may be sorted or Not.  
 6. Repeat the algorithm like that , until we find the target 
@@ -691,10 +691,10 @@ public:
             int mid = left + ((right - left)>>1);
             // finded the target 
             if (nums[mid] == target) return mid;
-            
+            // check which part is sorted 
             if (nums[mid] >= nums[left]){
-                // jump into left part Whatever it`s sorted or not 
-                // keep divide the array until every parts are sorted for using BS （alreay finded pivot）
+                // jump into left part Whatever it`s sorted 
+                // keep dividing the array until every parts are sorted for using BS （alreay finded pivot）
                 
                 if(nums[left] <= target && target < nums[mid]) right = mid - 1;
                 else left = mid + 1;
