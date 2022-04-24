@@ -847,3 +847,159 @@ public:
 - Time complexity: $O(Log N)$
 - Space complexity: $O(1)$ extra space. Only constant level space required. 
 
+## Backtracing
+
+#### 139 Word Break
+
+Given a string `s` and a dictionary of strings `wordDict`, return `true` if `s` can be segmented into a space-separated sequence of one or more dictionary words.
+
+##### bad solution 1
+
+```c
+#include<string.h>
+static int match_recursive(char* start, char ** wordDict, int wordDictSize){
+    if(*start == '\0') {
+        return 1;
+    }
+    char * cut_pt = start;
+    while(*cut_pt != '\0'){
+        for(int idx = 0; idx < wordDictSize; idx++){
+            if(strlen(*(wordDict + idx)) != cut_pt - start + 1){
+                continue;    
+            }
+            if(!memcmp(start, *(wordDict + idx), cut_pt - start + 1) &&
+                match_recursive(cut_pt + 1, wordDict, wordDictSize)){
+                return 1;
+            }
+        }
+        cut_pt++;
+    }
+    return 0;
+}
+bool wordBreak(char * s, char ** wordDict, int wordDictSize){
+    return match_recursive(s, wordDict, wordDictSize);
+}
+```
+
+##### bad solution 2
+
+```c
+#include<string.h>
+static int match_recursive(char* str, int offset, char ** wordDict, int wordDictSize, int *memo){
+    
+    if(memo[offset] == 1)  return 1;
+    char *sub_start = str + offset, *sub_end = str + offset;
+    
+    if(*sub_start == '\0') {
+        return 1;
+    }
+    
+    while(*sub_end != '\0'){
+        for(int idx = 0; idx < wordDictSize; idx++){
+            if(strlen(*(wordDict + idx)) != sub_end - sub_start + 1) {
+                continue;
+            }
+            if(!memcmp(sub_start, *(wordDict + idx), sub_end - sub_start + 1) &&
+                match_recursive(str, (int)(sub_end - str) + 1, wordDict, wordDictSize, memo)){
+                return memo[offset] = 1; 
+            }
+        }
+        
+        sub_end++;
+    }
+    return memo[offset] = 0;
+}
+
+
+bool wordBreak(char * s, char ** wordDict, int wordDictSize){
+    int matched_memo[strlen(s) + 1];
+    int offset = 0;
+    memset(matched_memo, 0, (strlen(s) + 1) * sizeof(int));
+    return match_recursive(s, offset, wordDict, wordDictSize, matched_memo);
+}
+```
+
+##### solution
+
+```c
+// use dp
+#include<string.h>
+static bool segment_dp(char * s, char ** wordDict, int wordDictSize){
+    
+    int str_len = strlen(s);
+    int dp[str_len + 1];
+    memset(dp, 0, (str_len + 1) * sizeof(int));
+    
+    dp[str_len] = 1; 
+    int dict_idx = 0;
+    bool can_break = 0;
+    
+    for (int i = str_len - 1; i >= 0; i--){
+        for (int j = i; j < str_len && !can_break; j++){  
+            if(dp[j + 1] != 1) continue;
+            for (dict_idx = 0; dict_idx < wordDictSize; dict_idx++){
+                if(strlen(*(wordDict + dict_idx)) != j - i + 1) continue;
+                if(memcmp(s + i, *(wordDict + dict_idx), j - i + 1) == 0){
+                    can_break = 1;
+                    break;
+                }
+            }
+        }
+        
+        if(can_break){
+            can_break = 0;
+            dp[i] = 1;
+            continue;
+        }
+        dp[i] = 0;
+    }
+    return dp[0];
+}
+
+
+bool wordBreak(char * s, char ** wordDict, int wordDictSize){
+    return segment_dp(s, wordDict, wordDictSize);
+}
+```
+
+#### 76 word search
+
+Given two strings `s` and `t` of lengths `m` and `n` respectively, return *the **minimum window substring** of* `s` *such that every character in* `t` *(**including duplicates**) is included in the window. If there is no such substring**, return the empty string* `""`*.*
+
+The testcases will be generated such that the answer is **unique**.
+
+A **substring** is a contiguous sequence of characters within the string.
+
+```c
+static int is_match_remainder(char** board, int line_pos, int col_pos, int line_max, int col_max, char *match_remiander){
+    
+    if(*match_remiander == '\0') return 1;
+    // match current
+    if(board[line_pos][col_pos] == *match_remiander){    
+        // no dead loop
+        if(*(match_remiander + 1) == '\0') return 1;
+        board[line_pos][col_pos] = '*';
+        if(line_pos > 0 && is_match_remainder(board, line_pos - 1, col_pos, line_max, col_max, match_remiander + 1)) return 1;
+        if(line_pos < line_max && is_match_remainder(board, line_pos + 1, col_pos, line_max, col_max, match_remiander + 1)) return 1;
+        
+        if(col_pos > 0 && is_match_remainder(board, line_pos, col_pos - 1, line_max, col_max, match_remiander + 1)) return 1;
+        if(col_pos < col_max && is_match_remainder(board, line_pos, col_pos + 1, line_max, col_max, match_remiander + 1)) return 1;
+        // recover
+        board[line_pos][col_pos] = *match_remiander;
+    }
+    return 0;
+}
+bool exist(char** board, int boardSize, int* boardColSize, char * word){
+    // input check
+    if(*word == '\0') return 1;
+    if(boardSize == 0 || *boardColSize == 0) return 0;
+    int res = 0;
+    for(int j = 0; j < *boardColSize; j++){
+        for(int i = 0; i < boardSize; i++){
+            res |= is_match_remainder(board, i, j, boardSize - 1, *boardColSize - 1, word);
+        }   
+    }
+    return res;
+}
+```
+
