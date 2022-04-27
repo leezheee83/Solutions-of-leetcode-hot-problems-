@@ -803,9 +803,79 @@ public:
 - Time complexity: $O(Log N)$
 - Space complexity: $O(1)$ extra space. Only constant level space required. 
 
-## Two Pointer
 
-### 167. Two Sum II - Input Array Is Sorted
+
+## Fast Slow  Pointers
+
+### [287. Find the Duplicate Number](https://leetcode.com/problems/find-the-duplicate-number/)
+
+Given an array of integers `nums` containing `n + 1` integers where each integer is in the range `[1, n]` inclusive.
+
+There is only **one repeated number** in `nums`, return *this repeated number*.
+
+You must solve the problem **without** modifying the array `nums` and uses only constant extra space.
+
+**Example 1:**
+
+```
+Input: nums = [1,3,4,2,2]
+Output: 2
+```
+
+**Example 2:**
+
+```
+Input: nums = [3,1,3,4,2]
+Output: 3
+```
+
+#### Approach 1:  hashMap  or Sorted  
+
+**Intuition**
+
+ It's very easy to using hashMap or Sorted this array to solve this problem, but these solving are not elegant enough, and  it need to consume more time or space 
+
+#### [Approach 2: Marking visited value within the array](https://www.youtube.com/watch?v=wjYnzkAhcNk)
+
+**Intuition**
+
+1. Since all values of the array are between `[1..n]` and the array size is `n+1`， that`s means we can using the value be  the index of giving array. 
+2. the array is loop linked array, so we can using nums[i] be the index to Skip search the Duplicate Number
+3. while scanning the array from left to right, we set the `nums[n]` to its negative value.
+4. when the Duplicate value occurs for the second times, the Duplicate value already been negative
+
+
+
+```C++
+class Solution {
+public:
+    int findDuplicate(vector<int>& nums) {  
+        for (int i = 0; i < nums.size(); ++i){
+            // get the SkipIndex will go faster
+            int skipIndex = abs(nums[i]);
+            // if nums[skipIndex] < 0, that means the skipIndex as a value already visited in array
+            if (nums[skipIndex] < 0){
+                return skipIndex;
+            }
+            // using - to mark every element 
+            nums[skipIndex] = -nums[skipIndex];  
+        }
+        return -1;  
+    }
+};
+```
+
+
+
+
+
+
+
+
+
+## Two Pointers
+
+### [167. Two Sum II - Input Array Is Sorted](https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/)
 
 Given a **1-indexed** array of integers `numbers` that is already ***sorted in non-decreasing order\***, find two numbers such that they add up to a specific `target` number. Let these two numbers be `numbers[index1]` and `numbers[index2]` where `1 <= index1 < index2 <= numbers.length`.
 
@@ -849,11 +919,11 @@ public:
 
 ## Backtracing
 
-#### 139 Word Break
+### 139 Word Break
 
 Given a string `s` and a dictionary of strings `wordDict`, return `true` if `s` can be segmented into a space-separated sequence of one or more dictionary words.
 
-##### bad solution 1
+#### bad solution 1
 
 ```c
 #include<string.h>
@@ -881,7 +951,7 @@ bool wordBreak(char * s, char ** wordDict, int wordDictSize){
 }
 ```
 
-##### bad solution 2
+#### bad solution 2
 
 ```c
 #include<string.h>
@@ -919,7 +989,7 @@ bool wordBreak(char * s, char ** wordDict, int wordDictSize){
 }
 ```
 
-##### solution
+solution
 
 ```c
 // use dp
@@ -962,7 +1032,7 @@ bool wordBreak(char * s, char ** wordDict, int wordDictSize){
 }
 ```
 
-#### 76 word search
+### 76 word search
 
 Given two strings `s` and `t` of lengths `m` and `n` respectively, return *the **minimum window substring** of* `s` *such that every character in* `t` *(**including duplicates**) is included in the window. If there is no such substring**, return the empty string* `""`*.*
 
