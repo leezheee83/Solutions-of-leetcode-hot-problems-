@@ -807,6 +807,8 @@ public:
 
 ## Fast Slow  Pointers
 
+
+
 ### [287. Find the Duplicate Number](https://leetcode.com/problems/find-the-duplicate-number/)
 
 Given an array of integers `nums` containing `n + 1` integers where each integer is in the range `[1, n]` inclusive.
@@ -874,6 +876,70 @@ public:
 
 
 ## Two Pointers
+
+### [26. Remove Duplicates from Sorted Array](https://leetcode.com/problems/remove-duplicates-from-sorted-array/)
+
+Given an integer array `nums` sorted in **non-decreasing order**, remove the duplicates [**in-place**](https://en.wikipedia.org/wiki/In-place_algorithm) such that each unique element appears only **once**. The **relative order** of the elements should be kept the **same**.
+
+Since it is impossible to change the length of the array in some languages, you must instead have the result be placed in the **first part** of the array `nums`. More formally, if there are `k` elements after removing the duplicates, then the first `k` elements of `nums` should hold the final result. It does not matter what you leave beyond the first `k` elements.
+
+Return `k` *after placing the final result in the first* `k` *slots of* `nums`.
+
+Do **not** allocate extra space for another array. You must do this by **modifying the input array [in-place](https://en.wikipedia.org/wiki/In-place_algorithm)** with O(1) extra memory.
+
+**Example 1:**
+
+```
+Input: nums = [1,1,2]
+Output: 2, nums = [1,2,_]
+Explanation: Your function should return k = 2, with the first two elements of nums being 1 and 2 respectively.
+It does not matter what you leave beyond the returned k (hence they are underscores).
+```
+
+**Example 2:**
+
+```
+Input: nums = [0,0,1,1,1,2,2,3,3,4]
+Output: 5, nums = [0,1,2,3,4,_,_,_,_,_]
+Explanation: Your function should return k = 5, with the first five elements of nums being 0, 1, 2, 3, and 4 respectively.
+It does not matter what you leave beyond the returned k (hence they are underscores).
+```
+
+
+
+#### [Approach 1:  two Pointers](https://www.youtube.com/watch?v=DEJAZBq0FDA)
+
+**Intuition**
+
+1.  remove duplicates ? it's more like to find how many unique value in the array
+2.  it`s easy to think of HashSet, but this problem only allow to using constly extra space
+3. using left & right pointer:  Because the array is in ascending order, the index of equal elements are consecutive. We use the fast pointer to traverse the array and ==copy the different elements from fast to slow,== so that slow can records different elements in the array.
+
+```C++
+class Solution {
+public:
+    int removeDuplicates(vector<int>& nums) {
+        if (nums.empty()) return 0;
+        int slow = 0, fast = 1;
+        
+        while (fast < nums.size()){
+            // find the unique value 
+            if(nums[fast] != nums[slow]){
+                // slow increment  (counting !)
+                slow++;
+                //  copy the unique to slow (left part)
+                nums[slow] = nums[fast];
+            }
+            // fast point need shift every time
+            fast++;
+        }
+        // index start from 0 ,so need to + 1
+        return slow + 1;
+    }
+};
+```
+
+
 
 ### [167. Two Sum II - Input Array Is Sorted](https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/)
 
