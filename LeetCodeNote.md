@@ -805,7 +805,81 @@ public:
 
 
 
-## Fast Slow  Pointers
+## Fast Slow  Pointers: Floyd's Cycle-Finding 
+
+### [202. Happy Number](https://leetcode.com/problems/happy-number/)
+
+Write an algorithm to determine if a number `n` is happy.
+
+A **happy number** is a number defined by the following process:
+
+- Starting with any positive integer, replace the number by the sum of the squares of its digits.
+- Repeat the process until the number equals 1 (where it will stay), or it **loops endlessly in a cycle** which does not include 1.
+- Those numbers for which this process **ends in 1** are happy.
+
+Return `true` *if* `n` *is a happy number, and* `false` *if not*.
+
+**Example 1:**
+
+```
+Input: n = 19
+Output: true
+Explanation:
+12 + 92 = 82
+82 + 22 = 68
+62 + 82 = 100
+12 + 02 + 02 = 1
+```
+
+
+
+#### [Approach 1:  Fast&Slow Pointer](https://www.youtube.com/watch?v=ljz85bxOYJ0) : Floyd's Cycle-Finding Algorithm
+
+**Intuition**
+
+1. Let's start with the number 19,  look at whole conduction chain, it's a *implicit* **LinkedList** .   *Implicit* means it don't have actual LinkedNode's and pointers, but the data still formed a LinkedList structure.  
+
+   ```
+   19 -> 82 -> 68 -> 100 -> 1 
+   ```
+
+2. Although *implicit* **LinkedList**  has no real next pointers, but we can using our computational function instead of the real next pointer。 
+
+3. Now the problem turns into how to judge the linked list has a cycle
+
+4. 1.  Floyd's Cycle-Finding Algorithm ( Fast Slow pointers)： If n *is* a happy number, there is no cycle, then  eventually  the pointer cat get to 1
+   2. using hash set to record whether the element has been visited
+
+```Python
+class Solution:
+    def isHappy(self, n: int) -> bool:
+        
+        
+        def myNext(n):
+            res = 0
+            while n:
+                num = n % 10 # mod the every digits to get one's places value
+                res +=  num**2 
+                n = n // 10  # get the next digit
+            return res
+        
+        slow = myNext(n)
+        fast = myNext(myNext(n))
+        while slow != fast:
+            slow = myNext(slow)
+            fast = myNext(myNext(fast))
+        
+        return slow == 1
+```
+
+**Complexity analysis**
+
+- Time complexity: $O(Log N)$
+  - the computatiom of myNext(n) Complexity has a litte hard, but it  is almost $O(Log N)$
+  - If there is no cycle, then the fast runner will get to 1, and the slow runner will get halfway to 1； Because there were 2 runners instead of 1, we know that at worst, the cost was O($2 \cdot \log n$) = O($\log n$)
+- Space complexity: $O(1)$ extra space. Only constant space required. 
+
+
 
 
 
