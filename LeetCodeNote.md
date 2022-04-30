@@ -847,13 +847,12 @@ Explanation:
 
 3. Now the problem turns into how to judge the linked list has a cycle
 
-4. 1.  Floyd's Cycle-Finding Algorithm ( Fast Slow pointers)： If n *is* a happy number, there is no cycle, then  eventually  the pointer cat get to 1
+4. 1.  Floyd Cycle-Finding Algorithm ( Fast Slow pointers)： If n *is* a happy number, there is no cycle, then  eventually  the pointer cat get to 1
    2. using hash set to record whether the element has been visited
 
 ```Python
 class Solution:
     def isHappy(self, n: int) -> bool:
-        
         
         def myNext(n):
             res = 0
