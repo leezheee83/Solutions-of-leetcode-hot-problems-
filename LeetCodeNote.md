@@ -807,6 +807,84 @@ public:
 
 ## Fast Slow  Pointers: Floyd's Cycle-Finding 
 
+### [234 Palindrome Linked List](https://leetcode.com/problems/palindrome-linked-list/)
+
+Given the `head` of a singly linked list, return `true` if it is a palindrome.
+
+**Example 1:**
+
+![img](https://assets.leetcode.com/uploads/2021/03/03/pal1linked-list.jpg)
+
+```
+Input: head = [1,2,2,1]
+Output: true
+```
+
+**Example 2:**
+
+![img](https://assets.leetcode.com/uploads/2021/03/03/pal2linked-list.jpg)
+
+```
+Input: head = [1,2]
+Output: false
+```
+
+
+
+#### [Approach 1:  using Fast&Slow Pointer to reverse list](https://www.youtube.com/watch?v=yOzXms1J6Nk) 
+
+**Intuition**
+
+1. we can using an array to store the elements in singly linked list, Use indices as pointers, one from left to right and one from right to left, and then check if the element values are equal. it`s a easy solution, but it need extra memory ! not good enough
+2. actually, this problem is a hybrid version from reverse Singly linked list  and fast&slow pointers 
+3. let's Break the problem into two parts:  
+   1. find the mid position of Linked list and divide list into 2 parts at mod position  
+   2. reverse the left parts list  and  two parts all start from head to check every Node' value is equal or not 
+
+4. Actually, we can reverse list and find the mid pointer at same time ! 
+
+```python
+ class Solution:
+    def isPalindrome(self, head: Optional[ListNode]) -> bool:
+        
+        slow = head 
+        fast = head 
+        
+        
+        # make sure ther are enough node for us shift at least
+        
+        # find the midPoint 
+        while fast and fast.next :     
+            slow = slow.next
+            fast = fast.next.next
+            
+        #reverse the seconed half
+        prev = None 
+        while slow:
+            cur = slow.next
+            slow.next = prev
+            prev = slow
+            slow = cur
+        
+        # check the value of two parts
+        left, right = head, prev 
+        while right :
+            if left.val != right.val:
+                return False 
+            left = left.next
+            right = right.next
+        
+        return True
+            
+```
+
+**Complexity analysis**
+
+- Time complexity: $O(N)$
+- Space complexity: $O(1)$ extra space. Only constant space required. 
+
+
+
 ### [202. Happy Number](https://leetcode.com/problems/happy-number/)
 
 Write an algorithm to determine if a number `n` is happy.
