@@ -1217,6 +1217,51 @@ public:
 - Time complexity: $O(Log N)$
 - Space complexity: $O(1)$ extra space. Only constant level space required. 
 
+### 713 Subarray Product Less Than K
+
+Given an array of integers `nums` and an integer `k`, return *the number of contiguous subarrays where the product of all the elements in the subarray is strictly less than* `k`.
+
+**Example 1:**
+
+```
+Input: nums = [10,5,2,6], k = 100
+Output: 8
+Explanation: The 8 subarrays that have product less than 100 are:
+[10], [5], [2], [6], [10, 5], [5, 2], [2, 6], [5, 2, 6]
+Note that [10, 5, 2] is not included as the product of 100 is not strictly less than k.
+```
+
+**Example 2:**
+
+```
+Input: nums = [1,2,3], k = 0
+Output: 0
+```
+
+```c
+int numSubarrayProductLessThanK(int* nums, int numsSize, int k){
+    int left = 0, right = 0, cnt = 0, product = 1;
+    while(right < numsSize){
+        product *= nums[right];
+        // subarray shrink until meet the < k requirement
+        while(product >= k && left <= right){
+            product /= nums[left++];
+        } 
+        // counting the subarrays starting with index left
+        //Say now we have {1,2,3} and add {4} into it. Apparently, the new subarray introduced here are:
+		//{1,2,3,4}, {2,3,4}, {3,4}, {4}, which is the number of elements in the new list.
+		//If we also remove some at the left, say we we remove 1, then subarrays are:
+		//{2,3,4}, {3,4}, {4}. It is easy to get the result is j - i + 1.
+        cnt += right - left + 1;
+        right++;
+    }
+    return cnt;
+}
+```
+
+- Time complexity: $O(N)$
+- Space complexity: $O(1)$ 
+
 ## Backtracing
 
 ### 139 Word Break
@@ -1279,7 +1324,6 @@ static int match_recursive(char* str, int offset, char ** wordDict, int wordDict
     }
     return memo[offset] = 0;
 }
-
 
 bool wordBreak(char * s, char ** wordDict, int wordDictSize){
     int matched_memo[strlen(s) + 1];
