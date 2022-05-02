@@ -8,6 +8,8 @@
 
 1. brackets：括号
 
+1. Bit Manipulation ：位运算/位操作
+
 1. B is going be set to A： 把A赋值给B
 
 1. copy the value from A to B： 把A赋值给B
@@ -22,19 +24,21 @@
 
 7. infinite loop: 死循环
 
-8. increment ：递增， pointer left  increment
+8. increment ：递增，decrement ： 递减；  pointer left  increment； 
 
 4. Kind of  modified  A： A的变种版
 
 5. loop : 循环
 
-5. loop stop executing: x痪定制
+5. loop stop executing: 循环停止
 
-5. moves one spot of head: 链表从头指针走一步
+14. moves one spot of head: 链表从头指针走一步
 
-11. Not simple and elegant enough：不够简洁优雅
+11. Negate ： 取反
 
 11. non-null /nang nəl/ :非空
+
+17. Not simple and elegant enough：不够简洁优雅
 
 12. odd： 奇数， even：偶数
 

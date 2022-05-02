@@ -285,9 +285,63 @@ class Solution(object):
 
 
 
+### [189. Rotate Array](https://leetcode.com/problems/rotate-array/)
 
+Given an array, rotate the array to the right by `k` steps, where `k` is non-negative.
 
+**Example 1:**
 
+```
+Input: nums = [1,2,3,4,5,6,7], k = 3
+Output: [5,6,7,1,2,3,4]
+Explanation:
+rotate 1 steps to the right: [7,1,2,3,4,5,6]
+rotate 2 steps to the right: [6,7,1,2,3,4,5]
+rotate 3 steps to the right: [5,6,7,1,2,3,4]
+```
+
+#### [Approach 1: three reverses](https://www.youtube.com/watch?v=gmu0RA5_zxs)
+
+**Intuition**
+
+1. we want the last k elements move to the front, we can though multi-reverse the array to get it 
+
+2. there are three steps :
+
+   1. | After reverse all numbers       | 7 6 5 4 3 2 1 |
+      | ------------------------------- | ------------- |
+      | After  reverse  first k numbers | 5 6 7 4 3 2 1 |
+      | After reverse  last n-k numbers | 5 6 7 1 2 3 4 |
+
+      
+
+```c++
+class Solution {
+public:
+    void rotate(vector<int>& nums, int k) {
+        k = k % nums.size(); // make sure k is legal
+        myReverse(nums,0,nums.size()-1);
+        myReverse(nums,0,k-1);
+        myReverse(nums,k,nums.size()-1);
+        
+    }
+    
+    void myReverse(vector<int>& nums, int start, int end){
+        while (start < end){
+            int temp = nums[start];
+            nums[start] = nums[end];
+            nums[end] = temp;
+            start++;
+            end--;
+        }
+    }
+};
+```
+
+**Complexity Analysis**
+
+- Time complexity : *O*(*n*). The entire n**u**ms array is traversed only once.
+- Space complexity : O(1).  uses only constant extra space. 
 
 ## Sorting
 
@@ -807,6 +861,39 @@ public:
 
 ## Fast Slow  Pointers: Floyd's Cycle-Finding 
 
+### [457. Circular Array Loop](https://leetcode.com/problems/circular-array-loop/)- infrequently
+
+You are playing a game involving a **circular** array of non-zero integers `nums`. Each `nums[i]` denotes the number of indices forward/backward you must move if you are located at index `i`:
+
+- If `nums[i]` is positive, move `nums[i]` steps **forward**, and
+- If `nums[i]` is negative, move `nums[i]` steps **backward**.
+
+**Example 1:**
+
+```
+Input: nums = [2,-1,1,2,2]
+Output: true
+Explanation:
+There is a cycle from index 0 -> 2 -> 3 -> 0 -> ...
+The cycle's length is 3.
+```
+
+**Example 2:**
+
+```
+Input: nums = [-1,2]
+Output: false
+Explanation:
+The sequence from index 1 -> 1 -> 1 -> ... is not a cycle because the sequence's length is 1.
+By definition the sequence's length must be strictly greater than 1 to be a cycle.
+```
+
+
+
+
+
+
+
 ### [234 Palindrome Linked List](https://leetcode.com/problems/palindrome-linked-list/)
 
 Given the `head` of a singly linked list, return `true` if it is a palindrome.
@@ -1017,10 +1104,6 @@ public:
     }
 };
 ```
-
-
-
-
 
 
 
