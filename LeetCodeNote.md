@@ -373,7 +373,7 @@ Output: [10]
 
 
 
-#### Approach 1:  Maps+Greedy
+#### [Approach 1:  Maps+Greedy](https://www.youtube.com/watch?v=5NCjHqx2v-k)
 
 **Intuition**
 
