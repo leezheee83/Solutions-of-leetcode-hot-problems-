@@ -343,6 +343,81 @@ public:
 - Time complexity : *O*(*n*). The entire n**u**ms array is traversed only once.
 - Space complexity : O(1).  uses only constant extra space. 
 
+
+
+### 763. Partition Labels
+
+You are given a string `s`. We want to partition the string into as many parts as possible so that each letter appears in at most one part.
+
+Note that the partition is done so that after concatenating all the parts in order, the resultant string should be `s`.
+
+Return *a list of integers representing the size of these parts*.
+
+**Example 1:**
+
+```
+Input: s = "ababcbacadefegdehijhklij"
+Output: [9,7,8]
+Explanation:
+The partition is "ababcbaca", "defegde", "hijhklij".
+This is a partition so that each letter appears in at most one part.
+A partition like "ababcbacadefegde", "hijhklij" is incorrect, because it splits s into less parts.
+```
+
+**Example 2:**
+
+```
+Input: s = "eccbbbbdec"
+Output: [10]
+```
+
+
+
+#### Approach 1:  Maps+Greedy
+
+**Intuition**
+
+1. ​	two key points !
+   1. one particular letter in one particular part ; 
+   2. split String as many parts as possible 
+2.  Find the last occurrence of any letter in every part/splits,  for letter `a` The first partition must include it, and also the last occurrence of `a`
+3. HashMap:  to count the occurrence of letters 
+4. Greedy Algorithm could make sure two things : 
+   1. find the longest part/split
+   2. find as many parts as possible
+
+```C++
+vector<int> ans;
+        vector<int> lastMap(26,0);
+        // record the position of every letter's last occurrence
+        for(int i = 0; i < s.length();  ++i){
+            lastMap[s[i] - 'a'] = i;
+        }
+        
+        //  let anchor and j be the start and end of the current partition.
+        // [archor,j] is our wanted Labeled Partition 
+        int j = 0, archor = 0;
+        for( int i = 0 ; i < s.length();  ++i){
+            //extending the current partition [anchor, j] as longer as possible.
+           j = max(j, lastMap[s[i] - 'a']);
+           //  we at end of current partion
+        // the last occurrence with longest partion showing up
+           if( i == j){
+               ans.push_back(i - archor + 1);
+               archor = i + 1;
+           }
+        }
+        
+        return ans;
+```
+
+**Complexity Analysis**
+
+- Time Complexity: *O*(*N*), where *N* is the length of *S*.
+- Space Complexity: *O*(1) . For  keep data structure `lastMap` which is not more than 26 characters.
+
+
+
 ## Sorting
 
 ### [148 Sort List](https://leetcode.com/problems/sort-list/)
