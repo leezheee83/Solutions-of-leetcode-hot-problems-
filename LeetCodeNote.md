@@ -378,7 +378,7 @@ Output: [10]
 **Intuition**
 
 1. ​	two key points !
-   1. one particular letter in one particular part ; 
+   1. one particular letter in one particular part, we split it after the last occurance of any letter we visited
    2. split String as many parts as possible 
 2.  Find the last occurrence of any letter in every part/splits,  for letter `a` The first partition must include it, and also the last occurrence of `a`
 3. HashMap:  to count the occurrence of letters 
