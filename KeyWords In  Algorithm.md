@@ -13,35 +13,35 @@
 
 ## Describing in Algorithm
 
-1. brackets：括号
-2. Bit Manipulation ：位运算/位操作
-3. B is going be set to A： 把A赋值给B
+1. abs() :  absolute value of 绝对值：
+2. brackets：括号
+3. Bit Manipulation ：位运算/位操作
+4. B is going be set to A： 把A赋值给B
    1. copy the value from A to B： 把A赋值给B
-
-4. declare a variable:  声明变量
-5. endless loops ：死循环
-6. indentation : 缩进
-7. If statements: if 语句(声明)， 
-   1. the conditions of the first If statements/block：第一个if模块的条件
-
-8. initialize :  初始化
-9. inner loop: 两层循环
-10. infinite loop: 死循环
-11. increment ：递增，decrement ： 递减；  pointer left  increment； 
-12. Kind of  modified  A： A的变种版
-13. loop : 循环
-14. loop stop executing: 循环停止
-15. moves one spot of head: 链表从头指针走一步
-16. Negate ： 取反
-17. non-null /nang nəl/ :非空
-18. Not simple and elegant enough：不够简洁优雅
-19. odd： 奇数， even：偶数
-20. one's places value： 每一位的值；eg：get one's places value `1， 2，3`  from  `123` 
-21. priority：优先级 ；A has higher priority
-22. shift every time : 每次更新
-23. step forward : 前进一步
-24. traverse : 遍历
-25. Temporary variable： 临时变量
+5. declare a variable:  声明变量
+6. endless loops ：死循环
+7. indentation : 缩进
+8. If statements: if 语句(声明)， 
+   1. the conditions of the first If statements / block：第一个if模块的条件
+9. initialize :  初始化
+10. inner loop: 两层循环
+11. infinite loop: 死循环
+12. increment ：递增，decrement ： 递减；  pointer left  increment； 
+12. interval: 区间
+13. Kind of  modified  A： A的变种版
+14. loop : 循环
+15. loop stop executing: 循环停止
+16. moves one spot of head: 链表从头指针走一步
+17. Negate ： 取反
+18. non-null /nang nəl/ :非空
+19. Not simple and elegant enough：不够简洁优雅
+20. odd： 奇数， even：偶数
+21. one's places value： 每一位的值；eg：get one's places value `1， 2，3`  from  `123` 
+22. priority：优先级 ；A has higher priority
+23. shift every time : 每次更新
+24. step forward : 前进一步
+25. traverse : 遍历
+26. Temporary variable： 临时变量
 
 
 

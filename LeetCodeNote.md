@@ -416,6 +416,73 @@ vector<int> ans;
 - Time Complexity: *O*(*N*), where *N* is the length of *S*.
 - Space Complexity: *O*(1) . For  keep data structure `lastMap` which is not more than 26 characters.
 
+### 41. First Missing Positive
+
+Given an unsorted integer array `nums`, return the smallest missing positive integer.
+
+You must implement an algorithm that runs in `O(n)` time and uses constant extra space.
+
+**Example 1:**
+
+```
+Input: nums = [1,2,0]
+Output: 3
+```
+
+**Example 2:**
+
+```
+Input: nums = [3,4,-1,1]
+Output: 2
+```
+
+
+
+#### [Approach 1: self-Hash](https://www.youtube.com/watch?v=8g78yfzMlao)
+
+**Intuition**：
+
+1. It's easy to think of **sorting** array to find the first missing positive value, but sorting would bring `N*LogN`  time Complexity, we're allow to run in `O(n)` time  and constant extra space (Cannot use HashSet), **that's why it's a Hard level problem**
+2. no matter what our input array is, no matter what the smallest missing positive value is,  the answer integer n should belong to the set `from 1 to length(array) + 1`, `which n between [1, length(array) + 1]`
+3. if we have a Hash Set to memory each value. The we could  just brute force to go through all of these values,  try each of them is right
+4. we can using some tricks to rebulid the giving array as our Hash Set, so it's not need extra space： 
+   1. Write our own hash function
+   2. the rule is: map the value `nums[i]` to  index of `i-1` 
+   3. three cases we have to handle : negative, zero, positive 
+
+```C++
+class Solution {
+public:
+    int firstMissingPositive(vector<int>& nums) {
+        // 1. set each negative integer to 0
+        for(int i = 0 ;i < nums.size(); ++i){
+            if ( nums[i] < 0 ) nums[i] = 0;
+        }
+
+        for(int i = 0; i < nums.size(); ++i){
+            // 2. mark the positive integer into negetive integer
+            // 3. mark the 0 into -1*(nums.size()+1)
+            // 3. make sure val in [1,size+1) 
+            int val = abs(nums[i]);
+            if ( 1 <= val && val <= nums.size()){
+                if(nums[val - 1] > 0){
+                    nums[val - 1] = nums[val - 1] * -1;
+                } else if ( nums[val - 1] == 0){
+                    nums[val - 1] =  -1 * (nums.size() + 1);
+                }
+            }
+        }
+        // after self-hash, all positvie number and 0 had been hash to negative
+        for( int i = 1; i < nums.size() + 1; ++i){
+            // if find a positive one, that means we find the missing smallest positive integer ,which's escaped our hash operation 
+            if( nums[i - 1] >= 0)
+                return i;
+        }
+        return nums.size() + 1;
+    }
+};
+```
+
 
 
 ## Sorting
