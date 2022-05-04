@@ -1559,3 +1559,145 @@ bool exist(char** board, int boardSize, int* boardColSize, char * word){
 }
 ```
 
+### 34. Find First and Last Position of Element in Sorted Array
+
+two details :
+ 1. using twice binary searching to find the the position  bigger than or equal to the target and the positon bigger than the target
+    2. the boundary of binary searching ： how to change left pointer and  right pointer，how to make sure that the pointer will cover the target position.
+
+
+```
+ class Solution {
+ public:
+    
+     int helper (vector<int>& nums, int target, bool lower){
+         int left = 0;
+         int right = nums.size()-1;
+         int res = nums.size();
+         while (left <= right) {
+             int mid = left + ((right-left) >>1);
+             if (nums[mid] > target || (lower&&nums[mid]>=target)){
+                 right  = mid -1;
+                 res = mid ;
+             } 
+             else left = mid +1;
+         }
+         return res ;
+     }
+     vector<int> searchRange(vector<int>& nums, int target) {
+         //1. find the position of value bigger or equal to the target
+         int begin = helper(nums, target , true);
+         //2. find the position of value bigger ..
+         int last = helper(nums, target, false) -1;
+         if (begin <=last && last< nums.size() && nums[begin] == target && nums[last] == target) return {begin, last};
+         return {-1, -1};
+     }
+ };
+```
+
+###  74. Search a 2D Matrix
+Write an efficient algorithm that searches for a value target in an m x n integer matrix matrix. This matrix has the following properties:
+
+- Integers in each row are sorted from left to right.
+- The first integer of each row is greater than the last integer of the previous row.
+
+now it has two solution to find the target position
+1. using twice binary searching :the first binary searching is to find the position of last small than or equal to the target , the second binary searching is to find the position of the target in the column 
+ 
+2. 2d matrix change to the 1d matrix ,the details of solution2 is to 1d & 2d conversion（transform）.how the abstract mid position is to transform the actual position .
+ 
+```
+class Solution {
+  public:
+
+     bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        // 2d to 1d
+        int m = matrix.size();
+        int n = matrix[0].size();
+
+        int left = 0;
+        int right = m*n-1;
+        while(left <=right){
+            int mid = left + ((right - left) >> 1);
+            if (matrix[mid/n][mid%n] == target){
+                return true;
+            }
+            else if (matrix[mid/n][mid%n] > target) {
+                right = mid-1;
+            }
+            else left = mid+1;
+        }
+        return false;
+    }
+};
+```
+
+### 33. Search in Rotated Sorted Array
+There is an integer array nums sorted in ascending order (with distinct values).
+
+Prior to being passed to your function, nums is possibly rotated at an unknown pivot index k (1 <= k < nums.length) such that the resulting array is [nums[k], nums[k+1], ..., nums[n-1], nums[0], nums[1], ..., nums[k-1]] (0-indexed). For example, [0,1,2,4,5,6,7] might be rotated at pivot index 3 and become [4,5,6,7,0,1,2].
+
+Given the array nums after the possible rotation and an integer target, return the index of target if it is in nums, or -1 if it is not in nums.
+
+You must write an algorithm with O(log n) runtime complexity.
+
+ 
+detail is that 
+1. part of array is orderly and part of array is disorder division by the mid value .
+2. we should compare the head and the tail of array  with the target and mid value .
+3. the details of cutting the array by comparing mid value with the target, we should add the  the head and the tail of array because we have two sort array in this problem
+```
+class Solution {
+public:
+    int search(vector<int>& nums, int target) {
+        int n = nums.size();
+        if(n ==0) return -1;
+        int left = 0;
+        int right = n-1;
+        while(left <= right){
+            int mid = (left + right) >>1;
+            if(nums[mid] == target) return mid;
+            if(nums[0] <=nums[mid]){
+                if(nums[0] <=target && nums[mid] > target) right = mid-1;
+                else left = mid+1;
+            }
+            else {
+                if(nums[n-1] >= target && nums[mid] < target) left = mid+1;
+                else right = mid -1;
+            }
+        }
+        return -1;
+    }
+};
+```
+### 81.Search in Rotated Sorted Array II
+the detail is that moving the left pointer and right pointer to delete the repeating elements
+```
+class Solution {
+public:
+    bool search(vector<int>& nums, int target) {
+        int n = nums.size();
+        if (n == 0) return false;
+        if (n == 1) return nums[0] == target;
+        int left = 0;
+        int right = n-1;
+        while (left <=right){
+            int mid = (left+right) >>1;
+            if (nums[mid]== target) return true;
+            if(nums[mid] == nums[left] && nums[mid]== nums[right]){
+                left ++;
+                right --;
+            }
+            else if (nums[left] <=nums[mid]){
+                if (nums[left] <= target && nums[mid] > target) right  = mid -1;
+                else left = mid +1;
+            }
+            else {
+                if (nums[right] >=target && nums[mid] < target) left = mid +1;
+                else right = mid -1;
+            }
+        } 
+        return false;
+    }
+};
+```
