@@ -16,7 +16,7 @@ Output: [0,1]
 Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
 ```
 
-#### **Solution 1:**  
+#### **Solution 1:**   Brute Force
 
 Do not using hashMap,   Force to sort and using two points, the time complexity is high(O^2), And it cost O(1) Space 
 
@@ -38,7 +38,7 @@ class Solution {
 }
 ```
 
-#### **Solution 2:**
+#### **Solution 2:** Hash
 
  using a HashMap (map in C++, dict in python) , to store the numbers, the time complexity  of finding  "target - x"  can be reduced from O(N) to O(1) .  for each x, we first query the hash table to see if  "target - x" exists, and then insert x into the hash table to ensure that x does not match itself 
 
@@ -77,7 +77,7 @@ Input: nums = [1,2,3], k = 3
 Output: 2
 ```
 
-#### **Solution 1:**  
+#### **Solution 1:**  cumulative sum+hash
 
 1. there`s has other time-consuming, so I prefer to use Hash Map to deal this 
 
@@ -134,11 +134,11 @@ Output: 4
 Explanation: The longest consecutive elements sequence is [1, 2, 3, 4]. Therefore its length is 4.
 ```
 
-#### solution 1
+#### solution 1： Sorting
 
 Sorting is valid, but time complexity is O(NLogN). could we have a better solution? yes 
 
-#### solution 2
+#### solution 2： hash+Greedy
 
 **Intuition**
 
@@ -207,7 +207,7 @@ Output: [["bat"],["nat","tan"],["ate","eat","tea"]]
 
 
 
-#### solution 1 
+#### solution 1 : Sorting
 
 **Intuition**
 
@@ -247,7 +247,7 @@ class Solution {
 
 
 
-#### solution 2
+#### solution 2: hash
 
 in the solution 1, if one String element is so long,  that will be very time Consuming , so we using character counts  to be the Keys in HashMap
 
@@ -345,7 +345,7 @@ public:
 
 
 
-### 763. Partition Labels
+### [763. Partition Labels](https://leetcode.com/problems/partition-labels/)
 
 You are given a string `s`. We want to partition the string into as many parts as possible so that each letter appears in at most one part.
 
@@ -416,7 +416,7 @@ vector<int> ans;
 - Time Complexity: *O*(*N*), where *N* is the length of *S*.
 - Space Complexity: *O*(1) . For  keep data structure `lastMap` which is not more than 26 characters.
 
-### 41. First Missing Positive
+### [41. First Missing Positive](https://leetcode.com/problems/first-missing-positive/)
 
 Given an unsorted integer array `nums`, return the smallest missing positive integer.
 
@@ -494,7 +494,7 @@ Given the `head` of a linked list, return *the list after sorting it in **ascend
 - The number of nodes in the list is in the range `[0, 5 * 104]`.
 - `-105 <= Node.val <= 105`
 
-#### solution 1 
+#### solution 1 :  Copy To array->Sort Array
 
 somehow tricky. Extract all the element into an array, sort and then fill the values in the linkedlist.
 
@@ -518,7 +518,7 @@ class Solution:
 Time Complexity: O(NlogN)
 Space Complexity: O(N)
 
-#### solution 2
+#### solution 2: merge Sort
 
 mergesort, could be devided into three subproblems:
 
@@ -703,8 +703,159 @@ int minSubArrayLen(int target, vector<int> &nums){
 **Complexity analysis**
 
 - Time complexity: $O(N)$
-  - Each element can be visited atmost twice, once by the right $pointer(i)$ and (atmost) once by the $ left pointer$.
+  - Each element can be visited at most twice, once by the right $pointer(i)$ and (atmost) once by the $ left pointer$.
 - Space complexity: $O(1)$ extra space. Only constant space required. 
+
+
+
+### [76. Minimum Window Substring](https://leetcode-cn.com/problems/minimum-window-substring/)
+
+Given two strings s and t of lengths m and n respectively, return the minimum window substring of s such that every character in t (including duplicates) is included in the window. If there is no such substring, return the empty string "".
+
+The testcases will be generated such that the answer is unique.
+
+A substring is a contiguous sequence of characters within the string.
+
+**Example 1:**
+
+```
+Input: s = "ADOBECODEBANC", t = "ABC"
+Output: "BANC"
+Explanation: The minimum window substring "BANC" includes 'A', 'B', and 'C' from string t.
+```
+
+**Example 2:**
+
+```
+Input: s = "a", t = "a"
+Output: "a"
+Explanation: The entire string s is the minimum window
+```
+
+#### Apporach:  sliding window + hash+ String Match+ Greedy
+
+**Intuition** 
+
+1. A **substring** is a contiguous sequence of characters within the string.
+2. We slide the window on `s(longer String)` expanding the window by moving the `right pointer.` When the window contains all the characters required by `t(shorter string)`, if it can be shrunk, we shrink the window until we get the smallest window.
+
+**Algorithm** :
+
+1. At the same time initialize the `left` and `right` pointer  point to index 0
+
+2. The `right pointer` move forward to the right until it matches `t`
+
+3. At this point, push the `left pointer` again to shrunk the window until it does not match
+
+4. `Right pointer` ends, then all is  end
+
+5. How to match `window` and `t` ?  
+
+   1. through The hash table counts the number of characters that appear (two counters: `window` `need`) 
+
+6. How to compare all matching substrings?
+
+   1. Greedy: use  `[start:end]` to save the shortest substring, and `min_len` to save the length of the shortest substring
+
+   
+
+```python
+class Solution:
+    def minWindow(self, s: str, t: str) -> str:
+        
+        window,need = dict(),dict()
+        for item in t:
+            need[item] =need.get(item,0) + 1
+
+        left = 0
+        res = ''
+        match,minlen = 0, float('INF')
+
+        for right in range(len(s)):
+            if s[right] in need:
+                window[s[right]] = window.get(s[right],0) + 1
+                if window[s[right]] == need[s[right]]: match += 1
+            
+            while len(need) == match:
+                if minlen > right-left:
+                    res = s[left:right+1]
+                    minlen = right-left
+                
+                if s[left] in need:
+                    window[s[left]] -= 1
+                    if window[s[left]] < need[s[left]]:
+                        match -= 1
+                left += 1
+        
+        return res
+```
+
+
+
+**Complexity analysis**
+
+- Time complexity: $O(N)$
+  - In the worst case, the `left` and `right` pointers traverse each element of `s` once. 
+  - In the hash table, each element in `s` is inserted and deleted once, and each element in `t` is inserted once. 
+  - Each check to see if it is feasible will traverse the hash table of the entire `t`. 
+  - The size of the hash table is related to the size of the character set. If the size of the character set is `C`, the asymptotic time complexity is `O(C⋅∣s∣+∣t∣).`.
+- Space complexity: 
+  - Two hash tables are used here as extra spaces. Each hash table will not store key-value pairs that exceed the character set size at most. We set the character set size to `C`, and the progressive space complexity is O(C)
+
+
+
+
+
+### [713  Subarray Product Less  Than K](https://leetcode.com/problems/subarray-product-less-than-k/)
+
+Given an array of integers `nums` and an integer `k`, return *the number of contiguous subarrays where the product of all the elements in the subarray is strictly less than* `k`.
+
+**Example 1:**
+
+```
+Input: nums = [10,5,2,6], k = 100
+Output: 8
+Explanation: The 8 subarrays that have product less than 100 are:
+[10], [5], [2], [6], [10, 5], [5, 2], [2, 6], [5, 2, 6]
+Note that [10, 5, 2] is not included as the product of 100 is not strictly less than k.
+```
+
+**Example 2:**
+
+```
+Input: nums = [1,2,3], k = 0
+Output: 0
+```
+
+#### Approach 1:  window+multiply
+
+**intuition**
+
+1. window is the interval `[left,right]`, product is the element-wise product of window
+
+```c
+int numSubarrayProductLessThanK(int* nums, int numsSize, int k){
+    int left = 0, right = 0, cnt = 0, product = 1;
+    while(right < numsSize){
+        product *= nums[right];
+        // subarray shrink until meet the < k requirement
+        while(product >= k && left <= right){
+            product /= nums[left++];
+        } 
+        // counting the subarrays starting with index left
+        //Say now we have {1,2,3} and add {4} into it. Apparently, the new subarray introduced here are:
+		//{1,2,3,4}, {2,3,4}, {3,4}, {4}, which is the number of elements in the new list.
+		//If we also remove some at the left, say we we remove 1, then subarrays are:
+		//{2,3,4}, {3,4}, {4}. It is easy to get the result is j - i + 1.
+        cnt += right - left + 1;
+        right++;
+    }
+    return cnt;
+}
+```
+
+- Time complexity: $O(N)$
+- Space complexity: $O(1)$ 
 
 ## Linked List
 
@@ -725,7 +876,7 @@ Input: l1 = [0], l2 = [0]
 Output: [0]
 ```
 
-#### **Solution 1:**  
+#### **Solution 1:**  Linked Like Sum+two Pointers
 
 **EXPLANATION**
 
@@ -767,7 +918,7 @@ class Solution {
 
 ### [19. **Remove Nth Node From End of List**](https://leetcode.com/problems/remove-nth-node-from-end-of-list/)
 
-#### solution 1 
+#### solution 1 : ArrayCount
 
 1. get the size of the linked list by walking through entire list.
 2. Do `size - n - 1` to see how many steps we need to take before retrive the node we about to remove
@@ -803,7 +954,7 @@ class Solution {
 }
 ```
 
-#### solution 2
+#### solution 2: Fast-slow pointer (Folyd's Cycle Finding)
 
 fast & slow pointer
 
@@ -937,6 +1088,8 @@ Output: [-1,-1]
 
 [Video Explanation Link](https://www.youtube.com/watch?v=bU-q1OJ0KWw)
 
+#### Approach: BF
+
 **Intuition**
 
 1. the demanded complexity is O(log n), there's noting  `O(log n)` runtime complexity except for Binary Search
@@ -998,6 +1151,90 @@ public:
 
 - Time complexity: $O(Log N)$
 - Space complexity: $O(1)$ extra space. Only constant level space required. 
+
+
+
+### 81.Search in Rotated Sorted Array II
+
+#### Approach: Binary Search
+
+the detail is that moving the left pointer and right pointer to delete the repeating elements
+
+```C++
+class Solution {
+public:
+    bool search(vector<int>& nums, int target) {
+        int n = nums.size();
+        if (n == 0) return false;
+        if (n == 1) return nums[0] == target;
+        int left = 0;
+        int right = n-1;
+        while (left <=right){
+            int mid = (left+right) >>1;
+            if (nums[mid]== target) return true;
+            if(nums[mid] == nums[left] && nums[mid]== nums[right]){
+                left ++;
+                right --;
+            }
+            else if (nums[left] <=nums[mid]){
+                if (nums[left] <= target && nums[mid] > target) right  = mid -1;
+                else left = mid +1;
+            }
+            else {
+                if (nums[right] >=target && nums[mid] < target) left = mid +1;
+                else right = mid -1;
+            }
+        } 
+        return false;
+    }
+};
+```
+
+
+
+###  [74. Search a 2D Matrix](https://leetcode.com/problems/search-a-2d-matrix/)
+
+Write an efficient algorithm that searches for a value target in an m x n integer matrix matrix. This matrix has the following properties:
+
+- Integers in each row are sorted from left to right.
+
+- The first integer of each row is greater than the last integer of the previous row.
+
+  
+
+#### Approach: Binary Search
+
+now it has two solution to find the target position
+
+1. using twice binary searching :the first binary searching is to find the position of last small than or equal to the target , the second binary searching is to find the position of the target in the column 
+
+2. 2d matrix change to the 1d matrix ,the details of solution2 is to 1d & 2d conversion（transform）.how the abstract mid position is to transform the actual position .
+
+```c++
+class Solution {
+  public:
+
+     bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        // 2d to 1d
+        int m = matrix.size();
+        int n = matrix[0].size();
+
+        int left = 0;
+        int right = m*n-1;
+        while(left <=right){
+            int mid = left + ((right - left) >> 1);
+            if (matrix[mid/n][mid%n] == target){
+                return true;
+            }
+            else if (matrix[mid/n][mid%n] > target) {
+                right = mid-1;
+            }
+            else left = mid+1;
+        }
+        return false;
+    }
+};
+```
 
 
 
@@ -1283,7 +1520,7 @@ It does not matter what you leave beyond the returned k (hence they are undersco
 
 
 
-#### [Approach 1:  two Pointers](https://www.youtube.com/watch?v=DEJAZBq0FDA)
+#### [Approach 1:  two Pointers](https://www.youtube.com/watch?v=DEJAZBq0FDA)+ Fast-slow permutation
 
 **Intuition**
 
@@ -1329,7 +1566,7 @@ Your solution must use only constant extra space.
 
 [Video Explanation Link](https://www.youtube.com/watch?v=sAQT4ZrUfWo)
 
-#### Approach 1:  Two Pointer  && Kind of  modified Binary Search :
+#### Approach 1:  Two Pointer  && modified Binary Search :
 
 **Intuition**
 
@@ -1357,347 +1594,64 @@ public:
 **Complexity analysis**
 
 - Time complexity: $O(Log N)$
-- Space complexity: $O(1)$ extra space. Only constant level space required. 
 
-### 713 Subarray Product Less Than K
+- Space complexity: $O(1)$​ extra space. Only constant level space required.
 
-Given an array of integers `nums` and an integer `k`, return *the number of contiguous subarrays where the product of all the elements in the subarray is strictly less than* `k`.
-
-**Example 1:**
-
-```
-Input: nums = [10,5,2,6], k = 100
-Output: 8
-Explanation: The 8 subarrays that have product less than 100 are:
-[10], [5], [2], [6], [10, 5], [5, 2], [2, 6], [5, 2, 6]
-Note that [10, 5, 2] is not included as the product of 100 is not strictly less than k.
-```
-
-**Example 2:**
-
-```
-Input: nums = [1,2,3], k = 0
-Output: 0
-```
-
-```c
-int numSubarrayProductLessThanK(int* nums, int numsSize, int k){
-    int left = 0, right = 0, cnt = 0, product = 1;
-    while(right < numsSize){
-        product *= nums[right];
-        // subarray shrink until meet the < k requirement
-        while(product >= k && left <= right){
-            product /= nums[left++];
-        } 
-        // counting the subarrays starting with index left
-        //Say now we have {1,2,3} and add {4} into it. Apparently, the new subarray introduced here are:
-		//{1,2,3,4}, {2,3,4}, {3,4}, {4}, which is the number of elements in the new list.
-		//If we also remove some at the left, say we we remove 1, then subarrays are:
-		//{2,3,4}, {3,4}, {4}. It is easy to get the result is j - i + 1.
-        cnt += right - left + 1;
-        right++;
-    }
-    return cnt;
-}
-```
-
-- Time complexity: $O(N)$
-- Space complexity: $O(1)$ 
+   
 
 ## Backtracing
 
-### 139 Word Break
+## Dynamic Programming
 
-Given a string `s` and a dictionary of strings `wordDict`, return `true` if `s` can be segmented into a space-separated sequence of one or more dictionary words.
+### [139 Word Break](https://leetcode-cn.com/problems/minimum-window-substring/)
 
-#### bad solution 1
+Given a string s and a dictionary of strings wordDict, return true if s can be segmented into a space-separated sequence of one or more dictionary words.
 
-```c
-#include<string.h>
-static int match_recursive(char* start, char ** wordDict, int wordDictSize){
-    if(*start == '\0') {
-        return 1;
-    }
-    char * cut_pt = start;
-    while(*cut_pt != '\0'){
-        for(int idx = 0; idx < wordDictSize; idx++){
-            if(strlen(*(wordDict + idx)) != cut_pt - start + 1){
-                continue;    
-            }
-            if(!memcmp(start, *(wordDict + idx), cut_pt - start + 1) &&
-                match_recursive(cut_pt + 1, wordDict, wordDictSize)){
-                return 1;
-            }
-        }
-        cut_pt++;
-    }
-    return 0;
-}
-bool wordBreak(char * s, char ** wordDict, int wordDictSize){
-    return match_recursive(s, wordDict, wordDictSize);
-}
+Note that the same word in the dictionary may be reused multiple times in the segmentation.
+
+ **Example 1:**
+
+```
+Input: s = "leetcode", wordDict = ["leet","code"]
+Output: true
+Explanation: Return true because "leetcode" can be segmented as "leet code".\
 ```
 
-#### bad solution 2
+#### Apporach:  DP
 
-```c
-#include<string.h>
-static int match_recursive(char* str, int offset, char ** wordDict, int wordDictSize, int *memo){
-    
-    if(memo[offset] == 1)  return 1;
-    char *sub_start = str + offset, *sub_end = str + offset;
-    
-    if(*sub_start == '\0') {
-        return 1;
-    }
-    
-    while(*sub_end != '\0'){
-        for(int idx = 0; idx < wordDictSize; idx++){
-            if(strlen(*(wordDict + idx)) != sub_end - sub_start + 1) {
-                continue;
-            }
-            if(!memcmp(sub_start, *(wordDict + idx), sub_end - sub_start + 1) &&
-                match_recursive(str, (int)(sub_end - str) + 1, wordDict, wordDictSize, memo)){
-                return memo[offset] = 1; 
-            }
-        }
+**Intuition**
+
+1. Create array that keeps track of the string s so far, if the substring is possible to be built by the wordDict.
+
+2. We define $\textit{dp}$​[i] to indicate whether the string  `s[0..i−1]` composed of the first `i` characters of the string `s` can be split by spaces into several dictionary word
+
+3. using pointer `j` to split `s[0..i−1]`  into `s1 = s[0..j-1]` and `s2 =  s[j..i-1]` , If both strings are valid, then `s1+s2` also valid
+   $$
+   dp[i]= dp[j] \&\& check(s[j..i−1])
+   $$
+   `check(s[j..i-1])`  indicates whether the substring `s[j..i-1]` appears in the dictionary.
+
+```python
+class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+        n = len(s)
+        dp = [False]*(n+1)
+        dp[0] = True 
+		
         
-        sub_end++;
-    }
-    return memo[offset] = 0;
-}
-
-bool wordBreak(char * s, char ** wordDict, int wordDictSize){
-    int matched_memo[strlen(s) + 1];
-    int offset = 0;
-    memset(matched_memo, 0, (strlen(s) + 1) * sizeof(int));
-    return match_recursive(s, offset, wordDict, wordDictSize, matched_memo);
-}
+        for i in range(n):
+            # Loop through all indices of s after i
+            for j in range(i+1,n+1):
+                # If s[:i] is already buildable, and s[i:j] is in wordDict, then s[j] is buildable
+                if dp[i] == True and s[i:j] in wordDict:
+                    dp[j] = True 
+        # Check if the entire s is buildable
+        return dp[-1]
 ```
 
-solution
+**Complexity analysis**
 
-```c
-// use dp
-#include<string.h>
-static bool segment_dp(char * s, char ** wordDict, int wordDictSize){
-    
-    int str_len = strlen(s);
-    int dp[str_len + 1];
-    memset(dp, 0, (str_len + 1) * sizeof(int));
-    
-    dp[str_len] = 1; 
-    int dict_idx = 0;
-    bool can_break = 0;
-    
-    for (int i = str_len - 1; i >= 0; i--){
-        for (int j = i; j < str_len && !can_break; j++){  
-            if(dp[j + 1] != 1) continue;
-            for (dict_idx = 0; dict_idx < wordDictSize; dict_idx++){
-                if(strlen(*(wordDict + dict_idx)) != j - i + 1) continue;
-                if(memcmp(s + i, *(wordDict + dict_idx), j - i + 1) == 0){
-                    can_break = 1;
-                    break;
-                }
-            }
-        }
-        
-        if(can_break){
-            can_break = 0;
-            dp[i] = 1;
-            continue;
-        }
-        dp[i] = 0;
-    }
-    return dp[0];
-}
+1. Time complexity: `O(n^2)`
+   1. where `n` is the length of the string `s`. We have a total of `O(n)` states to calculate, and each calculation needs to enumerate `O(n)` split points. The hash table determines whether a string appears in a given string list. It takes `O(1)` time, so the total time complexity is `O(n^2)`
 
-
-bool wordBreak(char * s, char ** wordDict, int wordDictSize){
-    return segment_dp(s, wordDict, wordDictSize);
-}
-```
-
-### 76 word search
-
-Given two strings `s` and `t` of lengths `m` and `n` respectively, return *the **minimum window substring** of* `s` *such that every character in* `t` *(**including duplicates**) is included in the window. If there is no such substring**, return the empty string* `""`*.*
-
-The testcases will be generated such that the answer is **unique**.
-
-A **substring** is a contiguous sequence of characters within the string.
-
-```c
-static int is_match_remainder(char** board, int line_pos, int col_pos, int line_max, int col_max, char *match_remiander){
-    
-    if(*match_remiander == '\0') return 1;
-    // match current
-    if(board[line_pos][col_pos] == *match_remiander){    
-        // no dead loop
-        if(*(match_remiander + 1) == '\0') return 1;
-        board[line_pos][col_pos] = '*';
-        if(line_pos > 0 && is_match_remainder(board, line_pos - 1, col_pos, line_max, col_max, match_remiander + 1)) return 1;
-        if(line_pos < line_max && is_match_remainder(board, line_pos + 1, col_pos, line_max, col_max, match_remiander + 1)) return 1;
-        
-        if(col_pos > 0 && is_match_remainder(board, line_pos, col_pos - 1, line_max, col_max, match_remiander + 1)) return 1;
-        if(col_pos < col_max && is_match_remainder(board, line_pos, col_pos + 1, line_max, col_max, match_remiander + 1)) return 1;
-        // recover
-        board[line_pos][col_pos] = *match_remiander;
-    }
-    return 0;
-}
-bool exist(char** board, int boardSize, int* boardColSize, char * word){
-    // input check
-    if(*word == '\0') return 1;
-    if(boardSize == 0 || *boardColSize == 0) return 0;
-    int res = 0;
-    for(int j = 0; j < *boardColSize; j++){
-        for(int i = 0; i < boardSize; i++){
-            res |= is_match_remainder(board, i, j, boardSize - 1, *boardColSize - 1, word);
-        }   
-    }
-    return res;
-}
-```
-
-### 34. Find First and Last Position of Element in Sorted Array
-
-two details :
- 1. using twice binary searching to find the the position  bigger than or equal to the target and the positon bigger than the target
-    2. the boundary of binary searching ： how to change left pointer and  right pointer，how to make sure that the pointer will cover the target position.
-
-
-```
- class Solution {
- public:
-    
-     int helper (vector<int>& nums, int target, bool lower){
-         int left = 0;
-         int right = nums.size()-1;
-         int res = nums.size();
-         while (left <= right) {
-             int mid = left + ((right-left) >>1);
-             if (nums[mid] > target || (lower&&nums[mid]>=target)){
-                 right  = mid -1;
-                 res = mid ;
-             } 
-             else left = mid +1;
-         }
-         return res ;
-     }
-     vector<int> searchRange(vector<int>& nums, int target) {
-         //1. find the position of value bigger or equal to the target
-         int begin = helper(nums, target , true);
-         //2. find the position of value bigger ..
-         int last = helper(nums, target, false) -1;
-         if (begin <=last && last< nums.size() && nums[begin] == target && nums[last] == target) return {begin, last};
-         return {-1, -1};
-     }
- };
-```
-
-###  74. Search a 2D Matrix
-Write an efficient algorithm that searches for a value target in an m x n integer matrix matrix. This matrix has the following properties:
-
-- Integers in each row are sorted from left to right.
-- The first integer of each row is greater than the last integer of the previous row.
-
-now it has two solution to find the target position
-1. using twice binary searching :the first binary searching is to find the position of last small than or equal to the target , the second binary searching is to find the position of the target in the column 
- 
-2. 2d matrix change to the 1d matrix ,the details of solution2 is to 1d & 2d conversion（transform）.how the abstract mid position is to transform the actual position .
- 
-```
-class Solution {
-  public:
-
-     bool searchMatrix(vector<vector<int>>& matrix, int target) {
-        // 2d to 1d
-        int m = matrix.size();
-        int n = matrix[0].size();
-
-        int left = 0;
-        int right = m*n-1;
-        while(left <=right){
-            int mid = left + ((right - left) >> 1);
-            if (matrix[mid/n][mid%n] == target){
-                return true;
-            }
-            else if (matrix[mid/n][mid%n] > target) {
-                right = mid-1;
-            }
-            else left = mid+1;
-        }
-        return false;
-    }
-};
-```
-
-### 33. Search in Rotated Sorted Array
-There is an integer array nums sorted in ascending order (with distinct values).
-
-Prior to being passed to your function, nums is possibly rotated at an unknown pivot index k (1 <= k < nums.length) such that the resulting array is [nums[k], nums[k+1], ..., nums[n-1], nums[0], nums[1], ..., nums[k-1]] (0-indexed). For example, [0,1,2,4,5,6,7] might be rotated at pivot index 3 and become [4,5,6,7,0,1,2].
-
-Given the array nums after the possible rotation and an integer target, return the index of target if it is in nums, or -1 if it is not in nums.
-
-You must write an algorithm with O(log n) runtime complexity.
-
- 
-detail is that 
-1. part of array is orderly and part of array is disorder division by the mid value .
-2. we should compare the head and the tail of array  with the target and mid value .
-3. the details of cutting the array by comparing mid value with the target, we should add the  the head and the tail of array because we have two sort array in this problem
-```
-class Solution {
-public:
-    int search(vector<int>& nums, int target) {
-        int n = nums.size();
-        if(n ==0) return -1;
-        int left = 0;
-        int right = n-1;
-        while(left <= right){
-            int mid = (left + right) >>1;
-            if(nums[mid] == target) return mid;
-            if(nums[0] <=nums[mid]){
-                if(nums[0] <=target && nums[mid] > target) right = mid-1;
-                else left = mid+1;
-            }
-            else {
-                if(nums[n-1] >= target && nums[mid] < target) left = mid+1;
-                else right = mid -1;
-            }
-        }
-        return -1;
-    }
-};
-```
-### 81.Search in Rotated Sorted Array II
-the detail is that moving the left pointer and right pointer to delete the repeating elements
-```
-class Solution {
-public:
-    bool search(vector<int>& nums, int target) {
-        int n = nums.size();
-        if (n == 0) return false;
-        if (n == 1) return nums[0] == target;
-        int left = 0;
-        int right = n-1;
-        while (left <=right){
-            int mid = (left+right) >>1;
-            if (nums[mid]== target) return true;
-            if(nums[mid] == nums[left] && nums[mid]== nums[right]){
-                left ++;
-                right --;
-            }
-            else if (nums[left] <=nums[mid]){
-                if (nums[left] <= target && nums[mid] > target) right  = mid -1;
-                else left = mid +1;
-            }
-            else {
-                if (nums[right] >=target && nums[mid] < target) left = mid +1;
-                else right = mid -1;
-            }
-        } 
-        return false;
-    }
-};
-```
+2. Space complexity: `O(n)`, where n is the length of the string s. 
