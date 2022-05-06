@@ -10,6 +10,7 @@
 2.  O(N^2): big O of N square 
 3.  O(N^3) : big O of N cube
 4.  O(1) : Only constant space/time required /  uses only constant extra space. 
+4.  Time Limit Exceeded: 超时！
 
 ## Describing in Algorithm
 
@@ -32,6 +33,7 @@
 14. loop : 循环
 15. loop stop executing: 循环停止
 16. moves one spot of head: 链表从头指针走一步
+16. moves the pointers inwards: 让两头指针向内走，让两头指针聚拢
 17. Negate ： 取反
 18. non-null /nang nəl/ :非空
 19. Not simple and elegant enough：不够简洁优雅
