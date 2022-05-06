@@ -6,7 +6,7 @@
 
 ## Complexity Analysis Related
 
-1.  O(n) :  big O of N; Linear time
+1.  O(n) :  big O of N; `Linear time = Single pass`
 2.  O(N^2): big O of N square 
 3.  O(N^3) : big O of N cube
 4.  O(1) : Only constant space/time required /  uses only constant extra space. 

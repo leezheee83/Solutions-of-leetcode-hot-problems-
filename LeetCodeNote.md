@@ -1599,6 +1599,62 @@ public:
 
    
 
+### [11. Next Permutation](https://leetcode-cn.com/problems/next-permutation/)
+
+You are given an integer array `height` of length `n`. There are `n` vertical lines drawn such that the two endpoints of the `ith` line are `(i, 0)` and `(i, height[i])`.
+
+Find two lines that together with the x-axis form a container, such that the container contains the most water.
+
+Return *the maximum amount of water a container can store*.
+
+**Notice** that you may not slant the container.
+
+**Example 1:**
+
+![img](https://s3-lc-upload.s3.amazonaws.com/uploads/2018/07/17/question_11.jpg)
+
+```
+Input: height = [1,8,6,2,5,4,8,3,7]
+Output: 49
+Explanation: The above vertical lines are represented by array [1,8,6,2,5,4,8,3,7]. In this case, the max area of water (blue section) the container can contain is 49.
+```
+
+#### Approach 1:  Two Pointer + Greedy :
+
+**Intuition**
+
+1. We have to **maximize** the Area that can be formed between the vertical lines using the shorter line as length and the distance between the lines as the width of the rectangle forming the area.
+2. The intuition of behind this approach is that the area formed between this lines will always be limited by the shorter line 
+3. the farther the lines, the more area obtained (get) 
+4. SO~ it's so obvious for us to use two Pointers ,  
+   1. one at the beginning and one at the end of the array constituting the length of the lines
+   2. **maintain** a variable $\text{maxarea}$ to store the maximum area obtained till now
+   3. **update** $\text{maxarea}$​ and move the pointer pointing to the shorter line towards the other end by one step
+   4. `maxarea = max(maxarea, min(height[left], height[right]) * (right-left))`
+
+
+```C++
+class Solution {
+public:
+    int maxArea(vector<int>& height) {
+        if (height.empty()) return 0;
+        int maxArea = 0;
+        int left = 0, right = height.size()-1;
+        
+    	while (left < right){
+        maxArea = max(maxArea, min(height[left], height[right]) * (right-left));
+        if (height[left] <height[right]) left++;
+        else right--;
+    }
+    	return maxArea;
+    }
+};
+```
+**Complexity Analysis**
+
+- Time complexity: O(n). Single pass
+- Space complexity: O(1). Constant space is used.
+
 ## Backtracing
 
 ## Dynamic Programming
