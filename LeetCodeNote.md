@@ -644,7 +644,7 @@ public :
 
 **Complexity Analysis**
 
-- Time complexity : O*(2*n*)=*O*(*n*). In the worst case each character will be visited twice by i and j.
+- Time complexity : O*(2*n*) =* O*(*n). In the worst case each character will be visited twice by i and j.
 - Space complexity : O(min(m, n)), Same as the previous approach. We need *O*(*k*) space for the sliding window, where k is the size of the `Set`. The size of the Set is upper bounded by the size of the string *n* and the size of the charset/alphabet *m*.
 
 
@@ -1624,7 +1624,7 @@ Explanation: The above vertical lines are represented by array [1,8,6,2,5,4,8,3,
 **Intuition**
 
 1. We have to **maximize** the Area that can be formed between the vertical lines using the shorter line as length and the distance between the lines as the width of the rectangle forming the area.
-2. The intuition of behind this approach is that the area formed between this lines will always be limited by the shorter line 
+2. The intuition of behind this approach is **that the area formed between this lines will always be limited by the shorter line** 
 3. the farther the lines, the more area obtained (get) 
 4. SO~ it's so obvious for us to use two Pointers ,  
    1. one at the beginning and one at the end of the array constituting the length of the lines
@@ -1687,8 +1687,11 @@ For each element in the array, we find the maximum level of water it can trap af
 
 3. SO this problem will turn into How to find the  `leftMaxBar`  and `rightMaxBar`
 
-4. Using Two Pointers And Greedy to update the leftMaxBar  !!!
+4. Using Two Pointers And Greedy to update the `leftMaxBar`  !!!
 
+   1. `left` Pointer is keeping track of the `leftMaxBar`, so does to `right` Pointer and `rightMaxBar`
+   2.  using greedy ways to make sure `leftMaxBar` and  `rightMaxBar` are maximum
+   
    
 
 ```Python
