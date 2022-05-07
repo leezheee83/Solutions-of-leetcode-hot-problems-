@@ -6,7 +6,7 @@
 
 ## Complexity Analysis Related
 
-1.  O(n) :  big O of N; `Linear time = Single pass`
+1.  O(n) :  big O of N; `Linear time = Single pass = Single iteration`
 2.  O(N^2): big O of N square 
 3.  O(N^3) : big O of N cube
 4.  O(1) : Only constant space/time required /  uses only constant extra space. 
@@ -57,9 +57,16 @@
 ## Specialism in Algorithm
 
 1. binary search: 二分查找
+
 2. bit operation:   位运算
+
 3. *implicit* **LinkedList**.： 隐式链表
-4. singly linked list ： 单链表
+
+4. monotonic stack:单调栈
+
+5. singly linked list ： 单链表
+
+   
 
 
 

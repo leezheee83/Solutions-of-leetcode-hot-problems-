@@ -1657,6 +1657,136 @@ public:
 
 
 
+### [42. Trapping Rain Water](https://leetcode.com/problems/trapping-rain-water/)
+
+Given `n` non-negative integers representing an elevation map where the width of each bar is `1`, compute how much water it can trap after raining.
+
+**Example 1:**
+
+![img](https://assets.leetcode.com/uploads/2018/10/22/rainwatertrap.png)
+
+```
+Input: height = [0,1,0,2,1,0,1,3,2,1,2,1]
+Output: 6
+Explanation: The above elevation map (black section) is represented by array [0,1,0,2,1,0,1,3,2,1,2,1]. In this case, 6 units of rain water (blue section) are being trapped.
+```
+
+#### Approach 2: two pointers+Greedy
+
+**Intuition**
+
+For each element in the array, we find the maximum level of water it can trap after the rain, **which is equal to the minimum of maximum height of bars on both the sides minus its own height.**
+
+1. We assume that the rainwater that each bar can receive is `Rain(i)` , the final  `ans = Sum(Rain(i))`
+
+2. `Rain(i) =  min (leftMaxBar,rightMaxBar) - height[i]` ,
+
+   1.  `leftMaxBar = the highest bar for left part of height[i]`
+   2.  `rightMaxBar= the highest bar for right part of height[i]`
+   3.  the Rain area is limited by the shorter Bar
+
+3. SO this problem will turn into How to find the  `leftMaxBar`  and `rightMaxBar`
+
+4. Using Two Pointers And Greedy to update the leftMaxBar  !!!
+
+   
+
+```Python
+class Solution:
+    def trap(self, height: List[int]) -> int:
+        if not height: return 0
+        
+        leftMaxBar = height[0]
+        rightMaxBar = height[-1]
+        left,right = 0, len(height)-1
+        
+        ans = 0
+        
+        while left < right:
+            leftMaxBar = max(leftMaxBar,height[left])
+            rightMaxBar = max(rightMaxBar, height[right])
+            
+            # the rain area was determined by the shorted one 
+            if leftMaxBar <  rightMaxBar:
+                ans += leftMaxBar - height[left]
+                left += 1
+            else:
+                ans += rightMaxBar - height[right]
+                right -= 1
+        
+        return ans
+```
+
+**Complexity analysis**
+
+- Time complexity: O(n). Single iteration of *O*(*n*).
+- Space complexity: O(1) ，extra space. Only constant space required for some variables
+
+#### Approach 1: Monotonic  Stack
+
+**From Approach 1, we could Know the Problem is to how to computer  Rain(i)**
+
+**Intuition**
+
+1. we can use stack to keep track of the bars that are bounded by longer bars 
+2. We keep a stack and iterate over the array， We add the index of the bar  value to the stack if current value is smaller than or equal to the bar value at top of stack,which means that the current bar is bounded by the previous bar in the stack
+3. If we found a bar longer than that at the top, we are sure that the bar at the top of the stack is bounded by the current bar
+
+**Algorithm**
+
+- Use stack to store the indices of the bars.
+
+- Iterate the array:
+
+  - While stack is not empty and
+
+    $\text{height[current]}>\text{height[st.top()]}$
+
+    - It means that the stack element can be popped. Pop the top element as `top`.
+    - find the Trapping Area`s  current Width and  current Height
+    - Add resulting trapped water to `answer += currWidth * currHeight`
+
+  - Push current index to top of the stack
+
+  - Move `current` to the next position
+
+```C++
+class Solution {
+public:
+    int trap(vector<int>& height) {
+        int ans = 0;
+        stack<int> stk;
+        int n = height.size();
+        for (int i = 0; i < n; ++i) {
+            while (!stk.empty() && height[i] > height[stk.top()]) {
+                int top = stk.top();
+                stk.pop();
+                if (stk.empty()) {
+                    break;
+                }
+                int left = stk.top();
+                // -1 means can't count the bar's width
+                int currWidth = i - left - 1;
+                int currHeight = min(height[left], height[i]) - height[top];
+                ans += currWidth * currHeight;
+            }
+            stk.push(i);
+        }
+        return ans;
+    }
+};
+```
+
+**Complexity analysis**
+
+- Time complexity: *O*(*n*)
+  - Single iteration of O(n) in which each bar can be touched at most twice(due to insertion and deletion from stack) and insertion and deletion from stack takes *O*(1) time.
+- Space complexity: O(n). Stack can take upto *O*(*n*) Space, Caused the input `height` array's length
+
+
+
+
+
 
 
 ## Backtracing
