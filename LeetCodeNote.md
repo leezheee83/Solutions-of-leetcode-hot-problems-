@@ -1805,7 +1805,7 @@ Input: nums = [-1,0,1,2,-1,-4]
 Output: [[-1,-1,2],[-1,0,1]]
 ```
 
-#### Approach 1: Sorting+Two Pointers+De-duplication
+#### [Approach 1: Sorting+Two Pointers+De-duplication](https://www.youtube.com/watch?v=qJSPYnS35SE)
 
 **intuition**
 
