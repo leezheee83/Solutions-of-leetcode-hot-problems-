@@ -1788,7 +1788,86 @@ public:
 
 
 
+### [15. 3Sum](https://leetcode-cn.com/problems/3sum/)
 
+Medium
+
+176201689Add to ListShare
+
+Given an integer array nums, return all the triplets `[nums[i], nums[j], nums[k]]` such that `i != j`, `i != k`, and `j != k`, and `nums[i] + nums[j] + nums[k] == 0`.
+
+Notice that the solution set must not contain duplicate triplets.
+
+**Example 1:**
+
+```
+Input: nums = [-1,0,1,2,-1,-4]
+Output: [[-1,-1,2],[-1,0,1]]
+```
+
+#### Approach 1: Sorting+Two Pointers+De-duplication
+
+**intuition**
+
+1. it's easy to think of using Brunt Force method to enumerate every possibe combination of Any three elemens from Giving array, But that's will consume huge of time, it's bad a solution 
+2. how we can optimaize the Brunt Force enumeration  ? Using **Sorting + two Pointers !!!**
+3. After Sorted array, then we can using `cur ， Left ， right`, these three pointer to enumerate the answers and with De-duplication
+
+
+
+```C++
+class Solution {
+public:
+    vector<vector<int>> threeSum(vector<int>& nums) {
+        int lens = nums.size();
+        vector<vector<int>> res;
+        
+        if (lens < 3) return res;
+        
+       sort(nums.begin(),nums.end());
+       
+        for(int cur = 0; cur < lens - 2; ++cur){
+            // cause for the sorted array, there's no exist 3Sum==0, So just reture 
+            if( nums[cur] > 0) return res;
+            // for the dulicate elements,Skip it 
+            if(cur > 0 && nums[cur]  == nums[cur-1]) 
+                continue;
+            
+            int left = cur + 1;
+            int right = lens - 1;
+            // classic two pointers writing style 
+            while (left < right){
+                // find one case we want  
+                if (nums[cur] + nums[left] + nums[right] == 0){
+                    res.push_back({nums[cur],nums[left], nums[right]});
+                    // check the nebior to avoid dupulation results 
+                    while(left < right && nums[left] == nums[left+1])
+                        left++;
+                    while(left < right && nums[right] == nums[right-1])
+                        right--;
+                    // visited index need to shift!
+                    left++;
+                    right--;
+                    // if 3Sum > 0, menas nums[right] is too biger, so right decreament
+                }else if(nums[cur]+nums[left]+nums[right] > 0){
+                    right--;
+                }else{
+                    left++;
+                }
+            }
+        }
+        
+        return res;
+    }
+};
+```
+
+**Complexity analysis**
+
+- Time complexity: *O*(*n^2*)
+  - Sorting's running time is `O(NlogN)`, scan whole array takes `O(N)` time ,two pointers tranvers  the array required `O(N)` time, 
+    - SO final required time is : `O(NlogN)+ O(N)*O(N) = O(N^2)`
+- Space complexity: `O(1)`.  constant extra memory required
 
 
 

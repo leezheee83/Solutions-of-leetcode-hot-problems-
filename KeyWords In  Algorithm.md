@@ -30,6 +30,8 @@
 
 6. declare a variable:  声明变量
 
+6. De-duplication:  去重
+
 7. endless loops ：死循环
 
 8. indentation : 缩进
@@ -111,6 +113,8 @@
 3. *implicit* **LinkedList**.： 隐式链表
 
 4. monotonic stack:单调栈
+
+4. Enumeration methods: 枚举法
 
 5. singly linked list ： 单链表
 
