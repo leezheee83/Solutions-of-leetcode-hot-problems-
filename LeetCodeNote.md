@@ -1683,7 +1683,7 @@ For each element in the array, we find the maximum level of water it can trap af
 
    1.  `leftMaxBar = the highest bar for left part of height[i]`
    2.  `rightMaxBar= the highest bar for right part of height[i]`
-   3.  the Rain area is limited by the shorter Bar
+   3.  the Rain area is **limited** by the shorter Bar
 
 3. SO this problem will turn into How to find the  `leftMaxBar`  and `rightMaxBar`
 
@@ -1873,7 +1873,11 @@ public:
 
 ## Backtracing
 
-## Dynamic Programming
+# Dynamic Programming
+
+Cause Dynamic Programming is a very hard part for the algorithm interview and there has lots of  categories in DP problem. SO we need a Special Chapter for this big kind of problem. 
+
+## Classic DP
 
 ### [139 Word Break](https://leetcode-cn.com/problems/minimum-window-substring/)
 
@@ -1927,3 +1931,202 @@ class Solution:
    1. where `n` is the length of the string `s`. We have a total of `O(n)` states to calculate, and each calculation needs to enumerate `O(n)` split points. The hash table determines whether a string appears in a given string list. It takes `O(1)` time, so the total time complexity is `O(n^2)`
 
 2. Space complexity: `O(n)`, where n is the length of the string s. 
+
+## DP + Matching 
+
+### [10. Regular Expression Matching](https://leetcode.com/problems/regular-expression-matching/solution/)
+
+Given an input string `s` and a pattern `p`, implement regular expression matching with support for `'.'` and `'*'` where:
+
+- `'.'` Matches any single character.
+- `'*'` Matches zero or more of the preceding element.
+
+The matching should cover the **entire** input string (not partial).
+
+**Example 1:**
+
+```
+Input: s = "aa", p = "a"
+Output: false
+Explanation: "a" does not match the entire string "aa".
+```
+
+
+
+#### [Approach 1: Recursion](https://www.youtube.com/watch?v=HAA8mgxlov8)
+
+**Intuition**
+
+1. `[ .* ]` can match any string of `S`
+
+2. This problem can be divided into two cases:
+
+   1. P has  `*` star:  there are two cases we need to process, **because `*` can match zero or more than once of  preceding element **
+
+      1. `*` match  zero element
+      2. `*` match more element
+
+      
+
+   2. P hasn't  `*` star:  For the no start case, the match will be simpler without Stars: For example, if we meet  `.`in `p`, we just need to skip it 
+
+
+
+3. So we can using Recursion to divide and  conquer this problem
+
+```python
+class Solution:
+    def isMatch(self, s: str, p: str) -> bool:
+        
+        # handle edge case
+        if not p: return not s
+        
+        # Case 1: No * --> p[0] == s[0] or ".", it means first Match successed 
+        firstMatch = bool(s and p[0] in {s[0],'.'})
+        
+        # Case 2:with * 
+        if len(p) > 1 and p[1] == "*":
+            # 1-> * makes the preceding element disappear(No matter the fistMatch successed)
+            # 2-> * matches more than once of preceding element (precondition: firstMatch successed)
+            return self.isMatch(s,p[2:]) or firstMatch and self.isMatch(s[1:],p)
+        else:
+            # no *, just match rest of String
+            return firstMatch and self.isMatch(s[1:],p[1:])
+        return True
+        
+```
+
+[**Complexity Analysis**:](https://leetcode.com/problems/regular-expression-matching/solution/)
+
+- Time Complexity:  Recursion will consumes lots of time, the upper Bound of  time complexity is `O((S+P)* 2^(S+P/2))`
+- Space Complexity:  Recursion also requires stack memory to execute, it will also take a total of `O((S+P)* 2^(S+P/2))`space
+
+#### Approach 2: Recursion+Memo
+
+**Intuition**
+
+1. we could optimize the recursion approach by introducing Memo ,How ?
+
+2. Using memo to memory the `SubString` of `S` and `T` we already visited, then we could reduce the running time (complexity) 
+
+   
+
+```python
+class Solution:
+    def isMatch(self, s: str, p: str) -> bool:
+        
+        # introduce memo
+        memo = dict()
+        
+        # handle edge case
+        if not p: return not s
+        
+        if (s,p) in memo:
+            return memo[(s,p)]
+        
+        # Case 1: No * --> p[0] == s[0] or ".", it means first Match successed 
+        firstMatch = bool(s and p[0] in {s[0],'.'})
+        
+        # Case 2:with * 
+        if len(p) > 1 and p[1] == "*":
+            # 1-> * makes the preceding element disappear
+            # 2-> * matches more than once of preceding element (precondition: firstMatch successed)
+            return self.isMatch(s,p[2:]) or firstMatch and self.isMatch(s[1:],p)
+        else:
+            # no *, just match rest of String
+            return firstMatch and self.isMatch(s[1:],p[1:])
+        # put the ans into Memo
+        memo[(s,p)] = ans
+        return ans
+        
+```
+
+[**Complexity Analysis**:](https://leetcode.com/problems/regular-expression-matching/solution/)
+
+- Time Complexity:  memo will  reduce the time consuming, the upper Bound of  time complexity is `O(SP)`
+- Space Complexity:  Recursion also requires stack memory to execute, it will also take a total of `O((S+P)* 2^(T+P/2))`space, and added the memo required Space
+
+#### Approach 3: DP
+
+**Intuition**
+
+1. Recursion with memo approach is not good enough in the space or time consuming  
+2. In Fact, most of Recursion problem can convert to Dynamic Programming , How ? 
+
+**Define DP table**
+
+1. every DP need to define the  meaning of DP table
+
+2. there are two Strings, so we need a **two-dimensional** array:
+   
+   `dp[i][j] = true` means  the subString of `S[0 to i-1]` and `P[0 to j-1]`is matched !
+
+3. and the details of code is **similar** to Recursion approach
+
+4. There are two direction to fill the Dp table :, *Top-Down Variation* 
+
+   1.  *Bottom-Up Variation* : the final answer is `dp[0][0]`
+   2.  *Top-Down Variation* : the final answer is `dp[end][end]`
+
+5. Using *Top-Down Variation* to implement the DP table
+
+   
+
+```python
+class Solution:
+    def isMatch(self, s: str, p: str) -> bool:
+        
+        # dp[i][j] == s[0 to i-1] match p[0 to j-1]
+        
+        # 1. define DP table : 2-dimention 
+        dp = [[False for _ in range(len(p)+1)] for _ in range(len(s)+1)]
+        
+        # 2. several intionlized steps
+        
+        # 2.1, fill the first grid 
+        dp[0][0] = True
+        
+        # 2.2 fill the fist row grid If could 
+        for j in range(1,len(p)+1):
+            
+            if p[j-1] == "*":
+                # if s == '',that means p mush to using * to disapper the preceding element
+                dp[0][j] = dp[0][j-2]
+            else:
+                dp[0][j] = False
+        
+        for i in range(1,len(s)+1):
+            for j in range(1,len(p)+1):
+                # case 1: no *
+                if s[i-1] == p[j-1] or p[j-1] == ".":
+                    dp[i][j] = dp[i-1][j-1]
+                
+                # case 2: with *
+                if p[j-1] == '*':
+                    # preceding element matched,then j backward 2 steps
+                    # '.' exist, then i backward 1 step
+                    if p[j-2] == s[i-1] or p[j-2] == '.':
+                        dp[i][j] = dp[i][j-2] or dp[i-1][j]
+                    else:
+                        # makes the preceding element disappear so j need to backward 2 steps
+                        dp[i][j] = dp[i][j-2]
+                
+        # 3. After filled all grid of Dp table From Top to Bottom
+        # dp(0,0) dp(0,1) ... dp(0,j)..  dp(0,len(p)+1)
+        # dp(1,0)
+        # ...
+        # dp(len(s)+1,0) ... ...         dp(-1,-1)
+        
+        return dp[-1][-1]
+
+```
+
+[**Complexity Analysis**:](https://leetcode.com/problems/regular-expression-matching/solution/)
+
+- Time Complexity:  O(SP), S= len(s), P = len(p)
+- Space Complexity:  O(SP), S= len(s), P = len(p)
+
+## DP + Puzzle
+
+
+

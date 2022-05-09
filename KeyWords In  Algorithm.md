@@ -1,8 +1,12 @@
 # KeyWords In  CS
 
-**Please sort alphabetically**
+> **Please sort alphabetically /  请按字母顺序排序**
 
-**请按字母顺序排序**
+## Reference
+
+[Symbols table in Chinese and English/常见符号表中英对照](https://www.gwduan.com/web/computer/languages/c/punctuation.html)
+
+[Math operation in Chinese and English/ 常见数学操作表对照表](https://zhuanlan.zhihu.com/p/136367900?ivk_sa=1024320u)
 
 ## Complexity Analysis Related
 
@@ -82,19 +86,23 @@
 
 28. remainder： 余数； 除法(fraction divide)的余数， also to destripe some things left
 
-29. shift every time : 每次更新
+29. Rounded up : 向上取整
 
-30. step forward : 前进一步
+    1. Round down:  向下取整
 
-31. subtract: 减去，代表完整的行为， minus 是 "-"这个symbol
+30. shift every time : 每次更新
 
-32. Sum of all unit: 所有单元和 
+31. step forward : 前进一步
 
-33. traverse the array : 遍历数组 = Scan through the array
+32. subtract: 减去，代表完整的行为， minus 是 "-"这个symbol
 
-34. Temporary variable： 临时变量
+33. Sum of all unit: 所有单元和 
 
-35. Visit each member/element : 访问每个成员
+34. traverse the array : 遍历数组 = Scan through the array
+
+35. Temporary variable： 临时变量
+
+36. Visit each member/element : 访问每个成员
 
     1. Scan each element: 扫描每个成员
 
@@ -115,6 +123,8 @@
 
 2. bit operation:   位运算
 
+2. divide and  conquer approach :  分治法
+
 3. *implicit* **LinkedList**.： 隐式链表
 
 4. monotonic stack:单调栈
@@ -123,6 +133,8 @@
 
 5. singly linked list ： 单链表
 
+   
+   
    
 
 
