@@ -27,6 +27,8 @@
 
 3. brackets：括号
 
+   1. parentheses ： 括弧
+
 4. backwards: 向后
 
    1. right pointer  goes backwards:  右指针反向走
@@ -37,72 +39,80 @@
 6. B is going be set to A： 把A赋值给B
    1. copy the value from A to B： 把A赋值给B
 
-7. declare a variable:  声明变量
+7. convergence： 收敛
 
-8. De-duplication:  去重
+8. declare a variable:  声明变量
 
-9. endless loops ：死循环
+9. De-duplication:  去重
 
-10. indentation : 缩进
+10. endless loops ：死循环
 
-11. If statements: if 语句(声明)， 
+11. indentation : 缩进
+
+12. If statements: if 语句(声明)， 
     1. the conditions of the first If statements / block：第一个if模块的条件
     1. **the else case = opposite case**  ，对else的情况/相反的情况
     1. we will do similary in the opposite case :  else的情况也是类似的做法
 
-12. initialize :  初始化
+13. initialize :  初始化
 
-13. inner loop: 两层循环
+14. inner loop: 两层循环
 
-14. infinite loop: 死循环
+15. infinite loop: 死循环
 
-15. increment ：递增，decrement ： 递减；  
+16. increment ：递增，decrement ： 递减；  
 
     1. pointer left  increment by one (step): 左指针加一
 
-16. interval: 区间
+17. interval: 区间
 
-17. Kind of  modified  A： A的变种版
+18. Kind of  modified  A： A的变种版
 
-18. loop : 循环
+19. loop : 循环
 
-19. loop stop executing: 循环停止
+20. loop stop executing: 循环停止
 
-20. moves one spot of head: 链表从头指针走一步
+21. moves one spot of head: 链表从头指针走一步
 
-21. moves the pointers inwards: 让两头指针向内走，让两头指针聚拢
+22. moves the pointers inwards: 让两头指针向内走，让两头指针聚拢
 
-22. Negate ： 取反
+23. Negate ： 取反
 
-23. non-null /nang nəl/ :非空
+24. non-null /nang nəl/ :非空
 
-24. Not simple and elegant enough：不够简洁优雅
+25. Not simple and elegant enough：不够简洁优雅
 
-25. odd： 奇数， even：偶数
+    1. Not the prettiest way to XX: 不是最优雅的方式
 
-26. one's places value： 每一位的值；eg：get one's places value `1， 2，3`  from  `123` 
+26. odd： 奇数， even：偶数
 
-27. priority：优先级 ；A has higher priority
+27. one's places value： 每一位的值；eg：get one's places value `1， 2，3`  from  `123` 
 
-28. remainder： 余数； 除法(fraction divide)的余数， also to destripe some things left
+28. priority：优先级 ；A has higher priority
 
-29. Rounded up : 向上取整
+29. precedence： 优先级； A has the highest precedence : A有最高有优先级
+
+30. remainder： 余数； 除法(fraction divide)的余数， also to destripe some things left
+
+31. Regular Expression: 正则表达式
+
+32. Rounded up : 向上取整
 
     1. Round down:  向下取整
 
-30. shift every time : 每次更新
+33. shift every time : 每次更新
 
-31. step forward : 前进一步
+34. step forward : 前进一步
 
-32. subtract: 减去，代表完整的行为， minus 是 "-"这个symbol
+35. subtract: 减去，代表完整的行为， minus 是 "-"这个symbol
 
-33. Sum of all unit: 所有单元和 
+36. Sum of all unit: 所有单元和 
 
-34. traverse the array : 遍历数组 = Scan through the array
+37. traverse the array : 遍历数组 = Scan through the array
 
-35. Temporary variable： 临时变量
+38. Temporary variable： 临时变量
 
-36. Visit each member/element : 访问每个成员
+39. Visit each member/element : 访问每个成员
 
     1. Scan each element: 扫描每个成员
 
@@ -127,7 +137,7 @@
 
 3. *implicit* **LinkedList**.： 隐式链表
 
-4. monotonic stack:单调栈
+4. monotonic stack: 单调栈
 
 4. Enumeration methods: 枚举法
 

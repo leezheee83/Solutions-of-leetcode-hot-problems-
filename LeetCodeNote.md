@@ -1963,8 +1963,8 @@ Explanation: "a" does not match the entire string "aa".
 
    1. P has  `*` star:  there are two cases we need to process, **because `*` can match zero or more than once of  preceding element **
 
-      1. `*` match  zero element
-      2. `*` match more element
+      1. `*` match  zero element (make the precding character repeated 0 times )
+      2. `*` match more element (make the precding character repeated mult-times, even infinite number of times)
 
       
 
@@ -2022,6 +2022,7 @@ class Solution:
         if not p: return not s
         
         if (s,p) in memo:
+            # using HashTable tp avoid the repeated works
             return memo[(s,p)]
         
         # Case 1: No * --> p[0] == s[0] or ".", it means first Match successed 
@@ -2069,6 +2070,14 @@ class Solution:
    2.  *Top-Down Variation* : the final answer is `dp[end][end]`
 
 5. Using *Top-Down Variation* to implement the DP table
+
+   ```text
+           After filled all grid of Dp table From Top to Bottom
+           # dp(0,0) dp(0,1) ... dp(0,j)..  dp(0,len(p)+1)
+           # dp(1,0)
+           # ...
+           # dp(len(s)+1,0) ... ...         dp(-1,-1)
+   ```
 
    
 
