@@ -508,509 +508,7 @@ public:
 
 
 
-## Sorting
-
-### [148 Sort List](https://leetcode.com/problems/sort-list/)
-
-Given the `head` of a linked list, return *the list after sorting it in **ascending order***.
-
-- The number of nodes in the list is in the range `[0, 5 * 104]`.
-- `-105 <= Node.val <= 105`
-
-#### solution 1 :  Copy To array->Sort Array
-
-somehow tricky. Extract all the element into an array, sort and then fill the values in the linkedlist.
-
-```python
-class Solution:
-    def sortList(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        arr, itr = [], head    # take an array to store all the extracted values
-        while itr:             # iterate and copy
-            arr.append(itr.val)    
-            itr = itr.next
-        arr.sort()             # sort it
-        itr, i = head, 0       # take i to traverse the array along with linked list
-				
-        while itr:             # fill the sorted values
-            itr.val = arr[i]  
-            i += 1
-            itr = itr.next
-        return head
-```
-
-Time Complexity: `O(NlogN)`
-Space Complexity: `O(N)`
-
-#### solution 2: merge Sort
-
-mergesort, could be devided into three subproblems:
-
-**1. Merge Sort an Array (Leetcode 912)** [Clickhere](https://leetcode.com/problems/sort-an-array/)
-**2. Middle of the Linked List( Leetcode 876)** [Clickhere](https://leetcode.com/problems/middle-of-the-linked-list/)
-**3. Merge Two Sorted Lists( Leetcode 21)** [Clickhere](https://leetcode.com/problems/merge-two-sorted-lists/)
-
-```python
-class Solution:
-    def getMid(self, head):            # we will be using two pointers
-        slow = fast = head             # what we want? Middle right, but we will stop the loop at one node before the middle
-        while fast and fast.next:      # try to think about odd and even length of the list to completely understand the while loop
-            fast = fast.next.next
-            if fast: slow = slow.next
-        mid, slow.next = slow.next, None   # assign None to the last node's next of left half, that is why we broke the loop one node before the middle.
-        return mid
-        
-    def merge(self, left, right):
-        head = prev = None    # taking prev pointers to point previous
-        while left and right:  
-		#Find the minimum value node and change its pointer to next accordingly
-            mini = right        
-            if left.val < right.val:
-                mini = left
-                left = left.next
-            else: right = right.next
-        
-            if not head: head = prev = mini      # if head is None assign the head
-            else: prev.next = prev = mini        # point the previous next and prev to minimum node just found
-        if left: prev.next = left                # adding the remainings of left, while loop could have stopped because of right
-        if right: prev.next = right              # adding the remainings of right, while loop could have stopped because of left
-        return head
-        
-    def sortList(self, head: Optional[ListNode]):
-        if not (head and head.next): return head     # if lesser than 2 element no need to divide
-        mid = self.getMid(head)                      # get the middle node
-        left = self.sortList(head)                   # further divide the left part list
-        right = self.sortList(mid)                   # further divide the right part of the list
-        return self.merge(left, right)               # merge the sorted lists
-```
-
-Time Complexity: `O(NlogN)`
-Space Complexity: O(N)
-
-## Sliding Window
-
-### [3. Longest Substring Without Repeating Characters](https://leetcode.com/problems/longest-substring-without-repeating-characters/)
-
-Given a string `s`, find the length of the **longest substring** without repeating characters.
-
-**Example 1:**
-
-```
-Input: s = "abcabcbb"
-Output: 3
-Explanation: The answer is "abc", with the length of 3.
-```
-
-**Example 2:**
-
-```
-Input: s = "bbbbb"
-Output: 1
-Explanation: The answer is "b", with the length of 1.
-```
-
-
-
-#### Approach 1: Brute Force
-
-**Intuition**
-
-Check all the substring one by one to see if it has no duplicate character.
-
-**Algorithm**
-
-1. iterate（Brute tranvers） through all the possible substrings of the given string `s`
-2.  To check one of the subStrings has duplicate characters or not, we can use a set
-
-**Complexity Analysis**
-
-Time complexity : `O(n^3)`.
-
-#### Approach 2: Sliding Window.
-
-**Intuition**
-
-1. The naive approach is very straightforward. But it is too slow. So how can we optimize it?
-
-2. if there exist a  `subString  S(i,j)`  respond to  the index `i`  to `j-1` and it is already checked to have no duplicate characters, we only need to check current character `S[j]` is already in `subString S[i,j]`  or not. 
-
-3. It`s easy to think about to use a Hash Set as a Sliding window,(Sliding  window reduce the Checking time cost to  `O(1)` )
-
-**Algorithm**
-
-1. Sliding window has two pointer, Left pointer .right pointer, 
-2. using this two point to maintain a `window [i,j) (left-closed, right-open).` 
-3. and hash Set can be the container of Sliding window
-
-```C++
-class Solution{
-public :
-    int lengthOfLongestSubstring(string s) {
-         // key=charters,value = the number of key
-        unordered_map<char,int> mp;
-        int res = 0, left = 0, right = 0;
-        
-        for( ;right < s.size(); ++right){
-            mp[s[right]]++;
-            // if find duplicate character, left move one step, window shrinked 
-            while( mp[s[right]] > 1){
-                mp[s[left]]--;
-                left++;
-            }
-            // after clean all duplicate  characters ,then cal the legth
-            res = max(res, right-left+1);
-        }
-      	
-        return res;
-    }
-};
-```
-
-**Complexity Analysis**
-
-- Time complexity : `O(2n) = O(n)`. In the worst case each character will be visited twice by i and j.
-- Space complexity : `O(min(m, n))`, Same as the previous approach. We need space for the sliding window, where k is the size of the `Set`. The size of the Set is upper bounded by the size of the string *n* and the size of the `charset` / alphabet `m`.
-
-
-
-### [209.  Minimum Size Subarray Sum](https://leetcode.com/problems/minimum-size-subarray-sum/)
-
-Given an array of positive integers `nums` and a positive integer `target`, return the minimal length of a **contiguous subarray** `[numsl, numsl+1, ..., numsr-1, numsr]` of which the sum is greater than or equal to `target`. If there is no such subarray, return `0` instead.
-
-**Example 1:**
-
-```tex
-Input: target = 7, nums = [2,3,1,2,4,3]
-Output: 2
-Explanation: The subarray [4,3] has the minimal length under the problem constraint.
-```
-
-#### Approach 1 Brute force : 
-
-**Intuition**
-
-Do as directed in question. Find the sum for all the possible subarrays and update the ans when we get a better subarray that fulfill the requirements$ (sum≥ target).$
-
-Time complexity: `O(n^3).`
-
-#### Approach 2: Sliding Window.
-
-**Intuition**
-
-1. Until now, we have kept the starting index of subarray fixed, and found the last position. Instead, we could move the starting index of the current subarray as soon as we know that no better could be done with this index as the starting index. 
-
-2. We could keep Sliding Window to cumulate the item sum , and make optimal moves so as to keep the sum greater than target as well as maintain the lowest size possible.
-
-**Algorithm**
-
-- **Algorithm**
-  - Initialize $ left$ pointer to 0 and $sum$ to 0
-  - Iterate over the $nums$
-    - Add $nums[i]$ to $sum$ ： add num to Window
-    - move windows to the end by giving rules 
-
-```c++
-int minSubArrayLen(int target, vector<int> &nums){
-    int ans = INT_MAX;
-    int left = 0, windowSum = 0;
-    for(int right =0; right < nums.size(); ++i){
-        windowSum += nums[right];
-        while (windowSum >= target){ 
-            ans = min(ans,right-left+1);
-            windowSum -= nums[left++];
-        }
-    }
-    return (ans != INT_MAX) ? ans : 0; 
-}
-```
-
-**Complexity analysis**
-
-- Time complexity: $O(N)$
-  - Each element can be visited at most twice, once by the right $pointer(i)$ and (at most) once by the $ left pointer$.
-- Space complexity: $O(1)$ extra space. Only constant space required. 
-
-
-
-### [76. Minimum Window Substring](https://leetcode-cn.com/problems/minimum-window-substring/)
-
-Given two strings s and t of lengths m and n respectively, return the minimum window substring of s such that every character in t (including duplicates) is included in the window. If there is no such substring, return the empty string "".
-
-The testcases will be generated such that the answer is unique.
-
-A substring is a contiguous sequence of characters within the string.
-
-**Example 1:**
-
-```
-Input: s = "ADOBECODEBANC", t = "ABC"
-Output: "BANC"
-Explanation: The minimum window substring "BANC" includes 'A', 'B', and 'C' from string t.
-```
-
-**Example 2:**
-
-```
-Input: s = "a", t = "a"
-Output: "a"
-Explanation: The entire string s is the minimum window
-```
-
-#### Approach:  sliding window + hash+ String Match+ Greedy
-
-**Intuition** 
-
-1. A **substring** is a contiguous sequence of characters within the string.
-2. We slide the window on `s(longer String)` expanding the window by moving the `right pointer.` When the window contains all the characters required by `t(shorter string)`, if it can be shrunk, we shrink the window until we get the smallest window.
-
-**Algorithm** :
-
-1. At the same time initialize the `left` and `right` pointer  point to index 0
-
-2. The `right pointer` move forward to the right until it matches `t`
-
-3. At this point, push the `left pointer` again to shrunk the window until it does not match
-
-4. `Right pointer` ends, then all is  end
-
-5. How to match `window` and `t` ?  
-
-   1. through The hash table counts the number of characters that appear (two counters: `window` `need`) 
-
-6. How to compare all matching substrings?
-
-   1. Greedy: use  `[start:end]` to save the shortest substring, and `min_len` to save the length of the shortest substring
-
-   
-
-```python
-class Solution:
-    def minWindow(self, s: str, t: str) -> str:
-        
-        window,need = dict(),dict()
-        for item in t:
-            need[item] =need.get(item,0) + 1
-
-        left = 0
-        res = ''
-        match,minlen = 0, float('INF')
-
-        for right in range(len(s)):
-            if s[right] in need:
-                window[s[right]] = window.get(s[right],0) + 1
-                if window[s[right]] == need[s[right]]: match += 1
-            
-            while len(need) == match:
-                if minlen > right-left:
-                    res = s[left:right+1]
-                    minlen = right-left
-                
-                if s[left] in need:
-                    window[s[left]] -= 1
-                    if window[s[left]] < need[s[left]]:
-                        match -= 1
-                left += 1
-        
-        return res
-```
-
-
-
-**Complexity analysis**
-
-- Time complexity: $O(N)$
-  - In the worst case, the `left` and `right` pointers traverse each element of `s` once. 
-  - In the hash table, each element in `s` is inserted and deleted once, and each element in `t` is inserted once. 
-  - Each check to see if it is feasible will traverse the hash table of the entire `t`. 
-  - The size of the hash table is related to the size of the character set. If the size of the character set is `C`, the asymptotic time complexity is `O(C⋅∣s∣+∣t∣).`.
-- Space complexity: 
-  - Two hash tables are used here as extra spaces. Each hash table will not store key-value pairs that exceed the character set size at most. We set the character set size to `C`, and the progressive space complexity is `O(C)`
-
-
-
-
-
-### [713  Subarray Product Less  Than K](https://leetcode.com/problems/subarray-product-less-than-k/)
-
-Given an array of integers `nums` and an integer `k`, return *the number of contiguous subarrays where the product of all the elements in the subarray is strictly less than* `k`.
-
-**Example 1:**
-
-```
-Input: nums = [10,5,2,6], k = 100
-Output: 8
-Explanation: The 8 subarrays that have product less than 100 are:
-[10], [5], [2], [6], [10, 5], [5, 2], [2, 6], [5, 2, 6]
-Note that [10, 5, 2] is not included as the product of 100 is not strictly less than k.
-```
-
-**Example 2:**
-
-```
-Input: nums = [1,2,3], k = 0
-Output: 0
-```
-
-#### Approach 1:  window+multiply
-
-**intuition**
-
-1. window is the interval `[left,right]`, product is the element-wise product of window
-
-```c
-int numSubarrayProductLessThanK(int* nums, int numsSize, int k){
-    int left = 0, right = 0, cnt = 0, product = 1;
-    while(right < numsSize){
-        product *= nums[right];
-        // subarray shrink until meet the < k requirement
-        while(product >= k && left <= right){
-            product /= nums[left++];
-        } 
-        // counting the subarrays starting with index left
-        //Say now we have {1,2,3} and add {4} into it. Apparently, the new subarray introduced here are:
-		//{1,2,3,4}, {2,3,4}, {3,4}, {4}, which is the number of elements in the new list.
-		//If we also remove some at the left, say we we remove 1, then subarrays are:
-		//{2,3,4}, {3,4}, {4}. It is easy to get the result is j - i + 1.
-        cnt += right - left + 1;
-        right++;
-    }
-    return cnt;
-}
-```
-
-- Time complexity: $O(N)$
-- Space complexity: $O(1)$ 
-
-## Linked List
-
-### [2. Add Two Numbers](https://leetcode.com/problems/add-two-numbers/) 
-
-You are given two **non-empty** linked lists representing two non-negative integers. The digits are stored in **reverse order**, and each of their nodes contains a single digit. Add the two numbers and return the sum as a linked list.
-
-You may assume the two numbers do not contain any leading zero, except the number 0 itself.
-
-```
-Input: l1 = [2,4,3], l2 = [5,6,4]
-Output: [7,0,8]
-Explanation: 342 + 465 = 807.
-```
-
-```
-Input: l1 = [0], l2 = [0]
-Output: [0]
-```
-
-#### **Solution 1:**  Linked Like Sum+two Pointers
-
-**EXPLANATION**
-
-- WE have to **Traverse Both Lists** & add **sum to new list**.
-- **Sum is equivalent to val1 + val2 + carry** from previous Operation.
-- The **resulting node** will be **sum%10.**
-- **Carry is updated** by **sum/10** for next `Opeartion`.
-
-Cost :  **Time Complexity** **O(n).** ,**Space Compelxity** **O(max(l1,l2))**
-
-```java
-class Solution {
-    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        ListNode dummy = new ListNode(0);
-        ListNode cur = dummy;
-        int carry = 0;
-        // traverse two linked list 
-        while (l1 != null || l2 != null || carry == 1){
-            int sum = 0;
-            if( l1 != null){
-                sum +=  l1.val;
-                l1 = l1.next;
-            }
-            
-            if(l2 != null){
-                sum += l2.val;
-                l2 = l2.next;
-            }
-            sum += carry;
-            carry = sum / 10; // divide 
-            ListNode node = new ListNode(sum % 10); // moduloing it 
-            cur.next = node;
-            cur = cur.next;
-        }
-        return dummy.next;
-    }
-}
-```
-
-### [19. **Remove Nth Node From End of List**](https://leetcode.com/problems/remove-nth-node-from-end-of-list/)
-
-#### solution 1 : ArrayCount
-
-1. get the size of the linked list by walking through entire list.
-2. Do `size - n - 1` to see how many steps we need to take before retrive the node we about to remove
-3. Walk that many steps and remove the node.
-4. Return the head of the list.
-
-```python
-class Solution {
-    public ListNode removeNthFromEnd(ListNode head, int n) {
-        int size = length_of(head);
-        if (n == size) {
-            return head.next;
-        } else {
-            int steps = size - n - 1;
-            ListNode node = head;
-            while (steps-- > 0) {
-                node = node.next;
-            }
-            node.next = node.next.next; // remove node
-            return head;
-        }
-    }
-
-    private int length_of(ListNode head) {
-        ListNode n = head;
-        int size = 0;
-        while (n != null) {
-            size++;
-            n = n.next;
-        }
-        return size;
-    }
-}
-```
-
-#### solution 2: Fast-slow pointer (Folyd's Cycle Finding)
-
-fast & slow pointer
-
-1. We will have two pointers which will iterate over the linked list say fast and slow both initalized with head means pointing to the first node.
-
-2. Now we will move the fast pointer to the number specified i.e, if we need to remove the last 2nd node then our fast node must be at last node and slow node must be just before deleting node and if we observe there the difference between both pointer will be of that N node.
-
-   So, Idea is to move the fast pointer N times ahead than slow and then after move both pointer by one till fast reaches last node.
-
-3. Once fast pointer reaches last node we will update the next filed of the node at which slow is pointing.
-
-4. After hat we will free up the space of that deleted node bu making it reference to None to avoid dangling pointer.
-
-5. Then we will return the head pointer.
-
-```python
-class Solution:
-    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
-        LengthOfList = 0
-        fast = slow = head
-        for i in range (n):
-            fast = fast.next
-        if not fast:
-            return head.next
-        else:
-            while(fast.next):
-                fast = fast.next
-                slow = slow.next
-            DeletedNodePointer = slow.next
-            slow.next = slow.next.next
-            DeletedNodePointer.next = None #Removing dangling pointer
-            return (head)
-```
+## Backtracing
 
 ## Binary Search
 
@@ -1266,6 +764,7 @@ class Solution {
 ```
 
 ### [153. Find Minimum in Rotated Sorted Array](https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/)
+
 Suppose an array of length `n` sorted in ascending order is **rotated** between `1` and `n` times. For example, the array `nums = [0,1,2,4,5,6,7]` might become:
 
 - `[4,5,6,7,0,1,2]` if it was rotated `4` times.
@@ -1292,6 +791,7 @@ Explanation: The original array was [1,2,3,4,5] rotated 3 times.
  - the Minimum is the division point of the input array. it means that the `nums[m+1]> nums[m]` and `nums[m-1] > nums[m]`.
  - using two pointer to cut half of the input array.
  - the input array is divised by two sort array.
+
 ``` c++
 class Solution {
 public:
@@ -1312,7 +812,9 @@ public:
     }
 };
 ```
+
 ### [240. Search a 2D Matrix II](https://leetcode.com/problems/search-a-2d-matrix-ii/)
+
 Write an efficient algorithm that searches for a value target in an `m x n` integer matrix matrix. This matrix has the following properties:
 
 - Integers in each row are sorted in ascending from left to right.
@@ -1335,7 +837,7 @@ In this problem , we should focus two details:
 
 -   it is not absolutely ordered .it is relatively ordered.
 -   how to find the division point in the `2d` matrix
-So the points are :
+    So the points are :
 -   The top left element is the relative (abstract) middle value of `2d` matrix .
 -   abstract binary searching is to move column and line step by step
 
@@ -1360,6 +862,10 @@ public:
     }
 };
 ```
+
+## 
+
+
 
 ## Fast Slow  Pointers: Floyd's Cycle-Finding 
 
@@ -1515,7 +1021,7 @@ Explanation:
 3. Now the problem turns into how to judge the linked list has a cycle
 
 4. 1.  Floyd Cycle-Finding Algorithm ( `Fast Slow pointers`)： If `n` *is* a happy number, there is no cycle, then  eventually  the pointer cat get to 1
-   2. using hash set to record whether the element has been visited
+   2.  using hash set to record whether the element has been visited
 
 ```Python
 class Solution:
@@ -1608,6 +1114,510 @@ public:
 ```
 
 
+
+
+
+## Linked List
+
+### [2. Add Two Numbers](https://leetcode.com/problems/add-two-numbers/) 
+
+You are given two **non-empty** linked lists representing two non-negative integers. The digits are stored in **reverse order**, and each of their nodes contains a single digit. Add the two numbers and return the sum as a linked list.
+
+You may assume the two numbers do not contain any leading zero, except the number 0 itself.
+
+```
+Input: l1 = [2,4,3], l2 = [5,6,4]
+Output: [7,0,8]
+Explanation: 342 + 465 = 807.
+```
+
+```
+Input: l1 = [0], l2 = [0]
+Output: [0]
+```
+
+#### **Solution 1:**  Linked Like Sum+two Pointers
+
+**EXPLANATION**
+
+- WE have to **Traverse Both Lists** & add **sum to new list**.
+- **Sum is equivalent to val1 + val2 + carry** from previous Operation.
+- The **resulting node** will be **sum%10.**
+- **Carry is updated** by **sum/10** for next `Opeartion`.
+
+Cost :  **Time Complexity** **O(n).** ,**Space Compelxity** **O(max(l1,l2))**
+
+```java
+class Solution {
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        ListNode dummy = new ListNode(0);
+        ListNode cur = dummy;
+        int carry = 0;
+        // traverse two linked list 
+        while (l1 != null || l2 != null || carry == 1){
+            int sum = 0;
+            if( l1 != null){
+                sum +=  l1.val;
+                l1 = l1.next;
+            }
+            
+            if(l2 != null){
+                sum += l2.val;
+                l2 = l2.next;
+            }
+            sum += carry;
+            carry = sum / 10; // divide 
+            ListNode node = new ListNode(sum % 10); // moduloing it 
+            cur.next = node;
+            cur = cur.next;
+        }
+        return dummy.next;
+    }
+}
+```
+
+### [19. **Remove Nth Node From End of List**](https://leetcode.com/problems/remove-nth-node-from-end-of-list/)
+
+#### solution 1 : ArrayCount
+
+1. get the size of the linked list by walking through entire list.
+2. Do `size - n - 1` to see how many steps we need to take before retrive the node we about to remove
+3. Walk that many steps and remove the node.
+4. Return the head of the list.
+
+```python
+class Solution {
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        int size = length_of(head);
+        if (n == size) {
+            return head.next;
+        } else {
+            int steps = size - n - 1;
+            ListNode node = head;
+            while (steps-- > 0) {
+                node = node.next;
+            }
+            node.next = node.next.next; // remove node
+            return head;
+        }
+    }
+
+    private int length_of(ListNode head) {
+        ListNode n = head;
+        int size = 0;
+        while (n != null) {
+            size++;
+            n = n.next;
+        }
+        return size;
+    }
+}
+```
+
+#### solution 2: Fast-slow pointer (Folyd's Cycle Finding)
+
+fast & slow pointer
+
+1. We will have two pointers which will iterate over the linked list say fast and slow both initalized with head means pointing to the first node.
+
+2. Now we will move the fast pointer to the number specified i.e, if we need to remove the last 2nd node then our fast node must be at last node and slow node must be just before deleting node and if we observe there the difference between both pointer will be of that N node.
+
+   So, Idea is to move the fast pointer N times ahead than slow and then after move both pointer by one till fast reaches last node.
+
+3. Once fast pointer reaches last node we will update the next filed of the node at which slow is pointing.
+
+4. After hat we will free up the space of that deleted node bu making it reference to None to avoid dangling pointer.
+
+5. Then we will return the head pointer.
+
+```python
+class Solution:
+    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
+        LengthOfList = 0
+        fast = slow = head
+        for i in range (n):
+            fast = fast.next
+        if not fast:
+            return head.next
+        else:
+            while(fast.next):
+                fast = fast.next
+                slow = slow.next
+            DeletedNodePointer = slow.next
+            slow.next = slow.next.next
+            DeletedNodePointer.next = None #Removing dangling pointer
+            return (head)
+```
+
+
+
+## Sliding Window
+
+### [3. Longest Substring Without Repeating Characters](https://leetcode.com/problems/longest-substring-without-repeating-characters/)
+
+Given a string `s`, find the length of the **longest substring** without repeating characters.
+
+**Example 1:**
+
+```
+Input: s = "abcabcbb"
+Output: 3
+Explanation: The answer is "abc", with the length of 3.
+```
+
+**Example 2:**
+
+```
+Input: s = "bbbbb"
+Output: 1
+Explanation: The answer is "b", with the length of 1.
+```
+
+
+
+#### Approach 1: Brute Force
+
+**Intuition**
+
+Check all the substring one by one to see if it has no duplicate character.
+
+**Algorithm**
+
+1. iterate（Brute tranvers） through all the possible substrings of the given string `s`
+2. To check one of the subStrings has duplicate characters or not, we can use a set
+
+**Complexity Analysis**
+
+Time complexity : `O(n^3)`.
+
+#### Approach 2: Sliding Window.
+
+**Intuition**
+
+1. The naive approach is very straightforward. But it is too slow. So how can we optimize it?
+
+2. if there exist a  `subString  S(i,j)`  respond to  the index `i`  to `j-1` and it is already checked to have no duplicate characters, we only need to check current character `S[j]` is already in `subString S[i,j]`  or not. 
+
+3. It`s easy to think about to use a Hash Set as a Sliding window,(Sliding  window reduce the Checking time cost to  `O(1)` )
+
+**Algorithm**
+
+1. Sliding window has two pointer, Left pointer .right pointer, 
+2. using this two point to maintain a `window [i,j) (left-closed, right-open).` 
+3. and hash Set can be the container of Sliding window
+
+```C++
+class Solution{
+public :
+    int lengthOfLongestSubstring(string s) {
+         // key=charters,value = the number of key
+        unordered_map<char,int> mp;
+        int res = 0, left = 0, right = 0;
+        
+        for( ;right < s.size(); ++right){
+            mp[s[right]]++;
+            // if find duplicate character, left move one step, window shrinked 
+            while( mp[s[right]] > 1){
+                mp[s[left]]--;
+                left++;
+            }
+            // after clean all duplicate  characters ,then cal the legth
+            res = max(res, right-left+1);
+        }
+      	
+        return res;
+    }
+};
+```
+
+**Complexity Analysis**
+
+- Time complexity : `O(2n) = O(n)`. In the worst case each character will be visited twice by i and j.
+- Space complexity : `O(min(m, n))`, Same as the previous approach. We need space for the sliding window, where k is the size of the `Set`. The size of the Set is upper bounded by the size of the string *n* and the size of the `charset` / alphabet `m`.
+
+
+
+### [209.  Minimum Size Subarray Sum](https://leetcode.com/problems/minimum-size-subarray-sum/)
+
+Given an array of positive integers `nums` and a positive integer `target`, return the minimal length of a **contiguous subarray** `[numsl, numsl+1, ..., numsr-1, numsr]` of which the sum is greater than or equal to `target`. If there is no such subarray, return `0` instead.
+
+**Example 1:**
+
+```tex
+Input: target = 7, nums = [2,3,1,2,4,3]
+Output: 2
+Explanation: The subarray [4,3] has the minimal length under the problem constraint.
+```
+
+#### Approach 1 Brute force : 
+
+**Intuition**
+
+Do as directed in question. Find the sum for all the possible subarrays and update the ans when we get a better subarray that fulfill the requirements$ (sum≥ target).$
+
+Time complexity: `O(n^3).`
+
+#### Approach 2: Sliding Window.
+
+**Intuition**
+
+1. Until now, we have kept the starting index of subarray fixed, and found the last position. Instead, we could move the starting index of the current subarray as soon as we know that no better could be done with this index as the starting index. 
+
+2. We could keep Sliding Window to cumulate the item sum , and make optimal moves so as to keep the sum greater than target as well as maintain the lowest size possible.
+
+**Algorithm**
+
+- **Algorithm**
+  - Initialize $ left$ pointer to 0 and $sum$ to 0
+  - Iterate over the $nums$
+    - Add $nums[i]$ to $sum$ ： add num to Window
+    - move windows to the end by giving rules 
+
+```c++
+int minSubArrayLen(int target, vector<int> &nums){
+    int ans = INT_MAX;
+    int left = 0, windowSum = 0;
+    for(int right =0; right < nums.size(); ++i){
+        windowSum += nums[right];
+        while (windowSum >= target){ 
+            ans = min(ans,right-left+1);
+            windowSum -= nums[left++];
+        }
+    }
+    return (ans != INT_MAX) ? ans : 0; 
+}
+```
+
+**Complexity analysis**
+
+- Time complexity: $O(N)$
+  - Each element can be visited at most twice, once by the right $pointer(i)$ and (at most) once by the $ left pointer$.
+- Space complexity: $O(1)$ extra space. Only constant space required. 
+
+
+
+### [76. Minimum Window Substring](https://leetcode-cn.com/problems/minimum-window-substring/)
+
+Given two strings s and t of lengths m and n respectively, return the minimum window substring of s such that every character in t (including duplicates) is included in the window. If there is no such substring, return the empty string "".
+
+The testcases will be generated such that the answer is unique.
+
+A substring is a contiguous sequence of characters within the string.
+
+**Example 1:**
+
+```
+Input: s = "ADOBECODEBANC", t = "ABC"
+Output: "BANC"
+Explanation: The minimum window substring "BANC" includes 'A', 'B', and 'C' from string t.
+```
+
+**Example 2:**
+
+```
+Input: s = "a", t = "a"
+Output: "a"
+Explanation: The entire string s is the minimum window
+```
+
+#### Approach:  sliding window + hash+ String Match+ Greedy
+
+**Intuition** 
+
+1. A **substring** is a contiguous sequence of characters within the string.
+2. We slide the window on `s(longer String)` expanding the window by moving the `right pointer.` When the window contains all the characters required by `t(shorter string)`, if it can be shrunk, we shrink the window until we get the smallest window.
+
+**Algorithm** :
+
+1. At the same time initialize the `left` and `right` pointer  point to index 0
+
+2. The `right pointer` move forward to the right until it matches `t`
+
+3. At this point, push the `left pointer` again to shrunk the window until it does not match
+
+4. `Right pointer` ends, then all is  end
+
+5. How to match `window` and `t` ?  
+
+   1. through The hash table counts the number of characters that appear (two counters: `window` `need`) 
+
+6. How to compare all matching substrings?
+
+   1. Greedy: use  `[start:end]` to save the shortest substring, and `min_len` to save the length of the shortest substring
+
+   
+
+```python
+class Solution:
+    def minWindow(self, s: str, t: str) -> str:
+        
+        window,need = dict(),dict()
+        for item in t:
+            need[item] =need.get(item,0) + 1
+
+        left = 0
+        res = ''
+        match,minlen = 0, float('INF')
+
+        for right in range(len(s)):
+            if s[right] in need:
+                window[s[right]] = window.get(s[right],0) + 1
+                if window[s[right]] == need[s[right]]: match += 1
+            
+            while len(need) == match:
+                if minlen > right-left:
+                    res = s[left:right+1]
+                    minlen = right-left
+                
+                if s[left] in need:
+                    window[s[left]] -= 1
+                    if window[s[left]] < need[s[left]]:
+                        match -= 1
+                left += 1
+        
+        return res
+```
+
+
+
+**Complexity analysis**
+
+- Time complexity: $O(N)$
+  - In the worst case, the `left` and `right` pointers traverse each element of `s` once. 
+  - In the hash table, each element in `s` is inserted and deleted once, and each element in `t` is inserted once. 
+  - Each check to see if it is feasible will traverse the hash table of the entire `t`. 
+  - The size of the hash table is related to the size of the character set. If the size of the character set is `C`, the asymptotic time complexity is `O(C⋅∣s∣+∣t∣).`.
+- Space complexity: 
+  - Two hash tables are used here as extra spaces. Each hash table will not store key-value pairs that exceed the character set size at most. We set the character set size to `C`, and the progressive space complexity is `O(C)`
+
+### [713  Subarray Product Less  Than K](https://leetcode.com/problems/subarray-product-less-than-k/)
+
+Given an array of integers `nums` and an integer `k`, return *the number of contiguous subarrays where the product of all the elements in the subarray is strictly less than* `k`.
+
+**Example 1:**
+
+```
+Input: nums = [10,5,2,6], k = 100
+Output: 8
+Explanation: The 8 subarrays that have product less than 100 are:
+[10], [5], [2], [6], [10, 5], [5, 2], [2, 6], [5, 2, 6]
+Note that [10, 5, 2] is not included as the product of 100 is not strictly less than k.
+```
+
+**Example 2:**
+
+```
+Input: nums = [1,2,3], k = 0
+Output: 0
+```
+
+#### Approach 1:  window+multiply
+
+**intuition**
+
+1. window is the interval `[left,right]`, product is the element-wise product of window
+
+```c
+int numSubarrayProductLessThanK(int* nums, int numsSize, int k){
+    int left = 0, right = 0, cnt = 0, product = 1;
+    while(right < numsSize){
+        product *= nums[right];
+        // subarray shrink until meet the < k requirement
+        while(product >= k && left <= right){
+            product /= nums[left++];
+        } 
+        // counting the subarrays starting with index left
+        //Say now we have {1,2,3} and add {4} into it. Apparently, the new subarray introduced here are:
+		//{1,2,3,4}, {2,3,4}, {3,4}, {4}, which is the number of elements in the new list.
+		//If we also remove some at the left, say we we remove 1, then subarrays are:
+		//{2,3,4}, {3,4}, {4}. It is easy to get the result is j - i + 1.
+        cnt += right - left + 1;
+        right++;
+    }
+    return cnt;
+}
+```
+
+- Time complexity: $O(N)$
+- Space complexity: $O(1)$ 
+
+## Sorting
+
+### [148 Sort List](https://leetcode.com/problems/sort-list/)
+
+Given the `head` of a linked list, return *the list after sorting it in **ascending order***.
+
+- The number of nodes in the list is in the range `[0, 5 * 104]`.
+- `-105 <= Node.val <= 105`
+
+#### solution 1 :  Copy To array->Sort Array
+
+somehow tricky. Extract all the element into an array, sort and then fill the values in the linkedlist.
+
+```python
+class Solution:
+    def sortList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        arr, itr = [], head    # take an array to store all the extracted values
+        while itr:             # iterate and copy
+            arr.append(itr.val)    
+            itr = itr.next
+        arr.sort()             # sort it
+        itr, i = head, 0       # take i to traverse the array along with linked list
+				
+        while itr:             # fill the sorted values
+            itr.val = arr[i]  
+            i += 1
+            itr = itr.next
+        return head
+```
+
+Time Complexity: `O(NlogN)`
+Space Complexity: `O(N)`
+
+#### solution 2: merge Sort
+
+mergesort, could be devided into three subproblems:
+
+**1. Merge Sort an Array (Leetcode 912)** [Clickhere](https://leetcode.com/problems/sort-an-array/)
+**2. Middle of the Linked List( Leetcode 876)** [Clickhere](https://leetcode.com/problems/middle-of-the-linked-list/)
+**3. Merge Two Sorted Lists( Leetcode 21)** [Clickhere](https://leetcode.com/problems/merge-two-sorted-lists/)
+
+```python
+class Solution:
+    def getMid(self, head):            # we will be using two pointers
+        slow = fast = head             # what we want? Middle right, but we will stop the loop at one node before the middle
+        while fast and fast.next:      # try to think about odd and even length of the list to completely understand the while loop
+            fast = fast.next.next
+            if fast: slow = slow.next
+        mid, slow.next = slow.next, None   # assign None to the last node's next of left half, that is why we broke the loop one node before the middle.
+        return mid
+        
+    def merge(self, left, right):
+        head = prev = None    # taking prev pointers to point previous
+        while left and right:  
+		#Find the minimum value node and change its pointer to next accordingly
+            mini = right        
+            if left.val < right.val:
+                mini = left
+                left = left.next
+            else: right = right.next
+        
+            if not head: head = prev = mini      # if head is None assign the head
+            else: prev.next = prev = mini        # point the previous next and prev to minimum node just found
+        if left: prev.next = left                # adding the remainings of left, while loop could have stopped because of right
+        if right: prev.next = right              # adding the remainings of right, while loop could have stopped because of left
+        return head
+        
+    def sortList(self, head: Optional[ListNode]):
+        if not (head and head.next): return head     # if lesser than 2 element no need to divide
+        mid = self.getMid(head)                      # get the middle node
+        left = self.sortList(head)                   # further divide the left part list
+        right = self.sortList(mid)                   # further divide the right part of the list
+        return self.merge(left, right)               # merge the sorted lists
+```
+
+Time Complexity: `O(NlogN)`
+Space Complexity: O(N)
 
 
 
@@ -1990,7 +2000,7 @@ public:
 
 
 
-## Backtracing
+## 
 
 # Dynamic Programming
 
