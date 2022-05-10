@@ -1,6 +1,23 @@
 # LeetCode Note
 
+## Rules For added Problems and Explanations
 
+1. Problem Title MUST fill a **LeetCode link**
+
+2. Problem description MUST add a **text** or **picture** **example**(if you could)
+
+3. the Answer should include series of Steps 
+   - **Approach**: key Words for solving current problems (add **VIDEO** explanation if need)
+     - **Intuition** : explanation for problems and ideas of solution to be used (please **NUMBER** each sentence )
+     - **Algorithm** **steps** (if need)
+     - **Code**: please add the NOTES
+     - **Complexity Analysis** (if need)
+
+4. Dedicated letters and formulas: such as `O(N)` or variable: `str` , please using **`ctrl + shift + ` ` to format it** 
+
+   - Such as:  `leftPointer` , `nums[a] > nums[b]`
+
+   
 
 ## Array & HashMap
 
@@ -17,6 +34,8 @@ Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
 ```
 
 #### **Solution 1:**   Brute Force
+
+**intuition**
 
 Do not using hashMap,   Force to sort and using two points, the time complexity is high(O^2), And it cost O(1) Space 
 
@@ -40,9 +59,11 @@ class Solution {
 
 #### **Solution 2:** Hash
 
- using a HashMap (map in C++, dict in python) , to store the numbers, the time complexity  of finding  "target - x"  can be reduced from O(N) to O(1) .  for each x, we first query the hash table to see if  "target - x" exists, and then insert x into the hash table to ensure that x does not match itself 
+**intuition**
 
-**Cost**:  time: O(N), space; O(N), N is the length of nums
+ using a `HashMap` (map in C++, dict in python) , to store the numbers, the time complexity  of finding  "target - x"  can be reduced from `O(N) to O(1)` .  for each x, we first query the hash table to see if  "target - x" exists, and then insert x into the hash table to ensure that x does not match itself 
+
+**Cost**:  time: `O(N)`, space; `O(N)`, N is the length of `nums`
 
 ```kotlin
 class Solution {
@@ -79,6 +100,8 @@ Output: 2
 
 #### **Solution 1:**  cumulative sum+hash
 
+**intuition**
+
 1. there`s has other time-consuming, so I prefer to use Hash Map to deal this 
 
 2. we can follow the  cumulative sum of all nums elemens,  until we find 
@@ -88,13 +111,13 @@ Output: 2
     the sum of elements lying between indices i and *j* is k
 
 3. Based on these thoughts, we make use of a hashmap  which is used to store the cumulative sum item
-4.  Every time we encounter a new sum, we make a new entry in the hashmap corresponding to that sum, If the same sum item occurs again, we increment the count corresponding to that sum in the hashmap
-5. we counted the number of occurrences of [sum-k], that means we alse get the number of times a subarray with sum k, because  *sum - (sum -k) = k*
+4.  Every time we encounter a new sum, we make a new entry in the `hashmap` corresponding to that sum, If the same sum item occurs again, we increment the count corresponding to that sum in the `hashmap`
+5. we counted the number of occurrences of [sum-k], that means we also get the number of times a `subarray` with sum k, because  *`sum - (sum -k) = k`*
 
 **Complexity Analysis**
 
 - Time complexity : *O*(*n*). The entire n**u**ms array is traversed only once.
-- Space complexity : O(n). Hashmap can contain up to n distinct entries in the worst case.
+- Space complexity : `O(n)`. `Hashmap` can contain up to n distinct entries in the worst case.
 
 ```java
 class Solution {
@@ -146,19 +169,19 @@ It turns out that our initial brute force solution was on the right track, but m
 
 **Algorithm**
 
-This optimized algorithm contains only two changes from the brute force approach: 1. the numbers are stored in a `HashSet` (or `Set`, in Python) to allow O(1) lookups, and we only attempt to build sequences from numbers that are not already part of a longer sequence.
-
-2. This is accomplished by first ensuring that the number that would immediately precede the current number in a sequence is not present, as that number would necessarily be part of a longer sequence.
+1. This optimized algorithm contains only two changes from the brute force approach:
+2.  the numbers are stored in a `HashSet` (or `Set`, in Python) to allow O(1) lookups, and we only attempt to build sequences from numbers that are not already part of a longer sequence.
+3. This is accomplished by first ensuring that the number that would immediately precede the current number in a sequence is not present, as that number would necessarily be part of a longer sequence.
 
 **Complexity Analysis**
 
 - Time complexity : *O*(*n*).
 
-  Although the time complexity appears to be quadratic due to the `while` loop nested within the `for` loop, closer inspection reveals it to be linear. Because the `while` loop is reached only when `currentNum` marks the beginning of a sequence (i.e. `currentNum-1` is not present in `nums`), the `while` loop can only run for n iterations throughout the entire runtime of the algorithm. This means that despite looking like O*(*n*⋅*n*) complexity, the nested loops actually run in O(n + n) = O(n)* time. All other computations occur in constant time, so the overall runtime is linear.
+  Although the time complexity appears to be quadratic due to the `while` loop nested within the `for` loop, closer inspection reveals it to be linear. Because the `while` loop is reached only when `currentNum` marks the beginning of a sequence (i.e. `currentNum-1` is not present in `nums`), the `while` loop can only run for n iterations throughout the entire runtime of the algorithm. This means that despite looking like O*(*n*⋅*n*) complexity, the nested loops actually run in `O(n + n) = O(n)`* time. All other computations occur in constant time, so the overall runtime is linear.
 
 - Space complexity : *O*(*n*).
 
-  In order to set up O(1) containment lookups, we allocate linear space for a hash table to store the O(n)  numbers in `nums`. Other than that, the space complexity is identical to that of the brute force solution.
+  In order to set up `O(1)` containment lookups, we allocate linear space for a hash table to store the `O(n)`  numbers in `nums`. Other than that, the space complexity is identical to that of the brute force solution.
 
 ```Java
 class Solution {
@@ -215,14 +238,14 @@ Two strings are anagrams if and only if their sorted strings are equal.
 
 **Algorithm**
 
-Maintain a map `ans : {String -> List}` where each key \text{K}K is a sorted string, and each value is the list of strings from the initial input that when sorted, are equal to \text{K}K.
+Maintain a map `ans : {String -> List}` where each key \text{K}K is a sorted string, and each value is the list of strings from the initial input that when sorted, are equal to `K`.
 
 In Java, we will store the key as a string, eg. `code`. In Python, we will store the key as a hashable tuple, eg. `('c', 'o', 'd', 'e')`.
 
 **Complexity Analysis**
 
-- Time Complexity: O(NK log K) where *N* is the length of `strs`, and *K* is the maximum length of a string in `strs`. The outer loop has complexity *O*(*N*) as we iterate through each string. Then, we sort each string inO*(*K*log*K*) time.
-- Space Complexity: O(NK) the total information content stored in`ans`.
+- Time Complexity: `O(NK log K)` where *N* is the length of `strs`, and *K* is the maximum length of a string in `strs`. The outer loop has complexity *O*(*N*) as we iterate through each string. Then, we sort each string in`O(KlogK)` time.
+- Space Complexity: `O(NK)` the total information content stored in`ans`.
 
 ```Java
 class Solution {
@@ -249,7 +272,7 @@ class Solution {
 
 #### solution 2: hash
 
-in the solution 1, if one String element is so long,  that will be very time Consuming , so we using character counts  to be the Keys in HashMap
+in the solution 1, if one String element is so long,  that will be very time Consuming , so we using character counts  to be the Keys in `HashMap`
 
 **Intuition**
 
@@ -261,8 +284,8 @@ We can transform each string s into a character count List, the  Count List cons
 
 **Complexity Analysis**
 
-- Time Complexity: O(NK), where N is the length of  giving  strs List, and K is the maximum length of a element in `strs`. Counting each string is linear in the size of the string, and we count every string.
-- Space Complexity: O(NK), the total information content stored in `ans`.
+- Time Complexity: `O(NK)`, where N is the length of  giving  `strs` List, and `K` is the maximum length of a element in `strs`. Counting each string is linear in the size of the string, and we count every string.
+- Space Complexity: `O(NK)`, the total information content stored in `ans`.
 
 ```python
 class Solution(object):
@@ -340,8 +363,8 @@ public:
 
 **Complexity Analysis**
 
-- Time complexity : *O*(*n*). The entire n**u**ms array is traversed only once.
-- Space complexity : O(1).  uses only constant extra space. 
+- Time complexity : `O(n)`. The entire n**u**ms array is traversed only once.
+- Space complexity : `O(1)`.  uses only constant extra space. 
 
 
 
@@ -381,7 +404,7 @@ Output: [10]
    1. one particular letter in one particular part, we split it after the last occurance of any letter we visited
    2. split String as many parts as possible 
 2.  Find the last occurrence of any letter in every part/splits,  for letter `a` The first partition must include it, and also the last occurrence of `a`
-3. HashMap:  to count the occurrence of letters 
+3. `HashMap`:  to count the occurrence of letters 
 4. Greedy Algorithm could make sure two things : 
    1. find the longest part/split
    2. find as many parts as possible
@@ -413,8 +436,8 @@ vector<int> ans;
 
 **Complexity Analysis**
 
-- Time Complexity: *O*(*N*), where *N* is the length of *S*.
-- Space Complexity: *O*(1) . For  keep data structure `lastMap` which is not more than 26 characters.
+- Time Complexity: `*O*(*N*)`, where *`N`* is the length of *`S`*.
+- Space Complexity: `*O*(1)` . For  keep data structure `lastMap` which is not more than 26 characters.
 
 ### [41. First Missing Positive](https://leetcode.com/problems/first-missing-positive/)
 
@@ -442,7 +465,7 @@ Output: 2
 
 **Intuition**：
 
-1. It's easy to think of **sorting** array to find the first missing positive value, but sorting would bring `N*LogN`  time Complexity, we're allow to run in `O(n)` time  and constant extra space (Cannot use HashSet), **that's why it's a Hard level problem**
+1. It's easy to think of **sorting** array to find the first missing positive value, but sorting would bring `N*LogN`  time Complexity, we're allow to run in `O(n)` time  and constant extra space (Cannot use `HashSet`), **that's why it's a Hard level problem**
 2. no matter what our input array is, no matter what the smallest missing positive value is,  the answer integer n should belong to the set `from 1 to length(array) + 1`, `which n between [1, length(array) + 1]`
 3. if we have a Hash Set to memory each value. The we could  just brute force to go through all of these values,  try each of them is right
 4. we can using some tricks to rebulid the giving array as our Hash Set, so it's not need extra space： 
@@ -515,8 +538,8 @@ class Solution:
         return head
 ```
 
-Time Complexity: O(NlogN)
-Space Complexity: O(N)
+Time Complexity: `O(NlogN)`
+Space Complexity: `O(N)`
 
 #### solution 2: merge Sort
 
@@ -560,7 +583,7 @@ class Solution:
         return self.merge(left, right)               # merge the sorted lists
 ```
 
-Time Complexity: O(NlogN)
+Time Complexity: `O(NlogN)`
 Space Complexity: O(N)
 
 ## Sliding Window
@@ -600,23 +623,23 @@ Check all the substring one by one to see if it has no duplicate character.
 
 **Complexity Analysis**
 
-Time complexity : O*(*n*3).
+Time complexity : `O(n^3)`.
 
 #### Approach 2: Sliding Window.
 
 **Intuition**
 
-The naive approach is very straightforward. But it is too slow. So how can we optimize it?
+1. The naive approach is very straightforward. But it is too slow. So how can we optimize it?
 
-if there exist a  subString  S(i,j)  respond to  the index i  to j-1 and it is already checked to have no duplicate characters, we only need to check current character S[j] is already in subString S[i,j]  or not. 
+2. if there exist a  `subString  S(i,j)`  respond to  the index `i`  to `j-1` and it is already checked to have no duplicate characters, we only need to check current character `S[j]` is already in `subString S[i,j]`  or not. 
 
-It`s easy to think about to use a Hash Set as a Sliding window,(Sliding  window reduce the Checking time cost to  O(1) )
+3. It`s easy to think about to use a Hash Set as a Sliding window,(Sliding  window reduce the Checking time cost to  `O(1)` )
 
 **Algorithm**
 
-Sliding window has two pointer, Left pointer .right pointer, using this two point to maintain a window [*i*,*j*) (left-closed, right-open). and hash Set can be the container of Sliding window
-
-
+1. Sliding window has two pointer, Left pointer .right pointer, 
+2. using this two point to maintain a `window [i,j) (left-closed, right-open).` 
+3. and hash Set can be the container of Sliding window
 
 ```C++
 class Solution{
@@ -644,8 +667,8 @@ public :
 
 **Complexity Analysis**
 
-- Time complexity : O*(2*n*) =* O*(*n). In the worst case each character will be visited twice by i and j.
-- Space complexity : O(min(m, n)), Same as the previous approach. We need *O*(*k*) space for the sliding window, where k is the size of the `Set`. The size of the Set is upper bounded by the size of the string *n* and the size of the charset/alphabet *m*.
+- Time complexity : `O(2n) = O(n)`. In the worst case each character will be visited twice by i and j.
+- Space complexity : `O(min(m, n))`, Same as the previous approach. We need space for the sliding window, where k is the size of the `Set`. The size of the Set is upper bounded by the size of the string *n* and the size of the `charset` / alphabet `m`.
 
 
 
@@ -667,7 +690,7 @@ Explanation: The subarray [4,3] has the minimal length under the problem constra
 
 Do as directed in question. Find the sum for all the possible subarrays and update the ans when we get a better subarray that fulfill the requirements$ (sum≥ target).$
 
-Time complexity: O(n^3).
+Time complexity: `O(n^3).`
 
 #### Approach 2: Sliding Window.
 
@@ -703,7 +726,7 @@ int minSubArrayLen(int target, vector<int> &nums){
 **Complexity analysis**
 
 - Time complexity: $O(N)$
-  - Each element can be visited at most twice, once by the right $pointer(i)$ and (atmost) once by the $ left pointer$.
+  - Each element can be visited at most twice, once by the right $pointer(i)$ and (at most) once by the $ left pointer$.
 - Space complexity: $O(1)$ extra space. Only constant space required. 
 
 
@@ -732,7 +755,7 @@ Output: "a"
 Explanation: The entire string s is the minimum window
 ```
 
-#### Apporach:  sliding window + hash+ String Match+ Greedy
+#### Approach:  sliding window + hash+ String Match+ Greedy
 
 **Intuition** 
 
@@ -800,7 +823,7 @@ class Solution:
   - Each check to see if it is feasible will traverse the hash table of the entire `t`. 
   - The size of the hash table is related to the size of the character set. If the size of the character set is `C`, the asymptotic time complexity is `O(C⋅∣s∣+∣t∣).`.
 - Space complexity: 
-  - Two hash tables are used here as extra spaces. Each hash table will not store key-value pairs that exceed the character set size at most. We set the character set size to `C`, and the progressive space complexity is O(C)
+  - Two hash tables are used here as extra spaces. Each hash table will not store key-value pairs that exceed the character set size at most. We set the character set size to `C`, and the progressive space complexity is `O(C)`
 
 
 
@@ -883,7 +906,7 @@ Output: [0]
 - WE have to **Traverse Both Lists** & add **sum to new list**.
 - **Sum is equivalent to val1 + val2 + carry** from previous Operation.
 - The **resulting node** will be **sum%10.**
-- **Carry is updated** by **sum/10** for next Opeartion.
+- **Carry is updated** by **sum/10** for next `Opeartion`.
 
 Cost :  **Time Complexity** **O(n).** ,**Space Compelxity** **O(max(l1,l2))**
 
@@ -993,7 +1016,13 @@ class Solution:
 
 ### [33. Search in Rotated Sorted Array](https://leetcode.com/problems/search-in-rotated-sorted-array/)
 
-![image-20220421154948056](LeetCodeNote.assets/image-20220421154948056.png)
+There is an integer array `nums` sorted in ascending order (with **distinct** values).
+
+Prior to being passed to your function, `nums` is **possibly rotated** at an unknown pivot index `k` (`1 <= k < nums.length`) such that the resulting array is `[nums[k], nums[k+1], ..., nums[n-1], nums[0], nums[1], ..., nums[k-1]]` (**0-indexed**). For example, `[0,1,2,4,5,6,7]` might be rotated at pivot index `3` and become `[4,5,6,7,0,1,2]`.
+
+Given the array `nums` **after** the possible rotation and an integer `target`, return *the index of* `target` *if it is in* `nums`*, or* `-1` *if it is not in* `nums`.
+
+You must write an algorithm with `O(log n)` runtime complexity.
 
 **Example 1:**
 
@@ -1208,7 +1237,7 @@ now it has two solution to find the target position
 
 1. using twice binary searching :the first binary searching is to find the position of last small than or equal to the target , the second binary searching is to find the position of the target in the column 
 
-2. 2d matrix change to the 1d matrix ,the details of solution2 is to 1d & 2d conversion（transform）.how the abstract mid position is to transform the actual position .
+2. `2d` matrix change to the `1d` matrix ,the details of `solution2` is to `1d` & `2d` conversion（transform）.how the abstract mid position is to transform the actual position .
 
 ```c++
 class Solution {
@@ -1237,16 +1266,30 @@ class Solution {
 ```
 
 ### [153. Find Minimum in Rotated Sorted Array](https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/)
-Suppose an array of length n sorted in ascending order is rotated between 1 and n times. For example, the array nums = [0,1,2,4,5,6,7] might become:
+Suppose an array of length `n` sorted in ascending order is **rotated** between `1` and `n` times. For example, the array `nums = [0,1,2,4,5,6,7]` might become:
 
-[4,5,6,7,0,1,2] if it was rotated 4 times.
-[0,1,2,4,5,6,7] if it was rotated 7 times.
-Notice that rotating an array [a[0], a[1], a[2], ..., a[n-1]] 1 time results in the array [a[n-1], a[0], a[1], a[2], ..., a[n-2]].
+- `[4,5,6,7,0,1,2]` if it was rotated `4` times.
+- `[0,1,2,4,5,6,7]` if it was rotated `7` times.
 
-Given the sorted rotated array nums of unique elements, return the minimum element of this array.
+Notice that **rotating** an array `[a[0], a[1], a[2], ..., a[n-1]]` 1 time results in the array `[a[n-1], a[0], a[1], a[2], ..., a[n-2]]`.
 
-You must write an algorithm that runs in O(log n) time.
- - the Minimum is the division point of the input array. it means that the nums[m+1]> nums[m] and nums[m-1] > nums[m].
+Given the sorted rotated array `nums` of **unique** elements, return *the minimum element of this array*.
+
+You must write an algorithm that runs in `O(log n) time.`
+
+**Example 1:**
+
+```
+Input: nums = [3,4,5,1,2]
+Output: 1
+Explanation: The original array was [1,2,3,4,5] rotated 3 times.
+```
+
+#### Approach: Binary Search
+
+**Intuition**
+
+ - the Minimum is the division point of the input array. it means that the `nums[m+1]> nums[m]` and `nums[m-1] > nums[m]`.
  - using two pointer to cut half of the input array.
  - the input array is divised by two sort array.
 ``` c++
@@ -1270,18 +1313,31 @@ public:
 };
 ```
 ### [240. Search a 2D Matrix II](https://leetcode.com/problems/search-a-2d-matrix-ii/)
-Write an efficient algorithm that searches for a value target in an m x n integer matrix matrix. This matrix has the following properties:
+Write an efficient algorithm that searches for a value target in an `m x n` integer matrix matrix. This matrix has the following properties:
 
 - Integers in each row are sorted in ascending from left to right.
 - Integers in each column are sorted in ascending from top to bottom.
 
+**Example 1:**
+
+![img](https://assets.leetcode.com/uploads/2020/11/24/searchgrid2.jpg)
+
+```
+Input: matrix = [[1,4,7,11,15],[2,5,8,12,19],[3,6,9,16,22],[10,13,14,17,24],[18,21,23,26,30]], target = 5
+Output: true
+```
+
+#### Approach 1: binary search+ two pointer
+
+**Intuition**
+
 In this problem , we should focus two details:
+
 -   it is not absolutely ordered .it is relatively ordered.
--   how to find the division point in the 2d matrix
+-   how to find the division point in the `2d` matrix
 So the points are :
--   The top left element is the relative (abstract) middle value of 2d matrix .
+-   The top left element is the relative (abstract) middle value of `2d` matrix .
 -   abstract binary searching is to move column and line step by step
-#### Approach 1: binary searching , two pointer
 
 ``` c++
 class Solution {
@@ -1448,17 +1504,17 @@ Explanation:
 
 **Intuition**
 
-1. Let's start with the number 19,  look at whole conduction chain, it's a *implicit* **LinkedList** .   *Implicit* means it don't have actual LinkedNode's and pointers, but the data still formed a LinkedList structure.  
+1. Let's start with the number 19,  look at whole conduction chain, it's a *implicit* **`LinkedList`** .   *Implicit* means it don't have actual `LinkedNode's` and pointers, but the data still formed a `LinkedList` structure.  
 
    ```
    19 -> 82 -> 68 -> 100 -> 1 
    ```
 
-2. Although *implicit* **LinkedList**  has no real next pointers, but we can using our computational function instead of the real next pointer。 
+2. Although *implicit* `LinkedList`  has no real next pointers, but we can using our computational function instead of the real next pointer。 
 
 3. Now the problem turns into how to judge the linked list has a cycle
 
-4. 1.  Floyd Cycle-Finding Algorithm ( Fast Slow pointers)： If n *is* a happy number, there is no cycle, then  eventually  the pointer cat get to 1
+4. 1.  Floyd Cycle-Finding Algorithm ( `Fast Slow pointers`)： If `n` *is* a happy number, there is no cycle, then  eventually  the pointer cat get to 1
    2. using hash set to record whether the element has been visited
 
 ```Python
@@ -1592,7 +1648,7 @@ It does not matter what you leave beyond the returned k (hence they are undersco
 **Intuition**
 
 1.  remove duplicates ? it's more like to find how many unique value in the array
-2.  it`s easy to think of HashSet, but this problem only allow to using constly extra space
+2.  it`s easy to think of `HashSet`, but this problem only allow to using constantly extra space
 3. using left & right pointer:  Because the array is in ascending order, the index of equal elements are consecutive. We use the fast pointer to traverse the array and ==copy the different elements from fast to slow,== so that slow can records different elements in the array.
 
 ```C++
@@ -1719,8 +1775,8 @@ public:
 ```
 **Complexity Analysis**
 
-- Time complexity: O(n). Single pass
-- Space complexity: O(1). Constant space is used.
+- Time complexity: `O(n)`. Single pass
+- Space complexity: `O(1)`. Constant space is used.
 
 
 
@@ -1789,8 +1845,8 @@ class Solution:
 
 **Complexity analysis**
 
-- Time complexity: O(n). Single iteration of *O*(*n*).
-- Space complexity: O(1) ，extra space. Only constant space required for some variables
+- Time complexity: `O(n).` Single iteration of `*O*(*n*)`.
+- Space complexity: `O(1)` ，extra space. Only constant space required for some variables
 
 #### Approach 1: Monotonic  Stack
 
@@ -1849,17 +1905,13 @@ public:
 
 **Complexity analysis**
 
-- Time complexity: *O*(*n*)
-  - Single iteration of O(n) in which each bar can be touched at most twice(due to insertion and deletion from stack) and insertion and deletion from stack takes *O*(1) time.
-- Space complexity: O(n). Stack can take upto *O*(*n*) Space, Caused the input `height` array's length
+- Time complexity: `O(n)`
+  - Single iteration of `O(n)` in which each bar can be touched at most twice(due to insertion and deletion from stack) and insertion and deletion from stack takes `O(1)` time.
+- Space complexity: `O(n)`. Stack can take up to `O(n)` Space, Caused the input `height` array's length
 
 
 
 ### [15. 3Sum](https://leetcode-cn.com/problems/3sum/)
-
-Medium
-
-176201689Add to ListShare
 
 Given an integer array nums, return all the triplets `[nums[i], nums[j], nums[k]]` such that `i != j`, `i != k`, and `j != k`, and `nums[i] + nums[j] + nums[k] == 0`.
 
@@ -1931,8 +1983,8 @@ public:
 
 **Complexity analysis**
 
-- Time complexity: *O*(*n^2*)
-  - Sorting's running time is `O(NlogN)`, scan whole array takes `O(N)` time ,two pointers tranvers  the array required `O(N)` time, 
+- Time complexity: `O(n^2)`
+  - `Sorting's` running time is `O(NlogN)`, scan whole array takes `O(N)` time, two pointers tranvers  the array required `O(N)` time, 
     - SO final required time is : `O(NlogN)+ O(N)*O(N) = O(N^2)`
 - Space complexity: `O(1)`.  constant extra memory required
 
@@ -1960,7 +2012,7 @@ Output: true
 Explanation: Return true because "leetcode" can be segmented as "leet code".\
 ```
 
-#### Apporach:  DP
+#### Approach:  DP
 
 **Intuition**
 
@@ -2031,13 +2083,9 @@ Explanation: "a" does not match the entire string "aa".
    1. P has  `*` star:  there are two cases we need to process, **because `*` can match zero or more than once of  preceding element **
 
       1. `*` match  zero element (make the precding character repeated 0 times )
-      2. `*` match more element (make the precding character repeated mult-times, even infinite number of times)
+      2. `*` match more element (make the preceding character repeated multi-times, even infinite number of times)
 
-      
-
-   2. P hasn't  `*` star:  For the no start case, the match will be simpler without Stars: For example, if we meet  `.`in `p`, we just need to skip it 
-
-
+   2. `P` hasn't  `*` star:  For the no start case, the match will be simpler without Stars: For example, if we meet  `.`in `p`, we just need to skip it 
 
 3. So we can using Recursion to divide and  conquer this problem
 
@@ -2127,11 +2175,11 @@ class Solution:
 
 2. there are two Strings, so we need a **two-dimensional** array:
    
-   `dp[i][j] = true` means  the subString of `S[0 to i-1]` and `P[0 to j-1]`is matched !
+   `dp[i][j] = true` means  the `subString` of `S[0 to i-1]` and `P[0 to j-1]`is matched !
 
 3. and the details of code is **similar** to Recursion approach
 
-4. There are two direction to fill the Dp table :, *Top-Down Variation* 
+4. There are two direction to fill the `Dp` table :, *Top-Down Variation* 
 
    1.  *Bottom-Up Variation* : the final answer is `dp[0][0]`
    2.  *Top-Down Variation* : the final answer is `dp[end][end]`
@@ -2199,8 +2247,8 @@ class Solution:
 
 [**Complexity Analysis**:](https://leetcode.com/problems/regular-expression-matching/solution/)
 
-- Time Complexity:  O(SP), S= len(s), P = len(p)
-- Space Complexity:  O(SP), S= len(s), P = len(p)
+- Time Complexity:  `O(SP), S= len(s), P = len(p)`
+- Space Complexity:  `O(SP), S= len(s), P = len(p)`
 
 ## DP + Puzzle
 
