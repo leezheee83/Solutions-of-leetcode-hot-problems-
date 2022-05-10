@@ -14,6 +14,7 @@
 2.  O(N^2): big O of N square 
 3.  O(N^3) : big O of N cube
 4.  O(1) : Only constant space/time required /  uses only constant extra space. 
+5.   $ \log_{10}(x) $ : log base ten of x: 以10为底x的对数
 4.  Time Limit Exceeded: 超时！
 
 ## Describing in Algorithm
@@ -99,20 +100,27 @@
 32. Rounded up : 向上取整
 
     1. Round down:  向下取整
+    1. round towards zero: 向0舍入
 
 33. shift every time : 每次更新
 
 34. step forward : 前进一步
 
-35. subtract: 减去，代表完整的行为， minus 是 "-"这个symbol
+35. split the array in tow parts:  将数组分成两部分
 
-36. Sum of all unit: 所有单元和 
+    1. chop off the integer into different digits: 将整数分割成不同的单数
+    2. chop it off:  砍掉它
+    3. chop off the last digit of integer:  砍掉整数的最后一位数字 
 
-37. traverse the array : 遍历数组 = Scan through the array
+36. subtract: 减去，代表完整的行为， minus 是 "-"这个symbol
 
-38. Temporary variable： 临时变量
+37. Sum of all unit: 所有单元和 
 
-39. Visit each member/element : 访问每个成员
+38. traverse the array : 遍历数组 = Scan through the array
+
+39. Temporary variable： 临时变量
+
+40. Visit each member/element : 访问每个成员
 
     1. Scan each element: 扫描每个成员
 
@@ -151,6 +159,12 @@
 
 ## Specialism  CS Details
 
-1. instance: 实例
-2. Web Scraper： 网页爬虫.
+1. decimal ： 十进制
+
+2. instance: 实例
+
 3. Object-oriented design： 面向对象设计
+
+4. Web Scraper： 网页爬虫.
+
+   

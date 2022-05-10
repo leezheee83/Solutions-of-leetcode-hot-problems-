@@ -1251,6 +1251,62 @@ class Solution:
 
 
 
+## Math Tricks
+
+### [7. Reverse Integer](https://leetcode.com/problems/reverse-integer/solution/)
+
+Given a signed 32-bit integer `x`, return `x` *with its digits reversed*. If reversing `x` causes the value to go outside the signed 32-bit integer range `[-231, 231 - 1]`, then return `0`.
+
+**Assume the environment does not allow you to store 64-bit integers (signed or unsigned).**
+
+**Example 1:**
+
+```
+Input: x = 123
+Output: 321
+```
+
+#### Approach : Pop and Push Digits  & Check before Overflow
+
+**intuition**
+
+1.  We can build up the reverse integer one digit at a time.
+2. Reversing an integer can be done similarly to reversing a string.
+3. we want to repeatedly `pop` the last digit of `x` and `push` it to the back of our `result` . in the end, `result` will be the reverse of the `x`
+4. In Fact, we don't really need a real stack. We can using math operation to instead of  a real stack
+5. However, this approach is dangerous, because the statement  `temp = result*10 + pop` may can cause overflow
+
+```C++
+class Solution {
+public:
+    int reverse(int x) {
+        int res = 0;
+        while (x != 0){
+            // make sure res avoid causing a overflow
+            // becuase if res < INT_MIN / 10, that means the next shifted res < INT_MIN 
+            // similr to reach the upper eage case 
+            if (res < INT_MIN / 10 || res > INT_MAX / 10){
+                return 0;
+            }
+            // pop : % could be a pop operation
+            // push : (res*10 + poped val) is kind of push operation
+            res = res * 10 + x % 10;
+            // move to next digit
+            x /= 10;
+        }
+
+        return res;
+    }
+};
+```
+
+**Complexity Analysis**
+
+- Time Complexity: `O(log(x)).` There are roughly $ \log_{10}(x) $  digits in `x`.
+- Space Complexity: `O(1)` . constant space required
+
+
+
 ## Sliding Window
 
 ### [3. Longest Substring Without Repeating Characters](https://leetcode.com/problems/longest-substring-without-repeating-characters/)
