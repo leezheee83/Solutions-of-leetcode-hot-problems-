@@ -508,7 +508,30 @@ public:
 
 
 
-## Backtracing
+## Backtracking & Recursion & Memory Search
+
+### [17. Letter Combinations of a Phone Number](https://leetcode.com/problems/letter-combinations-of-a-phone-number/)
+
+Given a string containing digits from `2-9` inclusive, return all possible letter combinations that the number could represent. Return the answer in **any order**.
+
+A mapping of digit to letters (just like on the telephone buttons) is given below. Note that 1 does not map to any letters.
+
+![img](https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Telephone-keypad2.svg/200px-Telephone-keypad2.svg.png)
+
+**Example 1:**
+
+```
+Input: digits = "23"
+Output: ["ad","ae","af","bd","be","bf","cd","ce","cf"]
+```
+
+#### Approach : Backtracking 
+
+
+
+
+
+
 
 ## Binary Search
 
@@ -1777,7 +1800,7 @@ If `N` is the number of characters in the input string.
 
    1. Theory of Computing is the study of theoretical machines and problems which can be solved using these machines. These machines are called **state machines**. A state machine reads some input and changes the states based on those inputs.
 
-   ![image-20220511190634163](LeetCodeNote.assets/image-20220511190634163.png)
+   ![image-20220511190634163](./LeetCodeNote.assets/image-20220511190634163.png)
 
 **Algorithm**
 
