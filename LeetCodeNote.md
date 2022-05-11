@@ -863,9 +863,83 @@ public:
 };
 ```
 
-## 
+### [4. Median of Two Sorted Arrays](https://leetcode.cn/problems/median-of-two-sorted-arrays/)
+
+Given two sorted arrays `nums1` and `nums2` of size `m` and `n` respectively, return **the median** of the two sorted arrays.
+
+The overall run time complexity should be `O(log (m+n))`.
+
+**Example 1:**
+
+```
+Input: nums1 = [1,3], nums2 = [2]
+Output: 2.00000
+Explanation: merged array = [1,2,3] and median is 2.
+```
+
+**Example 2:**
+
+```
+Input: nums1 = [1,2], nums2 = [3,4]
+Output: 2.50000
+Explanation: merged array = [1,2,3,4] and median is (2 + 3) / 2 = 2.5.
+```
+
+#### Approach : Binary Search
+
+**Intuition**
+
+1. First of all, we make sure `first input array` is always greater than or equal to `second input array`
+2. The idea is to imagine the combined sorted array, with a total size of `size_total = nums1.size() + nums2.size()`
+3. Now we divide the combined array into two parts.
+   1. if `odd` then first part has size of `size_total/2` and second part has size of `size_total/2+1`
+   2. if `even` then both first part and second part will have `size_total/2` elements
+
+4. now we define first part as the first size_total/2 elements of combined sorted array
+5. Our binary search is to find **the number of elements from the `second input array` that are in `first part`**
+6. This value ranges between [0, size of `second input array`]
 
 
+
+```C++
+class Solution {
+public:
+    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+        int len1 = nums1.size(), len2 = nums2.size();
+        // final res between in [0, halfSizeOfCombined]
+        int halfSizeOfCombined = (len1+len2 + 1) >>1; 
+        // if nums1.length > nums2.length --> swap the input, because we need a longer array for the seconed array
+        if( len1 > len2) return findMedianSortedArrays(nums2, nums1);
+        int low = 0, high = len1-1; 
+        
+        // Binary Search to find the min1_index(middle point of nums1)
+        while(low <= high){
+            int mid1 = (low+high)>>1;
+            int mid2 = halfSizeOfCombined - mid1;
+            if( nums1[mid1] < nums2[mid2-1])
+                low = mid1 + 1;
+            else 
+                high = mid1 - 1;
+        }
+        // the nums1's mid = low, SO the nums2's mid = the Subtrack
+        int mid1_index = low ;
+        int mid2_index = halfSizeOfCombined - mid1_index;
+        //calculate the oddMid and evenMid (for the merged big array)
+        double oddMid = max( mid1_index>0? nums1[mid1_index-1]: INT_MIN,
+                          mid2_index>0? nums2[mid2_index-1]: INT_MIN);
+        double evenMid = min( mid1_index < len1?  nums1[mid1_index]: INT_MAX,
+                           mid2_index < len2? nums2[mid2_index]:INT_MAX);
+        if( (len1+len2) & 1 == 1) return oddMid;
+        return (oddMid+evenMid)/2;
+        
+    }
+};
+```
+
+**Complexity Analysis**
+
+- Time complexity : `O(Log(M+N))`. because it's Binary Search for the combined two array
+- Space complexity : `O(1)`.
 
 ## Fast Slow  Pointers: Floyd's Cycle-Finding 
 
