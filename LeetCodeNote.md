@@ -1671,6 +1671,188 @@ int numSubarrayProductLessThanK(int* nums, int numsSize, int k){
 - Time complexity: $O(N)$
 - Space complexity: $O(1)$ 
 
+## String
+
+### [8.  String to Integer (atoi)](https://leetcode.com/problems/string-to-integer-atoi/solution/)
+
+Implement the `myAtoi(string s)` function, which converts a string to a 32-bit signed integer (similar to C/C++'s `atoi` function).
+
+The algorithm for `myAtoi(string s)` is as follows:
+
+1. Read in and ignore any leading whitespace.
+2. Check if the next character (if not already at the end of the string) is `'-'` or `'+'`. Read this character in if it is either. This determines if the final result is negative or positive respectively. Assume the result is positive if neither is present.
+3. Read in next the characters until the next non-digit character or the end of the input is reached. The rest of the string is ignored.
+4. Convert these digits into an integer (i.e. `"123" -> 123`, `"0032" -> 32`). If no digits were read, then the integer is `0`. Change the sign as necessary (from step 2).
+5. If the integer is out of the 32-bit signed integer range `[-231, 231 - 1]`, then clamp the integer so that it remains in the range. Specifically, integers less than `-231` should be clamped to `-231`, and integers greater than `231 - 1` should be clamped to `231 - 1`.
+6. Return the integer as the final result.
+
+**Example 1:**
+
+```
+Input: s = "42"
+Output: 42
+```
+
+**Example 2:**
+
+```
+Input: s = "   -42"
+Output: -42
+```
+
+**Example 3:**
+
+```
+Input: s = "4193 with words"
+Output: 4193
+```
+
+#### Approach 1: Follow the Rules
+
+**Intuition**
+
+1. Given the rules outlined by the problem's description, we can iterate over the input string and use the given rules to validate it.
+2. First read through the problem statement **very carefully**. Let's see what are all the possible characters in the input string:
+   - Whitespaces **(' ')**
+   - Digits **('0', '1', '2', '3', '4', '5', '6', '7', '8', '9')**
+   - A sign **('+' or '-')**
+   - Anything else (alphabetic characters, symbols, special characters, etc.)
+
+3. we need to process these four cases just up above
+
+```python
+class Solution(object):
+    def myAtoi(self, str):
+        """
+        :type str: str
+        :rtype: int
+        """
+        str = str.strip()
+        if not str: return 0
+        res = ''
+        flag = 1
+        for i in range(len(str)):
+            # check the valadation of first element (avoid space or letter)
+            if  i == 0:
+                # non-numeric case
+                if str[i] not in {'+','-'} and not str[i].isdigit():
+                    return 0
+                # sign case
+                elif str[i] == '+':
+                    flag = 1
+                # sign case 
+                elif str[i] == '-':
+                    flag = -1
+                else:
+                    res += str[i]
+            elif not str[i].isdigit():
+                break
+            else:
+                res += str[i]
+        
+        if not res:return 0
+        # make sure the result doesn't cause overflow for integer
+        return min(2**31-1, max(-2**31,int(res)*flag))
+```
+
+**Complexity Analysis**
+
+If `N` is the number of characters in the input string.
+
+- Time complexity: `O(N)`
+
+  We visit each character in the input at most once and for each character we spend a constant amount of time.
+
+- Space complexity: `O(1)`
+
+  We have used only constant space to store the sign and the result.
+
+#### [Approach 2: Deterministic Finite Automaton (DFA)](https://leetcode.com/problems/string-to-integer-atoi/solution/) or State machines
+
+**Intuition**
+
+1. we will present an approach that uses DFA which is a more generalized approach that can also be applied to similar problems that would otherwise require writing many nested if else conditions which could become very complex.
+
+2. What's DFA? 
+
+   1. Theory of Computing is the study of theoretical machines and problems which can be solved using these machines. These machines are called **state machines**. A state machine reads some input and changes the states based on those inputs.
+
+   ![image-20220511190634163](LeetCodeNote.assets/image-20220511190634163.png)
+
+**Algorithm**
+
+1. Initialize three variables:
+   - `currentState` (to represent current state) as `q0`
+   - `result` (to store result till now) as `0`
+   - `sign` (to represent the sign of the final result) as `1`
+
+2. For each character of the input string, if the current state is not `qd`:
+
+- If the current state is `q0`:
+  - Stay in the same state if whitespaces occur.
+  - If a sign occurs, change the sign variable to `-1` if it's a negative sign and change the state to `q1`.
+  - If a digit occurs, append the current digit to the resulting number (clamp result if needed) and change the state to `q2`.
+  - If anything else occurs, then stop building the number and transition to state `qd`.
+
+BalaBalabalalaxxdedXXXXX
+
+ **fuck the state machine, just copy the code**
+
+```python
+INT_MAX = 2 ** 31 - 1
+INT_MIN = -2 ** 31 
+
+class  Automatton:
+    def __init__(self):
+        self.state = 'start'
+        self.sign = 1
+        self.ans = 0
+        self.table = {
+            'start':['start','signed','in_number','end'],
+            'signed': ['end','end','in_number','end'],
+            'in_number': ['end','end','in_number','end'],
+            'end':['end','end','end','end'],
+        }
+    
+    def get_col(self,c):
+        if c.isspace():
+            return 0
+        if c == '+' or c == '-':
+            return 1
+        if c.isdigit():
+            return 2
+        return 3
+
+    def get(self,c):
+        self.state = self.table[self.state][self.get_col(c)]
+        if self.state == 'in_number':
+            self.ans = self.ans*10 + int(c)
+            self.ans = min(self.ans,INT_MAX) if self.sign==1 else min(self.ans,-INT_MIN)
+        elif self.state == 'signed':
+            self.sign = 1 if c == '+' else -1
+
+class Solution:
+    def myAtoi(self, str: str) -> int:
+        auto = Automatton()
+        for c in str:
+            auto.get(c)
+        return auto.sign * auto.ans
+```
+
+**Complexity Analysis**
+
+If `N` is the number of characters in the input string.
+
+- Time complexity: `O(N)`
+
+  We iterate over the input string exactly once, and each state transition only requires constant time.
+
+- Space complexity: `O(1)`
+
+  We have used only constant space to store the state, sign, and result.
+
+
+
 ## Sorting
 
 ### [148 Sort List](https://leetcode.com/problems/sort-list/)
