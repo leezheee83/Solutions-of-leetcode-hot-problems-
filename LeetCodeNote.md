@@ -607,6 +607,68 @@ There's huge time and space required for backtracking. because we want to genera
 
 
 
+### [22.  Generate Parentheses](https://leetcode.com/problems/generate-parentheses/)
+
+Given `n` pairs of parentheses, write a function to *generate all combinations of well-formed parentheses*.
+
+**Example 1:**
+
+```C++
+Input: n = 3
+Output: ["((()))","(()())","(())()","()(())","()()()"]
+```
+
+**Example 2:**
+
+```C++
+Input: n = 1
+Output: ["()"]
+```
+
+
+
+#### [Approach : backtracking](https://www.youtube.com/watch?v=s9fokUqJ76A)
+
+**Intuition** :
+
+1. NOTICE that  **combinations**  from the problem description , that's a big clue/hint/sign of using **Backtracking** algorithm
+2. let's add `(` or `)` when we know it will remain a **valid** sequence. **we need to make sure open brackets can match the close brackets** 
+3. we **can't have a close parentheses come before a open parenthesis: `eg: ) (`**
+4. We can do this by keeping track of the number of  open`(` and colse`)` parenthesis we have placed so far.
+   1. the Count of  colseing  parenthesis  <  the count of opening parenthesis
+
+```C++
+class Solution {
+public:
+    vector<string> generateParenthesis(int n) {
+        vector<string> res;
+        // we need a tmp string "" to store the combination
+        backtrack(res,"",0,0,n);
+        return res;
+    }
+
+    void backtrack(vector<string> &res, string str,int openCount, int closeCount, int n){
+        // it means all brackets used up, then we get one combination 
+        if(openCount == n and closeCount == n){
+            res.push_back(str) ;
+            return ;
+        } 
+        // here we keep tracking the amount of "(" and ")" by using two variables
+        // leftIndex < n : means  we can added a "(" 
+        if(openCount < n) backtrack(res,str+'(', openCount+1,closeCount,n);
+        // rightIndex < left: means there's has a "(",so we can added a ")" 
+        if(closeCount < openCount)backtrack(res,str+')', openCount, closeCount+1,n);
+    }
+};
+```
+
+**Complexity Analysis**:
+
+Our complexity analysis rests on understanding how many elements there are in `generateParenthesis(n)`. This analysis is outside the scope of this article, but it turns out this is the `n`-th Catalan number $ \dfrac{1}{n+1}\binom{2n}{n}$, which is bounded asymptotically(渐进的) by $\dfrac{4^n}{n\sqrt{n}}$  
+
+- Time Complexity : O($\dfrac{4^n}{\sqrt{n}}$). Each valid sequence has at most `n` steps during the backtracking procedure.
+- Space Complexity : O($\dfrac{4^n}{\sqrt{n}}$), as described above, and using `O(n)` space to store the sequence.
+
 
 
 ## Binary Search
@@ -1419,7 +1481,7 @@ class Solution:
             DeletedNodePointer = slow.next
             slow.next = slow.next.next
             DeletedNodePointer.next = None #Removing dangling pointer
-            return (head)
+       return (head)
 ```
 
 

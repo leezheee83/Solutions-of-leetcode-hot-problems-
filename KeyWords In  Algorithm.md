@@ -30,6 +30,9 @@
 3. brackets：括号
 
    1. parentheses ： 括弧
+   1. nesting parentheses： 嵌套括号
+   1. open/left parentheses:  `(`
+   1. close/right parentheses: `)`
 
 4. backwards: 向后
 
@@ -89,6 +92,8 @@
 26. odd： 奇数， even：偶数
 
 27. one's places value： 每一位的值；eg：get one's places value `1， 2，3`  from  `123` 
+
+28. pass N to function:  给函数传参 N
 
 28. permutation：排列
 
