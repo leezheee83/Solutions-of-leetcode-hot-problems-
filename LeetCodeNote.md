@@ -1102,6 +1102,62 @@ public:
 - Time complexity : `O(Log(M+N))`. because it's Binary Search for the combined two array
 - Space complexity : `O(1)`.
 
+### [4. Median of Two Sorted Arrays](https://leetcode.com/problems/median-of-two-sorted-arrays/)
+
+Given two sorted arrays nums1 and nums2 of size m and n respectively, return the median of the two sorted arrays.
+
+The overall run time complexity should be O(log (m+n)).
+
+
+***Example 1:***
+```
+Input: nums1 = [1,3], nums2 = [2]
+Output: 2.00000
+Explanation: merged array = [1,2,3] and median is 2.
+```
+***Example 2:***
+```
+Input: nums1 = [1,2], nums2 = [3,4]
+Output: 2.50000
+Explanation: merged array = [1,2,3,4] and median is (2 + 3) / 2 = 2.5.
+```
+***Algorithm:***
+***Code:***
+``` c++
+class Solution {
+public:
+    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+        int n = nums1.size();
+        int m = nums2.size();
+
+        if(n>m){
+            return findMedianSortedArrays(nums2,nums1);
+        }
+        
+        int LMAX1,RMIN1,LMAX2,RMIN2,c1,c2,lo,hi;
+        lo = 0;
+        hi = 2*(n);
+        while(lo<=hi){
+            c1 = (lo+hi)/2;
+            c2 = m+n-c1;
+            LMAX1 = (c1 == 0)?INT_MIN : nums1[(c1-1)/2];
+            RMIN1 = (c1 == 2*n)?INT_MAX : nums1[c1/2];
+            LMAX2 = (c2 == 0)?INT_MIN : nums2[(c2-1)/2];
+            RMIN2 = (c2 == 2*m)?INT_MAX : nums2[c2/2];
+
+            if(LMAX1>RMIN2){
+                hi = c1-1;
+            }
+            else if(LMAX2>RMIN1){
+                lo = c1+1;
+            }
+            else break;
+
+        }
+        return (max(LMAX2,LMAX1) + min(RMIN1,RMIN2)) / 2.0;
+    }
+};
+```
 ## Fast Slow  Pointers: Floyd's Cycle-Finding 
 
 ### [457. Circular Array Loop](https://leetcode.com/problems/circular-array-loop/)- infrequently
