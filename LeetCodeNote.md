@@ -1841,7 +1841,7 @@ int numSubarrayProductLessThanK(int* nums, int numsSize, int k){
 - Time complexity: $O(N)$
 - Space complexity: $O(1)$ 
 
-## String
+## String & SubString & Subsequence & Palindrome
 
 ### [8.  String to Integer (atoi)](https://leetcode.com/problems/string-to-integer-atoi/solution/)
 
@@ -2020,6 +2020,71 @@ If `N` is the number of characters in the input string.
 - Space complexity: `O(1)`
 
   We have used only constant space to store the state, sign, and result.
+
+### [5.  Longest Palindromic Substring](https://leetcode.com/problems/longest-palindromic-substring/)
+
+Given a string `s`, return *the longest palindromic substring* in `s`.
+
+**Example 1:**
+
+```
+Input: s = "babad"
+Output: "bab"
+Explanation: "aba" is also a valid answer.
+```
+
+**Example 2:**
+
+```
+Input: s = "cbbd"
+Output: "bb"
+```
+
+#### Approach : Expand Around Center+Greedy 
+
+**Intuition** 
+
+1. We observe that a palindrome mirrors around its center.
+2. There  two kind of centers for Palindromic Substring:
+   1. **odd center** :example `aba` (is a Palindromic Substring), the center is `b`
+   2. **even center** : like: `abba`， the center isn't a letter, it's a gap between two b,**we can chop it off into two same parts at this position of gap**
+
+3. Go through the string,  and start to match the Palindromic substring  from the every odd or even center.
+4. And same time Find the longest Palindromic substring with `greedy algorithm`
+
+```python
+class Solution:
+    def longestPalindrome(self, s: str) -> str:
+        # edge cases!
+        if not s: return ''
+        if len(s) < 2: return s
+        res = ''
+        
+        for i in range(len(s)):
+            # find the odd Center String Start from letter 
+            odd = self.matchCenter(s,i,i)
+            # find even center string start from gap
+            even = self.matchCenter(s,i,i+1)
+            
+            # greedy!
+            tmpString =  odd if len(odd) > len(even) else even
+            if len(tmpString) > len(res):
+                res = tmpString
+        return res
+    
+    def matchCenter(self,s,left,right):
+        if not s: return ''
+        #Extend the palindrome string to the left Side and right side from the center
+        while left >=0 and right <len(s) and s[left] == s[right]:
+            left -= 1
+            right += 1
+        return s[left+1:right]
+```
+
+**Complexity Analysis**
+
+- Time complexity : `O(n^2)` Since expanding a palindrome around its center could take `O(n)` time, the overall complexity is `O(n^2)`
+- Space complexity : `O(1)`
 
 
 

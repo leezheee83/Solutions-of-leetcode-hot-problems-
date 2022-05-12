@@ -16,6 +16,7 @@
 4.  O(1) : Only constant space/time required /  uses only constant extra space. 
 5.   $ \log_{10}(x) $ : log base ten of x: 以10为底x的对数
 4.  Time Limit Exceeded: 超时！
+4.  `O(3^N)`: big O of three to the Nth power
 
 ## Describing in Algorithm
 
