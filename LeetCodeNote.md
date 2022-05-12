@@ -1480,6 +1480,77 @@ public:
 
 
 
+
+
+### [13. Roman to Integer](https://leetcode.cn/problems/roman-to-integer/)
+
+Roman numerals are represented by seven different symbols: `I`, `V`, `X`, `L`, `C`, `D` and `M`.
+
+```
+Symbol       Value
+I             1
+V             5
+X             10
+L             50
+C             100
+D             500
+M             1000
+```
+
+**Example 1:**
+
+```
+Input: s = "III"
+Output: 3
+Explanation: III = 3.
+```
+
+**Example 2:**
+
+```
+Input: s = "LVIII"
+Output: 58
+Explanation: L = 50, V= 5, III = 3.
+```
+
+
+
+#### Approach: Follow the rules
+
+**Intuition**
+
+1. Using a tiny `HashMap` to store these Symbol and Value
+2. Here I basically check if the next number is larger then the current one. If so, I subtract the current number and move to the next.
+3. As soon as there is only one number left, that one is simply added to the result .
+
+```python
+class Solution(object):
+    def romanToInt(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        
+        mp = {'I':1, 'V':5 , 'X':10, 'L':50, 'C':100,  'D':500, 'M':1000}
+        
+        res = 0
+        # scan s
+        for i in range(len(s)):
+            # if the current integer less than next integer,just subtract the current integer
+            if  i+1 < len(s) and mp[s[i]] < mp[s[i+1]]:
+                res -= mp[s[i]]
+            else:
+                res += mp[s[i]]
+
+        return res    
+```
+
+**Complexity Analysis**:
+
+too easy! It's not necessary to fill that
+
+
+
 ## Sliding Window
 
 ### [3. Longest Substring Without Repeating Characters](https://leetcode.com/problems/longest-substring-without-repeating-characters/)
