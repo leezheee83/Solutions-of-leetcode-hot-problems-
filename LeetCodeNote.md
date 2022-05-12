@@ -510,7 +510,20 @@ public:
 
 ## Backtracking & Recursion & Memory Search
 
-### [17. Letter Combinations of a Phone Number](https://leetcode.com/problems/letter-combinations-of-a-phone-number/)
+### Step of Backtracking
+
+Please Remember the Step of Backtracking
+
+```C++
+1. exit of backTracking  
+2. make choice in the backTracking tree
+3. backTrack to next level of the tree
+4. go back to the previous level 
+```
+
+
+
+### [17. Letter Combinations of a Phone Number](https://leetcode.cn/problems/letter-combinations-of-a-phone-number/)
 
 Given a string containing digits from `2-9` inclusive, return all possible letter combinations that the number could represent. Return the answer in **any order**.
 
@@ -525,9 +538,72 @@ Input: digits = "23"
 Output: ["ad","ae","af","bd","be","bf","cd","ce","cf"]
 ```
 
-#### Approach : Backtracking 
+#### Approach : map+Backtracking 
+
+**Intuition**
+
+1. NOTICE that **any order**  of  **combinations** from the problem description , that's a big clue/hint/sign of **Backtracking**
+2. for the first number, there are `3` options, and these `3` options has there own 3 options for the second number and so on
+3. The combinations from the first to the last will expand into a **recursive tree**.
+4. just imagine that **backtracking tree** start from one of numbers, for example,  Take the `"234"` for example, look at the backtracking  tree:![image-20220511234214130](./LeetCodeNote.assets/image-20220511234214130.png)
+
+5. When the index **reaches the end of digits**, we get a combination, and add it to the result, end the current recursion. Finally we will get all the combinations.
 
 
+
+```C++
+class Solution { 
+public:
+    vector<string> res;
+    string combination;
+    vector<string> letterCombinations(string digits) {
+        
+        if (!digits.size()) return res;
+         map<char,string> mp = {
+            {'2',"abc"},
+            {'3',"def"},
+            {'4',"ghi"},
+            {'5',"jkl"},
+            {'6',"mno"},
+            {'7',"pqrs"},
+            {'8',"tuv"},
+            {'9',"wxyz"}};
+        // backtracking starts from the first element
+        backTrack(digits,0,mp);
+        return res;
+        
+    
+    }
+    
+    void backTrack(string digits, int curIndex, map<char,string>& mp){
+        // 1. exit for backTracking  
+        // curIndex reached the end of string digits
+        if(curIndex == digits.size()){
+            res.push_back(combination);
+            return;
+        }  
+        // get current number
+        char digit = digits[curIndex];
+        // tranvers all letters of the digit represented
+        for(auto& letter: mp[digit]){
+            // 2. make choice in the backTracking tree for combination
+            combination.push_back(letter);
+            // 3. backTrack to next level of the tree
+            backTrack(digits,curIndex + 1,mp);
+            // 4. go back to the previous level 
+            combination.pop_back();
+        }
+    }
+};
+```
+
+
+**complexity analysis**
+
+There's huge time and space required for backtracking. because we want to generate all of combination, that means that we need to enumerate each possible results
+
+1. **Time Complexity**: `O(3^M*4^N)` , M = amount of numbers which has three letters(2,3,4,5,6),   N = amount of numbers which has four letters(7,9) 
+2. **Space Complexity**: `O(3^M*4^N)` : YES lots of **stack** space required 
 
 
 

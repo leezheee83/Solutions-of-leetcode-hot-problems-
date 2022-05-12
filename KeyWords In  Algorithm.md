@@ -89,40 +89,51 @@
 
 27. one's places value： 每一位的值；eg：get one's places value `1， 2，3`  from  `123` 
 
-28. priority：优先级 ；A has higher priority
+28. permutation：排列
 
-29. precedence： 优先级； A has the highest precedence : A有最高有优先级
+    1. combination: 组合
 
-30. remainder： 余数； 除法(fraction divide)的余数， also to destripe some things left
+29. Pop them off： 弹出他们
 
-31. Regular Expression: 正则表达式
+30. priority：优先级 ；A has higher priority
 
-32. Rounded up : 向上取整
+31. precedence： 优先级； A has the highest precedence : A有最高有优先级
+
+32. remainder： 余数； 除法(fraction divide)的余数， also to destripe some things left
+
+33. Regular Expression: 正则表达式
+
+34. Rounded up : 向上取整
 
     1. Round down:  向下取整
     1. round towards zero: 向0舍入
 
-33. shift every time : 每次更新
+35. shift every time : 每次更新
 
-34. step forward : 前进一步
+36. step forward : 前进一步
 
-35. split the array in tow parts:  将数组分成两部分
+37. split the array in tow parts:  将数组分成两部分
 
     1. chop off the integer into different digits: 将整数分割成不同的单数
     2. chop it off:  砍掉它
     3. chop off the last digit of integer:  砍掉整数的最后一位数字 
 
-36. subtract: 减去，代表完整的行为， minus 是 "-"这个symbol
+38. subtract: 减去，代表完整的行为， minus 是 "-"这个symbol
 
-37. Sum of all unit: 所有单元和 
+39. Sum of all unit: 所有单元和 
 
-38. traverse the array : 遍历数组 = Scan through the array
+40. traverse the array : 遍历数组
 
-39. Temporary variable： 临时变量
+    1. Scan through the array: 遍历数组
+    2. Loop through the array/digit: 遍历数组/数字
 
-40. Visit each member/element : 访问每个成员
+41. Temporary variable： 临时变量
+
+42. Visit each member/element : 访问每个成员
 
     1. Scan each element: 扫描每个成员
+    1. Go through element/digit by element/digit: 扫描每个成员/数字
+    1. Access each member/element : 访问每个成员
 
     
 
