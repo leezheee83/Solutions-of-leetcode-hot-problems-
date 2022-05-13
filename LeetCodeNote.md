@@ -1203,11 +1203,11 @@ public:
 
 ### [29 .Divide Two Integers](https://leetcode.cn/problems/divide-two-integers/) - Unimportant
 
- this problem is so boring, So I just decide not to copy the code, Cause it's too redundant, IF I meet this problem in the interview. **I admit it** 
+ this **Fucking** problem is so **boring**, So I just decide not to copy the code, Cause it's too redundant, If I meet this problem in the interview. **I admit it's my daddy** 
 
 [Here is the solution](https://leetcode.cn/problems/divide-two-integers/solution/liang-shu-xiang-chu-by-leetcode-solution-5hic/)  
 
-### Approach: Bit Manipulation
+#### Approach: Bit Manipulation
 
 **Intuition**
 
