@@ -2152,6 +2152,64 @@ class Solution:
 
 
 
+### [14. Longest Common Prefix](https://leetcode.com/problems/longest-common-prefix/)
+
+Write a function to find the longest common prefix string amongst an array of strings.
+
+If there is no common prefix, return an empty string `""`.
+
+**Example 1:**
+
+```
+Input: strs = ["flower","flow","flight"]
+Output: "fl"
+```
+
+**Example 2:**
+
+```
+Input: strs = ["dog","racecar","car"]
+Output: ""
+Explanation: There is no common prefix among the input strings.
+```
+
+#### Approach :  Vertical scanning
+
+1. Imagine a very short string is the common prefix at the end of the array. The above approach will still do `S` comparisons
+2. One way to optimize this case is to do vertical scanning
+3.  We compare characters from top to bottom on the same column (same character index of the strings) before moving on to the next column.
+
+```python
+class Solution:
+    def longestCommonPrefix(self, strs: List[str]) -> str:
+        # edge case
+        if len(strs) == 0:
+            return ''
+        
+        # travers first string using j
+        for j in range(len(strs[0])):
+            for i in range(len(strs)):
+                # Vertical scanning other string by using index j
+                # if j == len(strs[i]), means we reached one of string's end
+                # if str[0][j] !=  strs[i][j], means we find a different character
+                if j == len(strs[i]) or strs[0][j] != strs[i][j]:
+                    # then we just return the SubString which till to index J  
+                    return strs[0][:j]
+        
+        # means we reached into the end of fisr String, 
+        # therefore the strs[0] is the Longest Common prefux
+        return strs[0]
+```
+
+**Complexity Analysis**
+
+- Time complexity : `O(S)` , where `S` is the sum of all characters in all strings. In the worst case there will be `n` equal strings with length `m` and the algorithm performs `S=m⋅n`  character comparisons. 
+- Space complexity : `O(1)` We only used constant extra space.
+
+
+
+
+
 ## Sorting
 
 ### [148 Sort List](https://leetcode.com/problems/sort-list/)
