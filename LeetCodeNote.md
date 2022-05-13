@@ -545,7 +545,7 @@ Output: ["ad","ae","af","bd","be","bf","cd","ce","cf"]
 1. NOTICE that **any order**  of  **combinations** from the problem description , that's a big clue/hint/sign of **Backtracking**
 2. for the first number, there are `3` options, and these `3` options has there own 3 options for the second number and so on
 3. The combinations from the first to the last will expand into a **recursive tree**.
-4. just imagine that **backtracking tree** start from one of numbers, for example,  Take the `"234"` for example, look at the backtracking  tree:![image-20220511234214130](./LeetCodeNote.assets/image-20220511234214130.png)
+4. just imagine that **Dicition tree** start from one of numbers, for example,  Take the `"234"` for example, look at the backtracking  tree:![image-20220511234214130](./LeetCodeNote.assets/image-20220511234214130.png)
 
 5. When the index **reaches the end of digits**, we get a combination, and add it to the result, end the current recursion. Finally we will get all the combinations.
 
@@ -586,7 +586,7 @@ public:
         char digit = digits[curIndex];
         // tranvers all letters of the digit represented
         for(auto& letter: mp[digit]){
-            // 2. make choice in the backTracking tree for combination
+            // 2. make choice in the Dicition tree for combination
             combination.push_back(letter);
             // 3. backTrack to next level of the tree
             backTrack(digits,curIndex + 1,mp);
@@ -670,6 +670,99 @@ Our complexity analysis rests on understanding how many elements there are in `g
 - Space Complexity : O($\dfrac{4^n}{\sqrt{n}}$), as described above, and using `O(n)` space to store the sequence.
 
 
+
+
+
+### [46. Permutations](https://leetcode.cn/problems/permutations/)
+
+Given an array nums of distinct integers, return all the possible permutations. You can return the answer in **any order.**
+
+**Example 1:**
+
+```
+Input: nums = [1,2,3]
+Output: [[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
+```
+
+**Example 2:**
+
+```
+Input: nums = [0,1]
+Output: [[0,1],[1,0]]
+```
+
+
+
+#### [Approach:  Calssic backtracking- 3step](https://www.youtube.com/watch?v=s7AvT7cGdSo&ab_channel=NeetCode)
+
+**Intuition** 
+
+1. NOTICE that  **combinations & Any Order**  from the problem description , that's a big clue/hint/sign of using **Backtracking** algorithm
+
+2. It's a very classic banktracking prpblem,  YES, permutations , combination they are very simliar. And most of them can be sovled by backtracking 
+
+3. we just have to placed every integer to every position without duplicate 
+
+4. Just imagine that **Dicition tree** ,  BALALALALALALA 
+
+   ```C++
+   1 -> 2 -> 3
+     -> 3 -> 2
+   Dicition tree
+   1. exit of tree
+   2. make choice to pick up one node
+   3. go to next level node
+   4. go back pervious level
+   ```
+
+5. Careful of the edge case And using a `visited` array to mark weather current integer is visited 
+
+```C++
+class Solution {
+public:
+    vector<vector<int>> res;
+    
+    vector<vector<int>> permute(vector<int>& nums) {
+        // edge case
+        if (nums.empty()) return {};
+        // need a visited array to make sure every integer only use once  
+        vector<int> visited(nums.size(),0);
+        // need a vector to save current combination
+        vector<int> combination;
+        backTrack(nums,combination,visited);
+        return res;
+    }
+
+    void backTrack(vector<int>& nums,vector<int>& combination,vector<int> & visited){
+        // 1. exit for BackTracking (means we used up all of numbers)
+        if(combination.size() == nums.size()) {
+            res.push_back(combination);
+            return ;
+        }
+
+        for(int i = 0; i < nums.size();i++){
+            // Make sure there are no duplicate numbers (pruning: pruned current node)
+            if(visited[i] != 0) continue;
+            // 2. make choice on Dicition tree (pick up one to add to combination)
+            combination.push_back(nums[i]);
+            visited[i] = 1;
+            // 3. get into next level of tree
+            backTrack(nums,combination,visited);
+            // 4. go back to previous level 
+            combination.pop_back();
+            visited[i] = 0;
+
+        }
+
+    }
+};
+```
+
+**Complexity Analysis**
+
+- Time Complexity: `O(n×n!)`:  n is the length of input array.  the time Complexity isn't  `O(n^n)`,because there has a **pruning**! Therefore the time has reduce to factorial 
+
+- Space Complexity: `O(n)`, Except the result array, we used a visited array And the backtracking alse needs stack space, But the stack space required for backtracking depends on its **depth**,. In this problem depth is `N`
 
 
 

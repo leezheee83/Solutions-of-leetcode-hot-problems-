@@ -17,6 +17,7 @@
 5.   $ \log_{10}(x) $ : log base ten of x: 以10为底x的对数
 4.  Time Limit Exceeded: 超时！
 4.  `O(3^N)`: big O of three to the Nth power
+4.  `O(n!)`: big O of  factorial of n 
 
 ## Bit Manipulation
 
@@ -140,7 +141,11 @@
 
 41. Temporary variable： 临时变量
 
-42. Visit each member/element : 访问每个成员
+43. typos: 错别字：
+
+    1. Don't forget your typos: 别忘记处理你的错别字
+
+44. Visit each member/element : 访问每个成员
 
     1. Scan each element: 扫描每个成员
     1. Go through element/digit by element/digit: 扫描每个成员/数字
@@ -157,7 +162,7 @@
 
 
 
-## Specialism in Algorithm
+## Specialism in Algorithm：
 
 1. binary search: 二分查找
 
@@ -167,16 +172,21 @@
 
 3. *implicit* **LinkedList**.： 隐式链表
 
-4. monotonic stack: 单调栈
+3. left subTree: 左子树
 
-4. Enumeration methods: 枚举法
+6. List of List: 二维数组
 
-5. singly linked list ： 单链表
+   1. two dimension list/array
+
+7. monotonic stack: 单调栈
+
+8. Enumeration methods: 枚举法
+
+9. singly linked list ： 单链表
 
    
-   
-   
 
+   
 
 
 ## Specialism  CS Details
