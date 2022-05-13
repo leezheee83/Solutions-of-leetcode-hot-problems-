@@ -18,6 +18,11 @@
 4.  Time Limit Exceeded: 超时！
 4.  `O(3^N)`: big O of three to the Nth power
 
+## Bit Manipulation
+
+1. bitwise negation： ~ 取反：
+2. ^ : 异或 ：bitwise  XOR
+
 ## Describing in Algorithm
 
 1. abs() :  absolute value of 绝对值：

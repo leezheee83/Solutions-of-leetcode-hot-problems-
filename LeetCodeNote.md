@@ -671,6 +671,8 @@ Our complexity analysis rests on understanding how many elements there are in `g
 
 
 
+
+
 ## Binary Search
 
 ### [33. Search in Rotated Sorted Array](https://leetcode.com/problems/search-in-rotated-sorted-array/)
@@ -1101,6 +1103,84 @@ public:
 
 - Time complexity : `O(Log(M+N))`. because it's Binary Search for the combined two array
 - Space complexity : `O(1)`.
+
+
+
+## Bit Manipulation
+
+### [29 .Divide Two Integers](https://leetcode.cn/problems/divide-two-integers/) - Unimportant
+
+ this problem is so boring, So I just decide not to copy the code, Cause it's too redundant, IF I meet this problem in the interview. **I admit it** 
+
+[Here is the solution](https://leetcode.cn/problems/divide-two-integers/solution/liang-shu-xiang-chu-by-leetcode-solution-5hic/)  
+
+### Approach: Bit Manipulation
+
+**Intuition**
+
+1. In a division formula, the relationship between dividend, remainder, divisor and quotient is: `(dividend - remainder) ÷ divisor = quotient`
+   - And then deduce: quotient × divisor + remainder = dividend.
+2. Then we can use the `Bit Manipulation`, because the computer is very efficient when doing `Bit Manipulation`, shifting 1 to the left is equivalent to multiplying by 2, and shifting 1 to the right is equivalent to dividing by 2
+3. We can divide a dividend (dividend) by `2^n` first, `n` is initially `31`, and continuously decrease `n` to try, when a certain n satisfies `divide/2^n >= divisor`
+   1. Indicates that we have found a large enough number, this `number*divisor` is not greater than `dividend`, so we can `subtract 2^n from dividend`
+
+4. Edge Cases: such as divisor cannot be 0, Integer.MIN_VALUE and Integer.MAX_VALUE
+
+
+
+```Java
+class Solution {
+     /**
+     * 解题思路：这题是除法，所以先普及下除法术语
+     * 商，公式是：(被除数-余数)÷除数=商，记作：被除数÷除数=商...余数，是一种数学术语。
+     * 在一个除法算式里，被除数、余数、除数和商的关系为：(被除数-余数)÷除数=商，记作：被除数÷除数=商...余数，
+     * 进而推导得出：商×除数+余数=被除数。
+     *
+     * 要求商，我们首先想到的是减法，能被减多少次，那么商就为多少，但是明显减法的效率太低
+     *
+     * 那么我们可以用位移法，因为计算机在做位移时效率特别高，向左移1相当于乘以2，向右位移1相当于除以2
+     *
+     * 我们可以把一个dividend（被除数）先除以2^n，n最初为31，不断减小n去试探,当某个n满足dividend/2^n>=divisor时，
+     *
+     * 表示我们找到了一个足够大的数，这个数*divisor是不大于dividend的，所以我们就可以减去2^n个divisor，以此类推
+     *
+     * 我们可以以100/3为例
+     *
+     * 2^n是1，2，4，8...2^31这种数，当n为31时，这个数特别大，100/2^n是一个很小的数，肯定是小于3的，所以循环下来，
+     *
+     * 当n=5时，100/32=3, 刚好是大于等于3的，这时我们将100-32*3=4，也就是减去了32个3，接下来我们再处理4，同样手法可以再减去一个3
+     *
+     * 所以一共是减去了33个3，所以商就是33
+     *
+     * 这其中得处理一些特殊的数，比如divisor是不能为0的，Integer.MIN_VALUE和Integer.MAX_VALUE
+     *
+     */
+    public int divide(int dividend, int divisor) {
+        if (dividend == 0) {
+            return 0;
+        }
+        if (dividend == Integer.MIN_VALUE && divisor == -1) {
+            return Integer.MAX_VALUE;
+        }
+        boolean negative;
+        negative = (dividend ^ divisor) < 0;//using XOR(^) to compute wheather the sign is different
+        long t = Math.abs((long) dividend);
+        long d= Math.abs((long) divisor);
+        int result = 0;
+        for (int i=31; i>=0;i--) {
+            if ((t>>i)>=d) {// 找出足够大的数2^n*divisor;  find a big integer: 2^n*divisor
+                result+=1<<i;//将结果加上2^n;  added 2^n to result
+                t-=d<<i;//将被除数减去2^n*divisor ;  subtract 2^n from dividend
+            }
+        }
+        return negative ? -result : result;//符号相异取反; if negative just negate it 
+    
+```
+
+**Complexity Analysis**
+
+- Time complexity: $O(1)$  almost `O(1)`
+- Space complexity: $O(1)$ extra space. Only constant space required. 
 
 
 
@@ -1905,6 +1985,82 @@ int numSubarrayProductLessThanK(int* nums, int numsSize, int k){
 - Time complexity: $O(N)$
 - Space complexity: $O(1)$ 
 
+
+
+## Stack/Queue
+
+### [20. Valid Parentheses](https://leetcode.cn/problems/valid-parentheses/)
+
+Given a string `s` containing just the characters `'('`, `')'`, `'{'`, `'}'`, `'['` and `']'`, determine if the input string is valid.
+
+An input string is valid if:
+
+1. Open brackets must be closed by the same type of brackets.
+2. Open brackets must be closed in the correct order.
+
+**Example 1:**
+
+```
+Input: s = "()"
+Output: true
+```
+
+**Example 2:**
+
+```
+Input: s = "()[]{}"
+Output: true
+```
+
+#### Approach: Mock by Stack
+
+**Intuition**
+
+1. Judging the validity of parentheses can be solved using the "stack" data structure.
+2. Push the opening parentheses  to the stack, and when we visit a closing parentheses 
+   1. pop the top of stack And check they are the same type of  parentheses 
+   2. if it is not the same type, then the string `s` is invalid  , or there is no opening parenthesis on the stack
+
+```C++
+class Solution {
+public:
+    bool isValid(string s) {
+        
+        stack<char> stac;
+        
+        for(auto c:s){
+            if (c == '(' || c == '[' || c == '{'){
+                stac.push(c);
+            }
+            else{
+                if( !stac.empty() && getLeftParenthese(c) == stac.top())
+                    stac.pop();
+                else
+                   return false; 
+                
+            }
+        }
+        // if stac is empty, that means String is valid
+        return stac.empty();
+    }
+    
+    char getLeftParenthese(char c){
+        if (c == ']')
+            return '[';
+        else if (c == '}')
+            return '{';
+        else 
+            return '(';
+    }
+};
+```
+**Complexity Analysis**
+
+- Time Analysis: `O(N)`
+- Space Analysis: `O(N)`
+
+
+
 ## String & SubString & Subsequence & Palindrome
 
 ### [8.  String to Integer (atoi)](https://leetcode.com/problems/string-to-integer-atoi/solution/)
@@ -2174,6 +2330,8 @@ Explanation: There is no common prefix among the input strings.
 ```
 
 #### Approach :  Vertical scanning
+
+**Intuition**
 
 1. Imagine a very short string is the common prefix at the end of the array. The above approach will still do `S` comparisons
 2. One way to optimize this case is to do vertical scanning
