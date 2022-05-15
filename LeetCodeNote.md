@@ -627,7 +627,7 @@ Output: ["()"]
 
 
 
-#### [Approach : backtracking](https://www.youtube.com/watch?v=s9fokUqJ76A)
+#### [Approach : Recurvise, backtracking](https://www.youtube.com/watch?v=s9fokUqJ76A)
 
 **Intuition** :
 
@@ -2152,7 +2152,110 @@ public:
 - Time Analysis: `O(N)`
 - Space Analysis: `O(N)`
 
+### [32. Longest Valid Parentheses](https://leetcode.com/problems/longest-valid-parentheses/)
+Given a string containing just the characters '(' and ')', find the length of the longest valid (well-formed) parentheses substring.
+***Example 1:***
+``` 
+Input: s = "(()"
+Output: 2
+Explanation: The longest valid parentheses substring is "()".
+```
+***Example 2:***
+``` 
+Input: s = ")()())"
+Output: 4
+Explanation: The longest valid parentheses substring is "()()".
+```
 
+***Example 3:***
+``` 
+Input: s = ""
+Output: 0
+```
+
+Approch 1: normal Stack
+***Intuition***
+1. stack store the index of the elements in string .
+2. stack should add the flag before travesing the string .
+3. stack push the index of the open parentheses and compare with the closed parentheses.
+***Code:***
+``` c++
+class Solution {
+public:
+    int longestValidParentheses(string s) {
+        stack<int> stk;
+        int res =0;
+        stk.push(-1);
+        for (int i=0; i < s.size(); ++i){
+            if(s[i] == '(') stk.push(i);
+            else {
+                stk.pop();
+                if(stk.empty()) stk.push(i);
+                else {
+                    int len = i- stk.top();
+                    res = max(res, len);
+                }
+            }
+        }
+        return res;
+    }
+};
+```
+Approch 2 : traverse ,trick
+***Intuition:***
+1. focusing on the valid parentheses itself, valid means that the number of open parentheses is same as the number of closed parentheses 
+2. we can calculate and compare with the number of the open parentheses and the closed parentheses to find the longest valid substring.
+***Code:***
+``` C++
+class Solution {
+public:
+    int longestValidParentheses(string s) {
+        int open =0;
+        int closed = 0;
+        int res = 0;
+        for (int i =0;i<s.size();++i){
+            if(s[i] == '('){
+                open++;
+            }
+            else {
+                closed++;
+            }
+            if(closed == open){
+                int len = open+closed;
+                res = max(len, res);
+            }
+            else if (closed > open){
+                open =0;
+                closed = 0;
+            }
+        }
+        
+        //reverse 
+        open = 0;
+        closed = 0;
+        for (int i = s.size()-1;i >=0;--i){
+            if(s[i] == '('){
+                open++;
+            }
+            else {
+                closed++;
+            }
+            if(closed == open){
+                int len = open+closed;
+                res = max(len, res);
+            }
+            else if (closed < open){
+                open =0;
+                closed = 0;
+            }
+        }
+        return res; 
+    }
+};
+```
+Approach 3 : DP
+***Instuition:***
+***Code:***
 
 ## String & SubString & Subsequence & Palindrome
 
@@ -3181,6 +3284,4 @@ class Solution:
 - Space Complexity:  `O(SP), S= len(s), P = len(p)`
 
 ## DP + Puzzle
-
-
 
