@@ -2256,7 +2256,69 @@ public:
 Approach 3 : DP
 ***Instuition:***
 ***Code:***
+### [84. Largest Rectangle in Histogram](https://leetcode.cn/problems/largest-rectangle-in-histogram/)
+Given an array of integers heights representing the histogram's bar height where the width of each bar is 1, return the area of the largest rectangle in the histogram.
+***Example ***
+```
+Input: heights = [2,1,5,6,2,3]
+Output: 10
+Explanation: The above is a histogram where width of each bar is 1.
+The largest rectangle is shown in the red area, which has an area = 10 units.
 
+```
+***Intuition:***
+1. the detail is to find the lower bar behind each element.
+2. we should design the incresing monotonic stack to store the lower bar of the elements in left side.
+3. we can easily find the lower element of the element in right side traversing the array.
+4. the area of the element depends on the lower element surrounding it 
+5. the stack store the index of the array.
+   
+***Algorithm:***
+1. In the first loop , we used the value of top in stack being the length, because we want to use the traverse to make sure the intuition 3:finding the lower element of the element in right side traversing the array.
+2. poping the stack ,the top value of the stack is lower than the length .
+3. In the second loop , we set the sentinel in the endo f array and we easily find the area of th stack elements depends on n(array size) - left lower bar index .
+***Code***
+``` c++
+
+class Solution {
+public:
+    int largestRectangleArea(vector<int>& h) {
+        int n = h.size();
+        if (n== 1) return h[0];
+        stack<int> stk;
+        int res = 0;
+        for (int i =0;i < h.size();++i){
+            while(!stk.empty() && h[stk.top()] > h[i]){
+                int length = h[stk.top()];
+                int weight = i;
+                stk.pop();
+                if(!stk.empty()){
+                    weight = i - stk.top()-1;
+                }
+                res = max(res, weight*length);
+            }
+
+            stk.push(i);
+        }
+
+        while(!stk.empty()){
+            int length = h[stk.top()];
+            int weight = n;
+            stk.pop();
+            if (!stk.empty()){
+                weight = n-stk.top()-1;
+            }
+            res = max(res, weight* length);
+        }
+        return res ;
+    }
+};
+
+```
+
+来源：力扣（LeetCode）
+链接：https://leetcode.cn/problems/largest-rectangle-in-histogram
+著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 ## String & SubString & Subsequence & Palindrome
 
 ### [8.  String to Integer (atoi)](https://leetcode.com/problems/string-to-integer-atoi/solution/)
