@@ -1659,7 +1659,266 @@ class Solution:
        return (head)
 ```
 
+### [21. Merge Two Sorted Lists](https://leetcode.cn/problems/merge-two-sorted-lists/)
 
+You are given the heads of two sorted linked lists `list1` and `list2`.
+
+Merge the two lists in a one **sorted** list. The list should be made by splicing together the nodes of the first two lists.
+
+Return *the head of the merged linked list*.
+
+ 
+
+**Example 1:**
+
+![img](https://assets.leetcode.com/uploads/2020/10/03/merge_ex1.jpg)
+
+```
+Input: list1 = [1,2,4], list2 = [1,3,4]
+Output: [1,1,2,3,4,4]
+```
+
+#### Approach: Normal  traverse 
+
+**Intuition**
+
+1. Use to pointers to compare every two node's value, and pick the smaller one extend to the new list  
+
+```C++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
+        ListNode *head = new ListNode();
+        ListNode *cur = head;
+        
+        while( list1 != nullptr and list2 != nullptr){
+            // To linked the smaller one to the cur
+            if(list1->val >= list2->val){
+                cur->next = list2;
+                list2 = list2->next;
+            }else{
+                cur->next  = list1;
+                list1 = list1->next;
+            }
+            
+            cur = cur->next;
+        }
+     	// To linked the rest list of longer list 
+        cur->next = list1 != nullptr ? list1 : list2; 
+        return head->next;
+    }
+};
+```
+
+
+
+### 23. [Merge k Sorted Lists](https://leetcode.com/problems/merge-k-sorted-lists/)
+
+You are given an array of `k` linked-lists `lists`, each linked-list is sorted in ascending order.
+
+*Merge all the linked-lists into one sorted linked-list and return it.*
+
+**Example 1:**
+
+```
+Input: lists = [[1,4,5],[1,3,4],[2,6]]
+Output: [1,1,2,3,4,4,5,6]
+Explanation: The linked-lists are:
+[
+  1->4->5,
+  1->3->4,
+  2->6
+]
+merging them into one sorted list:
+1->1->2->3->4->4->5->6
+```
+
+
+
+#### Approach 1: Merge with Divide And Conquer (Recursion)
+
+**Intuition:**
+
+1. if `K ==2` ,that's be easy, Just merge 2 Sorted list, 
+2. So we can divide the whole list array into many parts, every part has two lists
+3. So the `Divide And Conquer` is whole idea 
+4. Finally we do not need to find the smallest value particularly
+
+**Algorithm** 
+
+1. Pair up `k` lists and merge each pair.
+2. After the first pairing, `k` lists will be merged into `k/2`(half of k), then `k/4`(quarter of k), `k/8`(k eighth) and so on.
+3. Repeat this procedure until we get the final sorted linked list.
+
+```python
+# Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution(object):
+    def mergeKLists(self, lists):
+        """
+        :type lists: List[ListNode]
+        :rtype: ListNode
+        """
+        return self.mergeSort(lists)
+        
+    def mergeSort(self,lists):
+        if len(lists) == 1: return lists[0]
+        mid = len(lists)//2
+        # Pair up k lists 
+        left = self.mergeSort(lists[:mid])
+        right = self.mergeSort(lists[mid:])
+        # Merge each pair.
+        return self.merge2list(left,right)
+    
+    def merge2list(self,left,right):
+        if not left: return right
+        if not right: return left 
+        
+        fakehead = ListNode(-1)
+        cur = fakehead
+        while left and right:
+            if left.val < right.val:
+                cur.next = left 
+                left = left.next 
+                cur = cur.next 
+            else:
+                cur.next = right
+                right = right.next 
+                cur = cur.next 
+        if left: cur.next = left 
+        if right: cur.next = right 
+        return fakehead.next
+```
+
+**Complexity Analysis**
+
+- Time complexity : `O(N*log k)` where `k` is the number of linked lists.
+  - We can merge two sorted linked list in `O(n)` time where `n` is the total number of nodes in two lists.
+  - Sum up the merge process and we can get: `O(N*logk)`
+- Space complexity : `O(N)`
+  - We can merge two sorted linked lists in O(1) (constant level )space.
+  - But we need temporary list to store the divided lists And need stack space to do the recursion
+
+#### Approach 2: Priority Queue
+
+**Intuition**
+
+1. If we could compared each value `One by One`, then can get the sorted list  
+2. How do we find the smallest node
+3. We can use  `Priority Queue`  to Compare every k nodes (head of every linked list) and get the node with the smallest value.
+4. Extend the final sorted linked list with the selected nodes.
+
+```python
+from Queue import PriorityQueue
+class Solution(object):
+    def mergeKLists(self, lists):
+        """
+        :type lists: List[ListNode]
+        :rtype: ListNode
+        """
+        head = point = ListNode(0)
+        q = PriorityQueue()
+        
+        for list in lists:
+            if list:
+                # start to bulid current Q with every head of list
+                # PriorityQueue already help us sorted the nodes
+                q.put((list.val,list))
+        
+        while not q.empty():
+            # smallest one from last K nodes(head of every list)
+            val, node = q.get()
+            # extend smallest one to result 
+            point.next = ListNode(val)
+            point = point.next
+            # current node move on 
+            node = node.next
+            if node:
+                # push the next node to Q with sorting 
+                q.put((node.val,node))
+        return head.next
+```
+
+**Complexity Analysis**
+
+- Time complexity : `O(N*log k)` where `k` is the number of linked lists.
+  - Using `PriorityQueue` to compare (put) nodes will take `O(log k)` time, and `get()` costs `O(1)` time 
+  - Every put takes `o(log k)` , we need to put `N` times (N is the amount of all nodes from lists)
+- Space complexity : `O(N)`
+  - Priority Queue costs `O(k)`
+  - new linked list required `O(N)`
+
+#### Approach 3: Merge with Divide And Conquer (Loop)
+
+**Intuition**
+
+1. Recursion will consume stack space , How do we divide and Conquers this problem without  Recursion 
+2. Can we just Using loop instead of  Recursion ,YES
+3. Through control the interval to merge the differ list to  the giving lists <img src="./LeetCodeNote.assets/image-20220525225111170.png" alt="image-20220525225111170" style="zoom:50%;" />
+
+```python
+# Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution(object):
+    def mergeKLists(self, lists):
+        """
+        :type lists: List[ListNode]
+        :rtype: ListNode
+        """
+        amount = len(lists)
+        interval = 1
+        while interval < amount:
+            # interval = 1, merge (list1,list2)  & (list3,list4) .... Create a new lists already pair merged 
+            # interval = 2, merge ( merge(list1,list2), merge(list3,list4) ) ....
+            # ....... finally we got all list merged 
+            for i in range(0, amount - interval, interval * 2):
+                lists[i] = self.merge2List(lists[i], lists[i + interval])
+            interval *= 2
+        return lists[0] if amount > 0 else None
+    
+    def merge2List(self,left,right):
+        if not left: return right
+        if not right: return left 
+        
+        fakehead = ListNode(-1)
+        cur = fakehead
+        while left and right:
+            if left.val < right.val:
+                cur.next = left 
+                left = left.next 
+                cur = cur.next 
+            else:
+                cur.next = right
+                right = right.next 
+                cur = cur.next 
+        if left: cur.next = left 
+        if right: cur.next = right 
+        return fakehead.next
+```
+
+**Complexity Analysis**
+
+- Time complexity : `O(N*log k)` where `k` is the number of linked lists.
+  - We can merge two sorted linked list in `O(n)` time where `n` is the total number of nodes in two lists.
+  - Sum up the merge process and we can get: `O(N*logk)`
+- Space complexity : `O(1)`
+  - We can merge two sorted linked lists in O(1) (constant level )space.
 
 ## Math Tricks
 
