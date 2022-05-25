@@ -2173,8 +2173,10 @@ Input: s = ""
 Output: 0
 ```
 
-Approch 1: normal Stack
+#### Approch 1: normal Stack
+
 ***Intuition***
+
 1. stack store the index of the elements in string .
 2. stack should add the flag before travesing the string .
 3. stack push the index of the open parentheses and compare with the closed parentheses.
@@ -2201,8 +2203,10 @@ public:
     }
 };
 ```
-Approch 2 : traverse ,trick
+#### Approch 2 : traverse ,trick
+
 ***Intuition:***
+
 1. focusing on the valid parentheses itself, valid means that the number of open parentheses is same as the number of closed parentheses 
 2. we can calculate and compare with the number of the open parentheses and the closed parentheses to find the longest valid substring.
 ***Code:***
@@ -2253,12 +2257,17 @@ public:
     }
 };
 ```
-Approach 3 : DP
+#### Approach 3 : DP
+
 ***Instuition:***
 ***Code:***
+
 ### [84. Largest Rectangle in Histogram](https://leetcode.cn/problems/largest-rectangle-in-histogram/)
 Given an array of integers heights representing the histogram's bar height where the width of each bar is 1, return the area of the largest rectangle in the histogram.
 ***Example ***
+
+![img](https://assets.leetcode.com/uploads/2021/01/04/histogram.jpg)
+
 ```
 Input: heights = [2,1,5,6,2,3]
 Output: 10
@@ -2273,11 +2282,13 @@ The largest rectangle is shown in the red area, which has an area = 10 units.
 4. the area of the element depends on the lower element surrounding it 
 5. the stack store the index of the array.
    
+
 ***Algorithm:***
+
 1. In the first loop , we used the value of top in stack being the length, because we want to use the traverse to make sure the intuition 3:finding the lower element of the element in right side traversing the array.
 2. poping the stack ,the top value of the stack is lower than the length .
 3. In the second loop , we set the sentinel in the endo f array and we easily find the area of th stack elements depends on n(array size) - left lower bar index .
-***Code***
+  ***Code***
 ``` c++
 
 class Solution {
@@ -2323,6 +2334,7 @@ Given the root of a binary tree, flatten the tree into a "linked list":
 - The "linked list" should be in the same order as a pre-order traversal of the binary tree.
 
 ***Example 1:***
+
 ```
 Input: root = [1,2,5,3,4,null,6]
 Output: [1,null,2,null,3,null,4,null,5,null,6]
