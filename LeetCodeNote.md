@@ -508,6 +508,86 @@ public:
 
 
 
+### [36. Valid Sudoku](https://leetcode.cn/problems/valid-sudoku/) / 数独
+
+Determine if a `9 x 9` `Sudoku` board is valid. Only the filled cells need to be validated **according to the following rules**:
+
+1. Each row must contain the digits `1-9` without repetition.
+2. Each column must contain the digits `1-9` without repetition.
+3. Each of the nine `3 x 3` sub-boxes of the grid must contain the digits `1-9` without repetition.
+
+**Note:**
+
+- A `Sudoku` board (partially filled) could be valid but is not necessarily solvable.
+- Only the filled cells need to be validated according to the mentioned rules.
+
+
+
+Example 1:
+
+![img](https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Sudoku-by-L2G-20050714.svg/250px-Sudoku-by-L2G-20050714.svg.png)
+
+```
+Input: board = 
+[["5","3",".",".","7",".",".",".","."]
+,["6",".",".","1","9","5",".",".","."]
+,[".","9","8",".",".",".",".","6","."]
+,["8",".",".",".","6",".",".",".","3"]
+,["4",".",".","8",".","3",".",".","1"]
+,["7",".",".",".","2",".",".",".","6"]
+,[".","6",".",".",".",".","2","8","."]
+,[".",".",".","4","1","9",".",".","5"]
+,[".",".",".",".","8",".",".","7","9"]]
+Output: true
+```
+
+#### Approach 1 : follow the rules / Loop BackTracking 
+
+**Intuition**
+
+1. we here traverse the sudoku in breadth search manner this is row-wise we will assess each cell character.
+2. if `1*1` cell conatins `'.'` then nothing needs to be checked
+3. else store the present number and change it to `'.'` 
+4. check the stored number if present anywhere in the row,in the column,or in the block associated with that cell ,immediately return false
+5. else change it back to the number it was storing repeat the process until gets completed.
+
+```Java
+class Solution {
+    public boolean isValidSudoku(char[][] board) {
+        for( int i=0; i < 9; ++i){
+            for( int j=0; j < 9; ++j){ //traverse in bfs manner 
+                char ch=board[i][j];
+                //if ch is apart from '.'we need to check whether the given number is verifiable
+                if (ch != '.'){ 
+                    board[i][j] = '.'; //change it to . so that it cannot consider itself
+                    if( !isValid(board,ch,i,j)) //if not verifiable
+                        return false; //invalid sudoku
+                    board[i][j] = ch; //after checking change it to its initial value
+                }
+            }
+        }
+        return true;
+    }
+    
+    static boolean isValid(char [][]board, char ch, int i, int j){
+        for( int k = 0; k < 9; ++k){
+            if(board[i][k] == ch) return false; //for checking row associated with it
+            if(board[k][j] == ch) return false; //for checking column associated with it
+            if(board[3*(i/3) + k/3][3*(j/3) + k%3] == ch) return false; //for checking block associated with it
+        }
+        return true;
+    }
+}
+```
+
+**Complexity Analysis**  
+
+- Time : O(1)
+
+- Space: O(1)
+
+
+
 ## Backtracking & Recursion & Memory Search
 
 ### Step of Backtracking
