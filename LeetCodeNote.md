@@ -2547,7 +2547,7 @@ The largest rectangle is shown in the red area, which has an area = 10 units.
 1. In the first loop , we used the value of top in stack being the length, because we want to use the traverse to make sure the intuition 3:finding the lower element of the element in right side traversing the array.
 2. poping the stack ,the top value of the stack is lower than the length .
 3. In the second loop , we set the sentinel in the endo f array and we easily find the area of th stack elements depends on n(array size) - left lower bar index .
-  ***Code***
+    ***Code***
 ``` c++
 
 class Solution {
@@ -2995,6 +2995,61 @@ class Solution:
 
 - Time complexity : `O(S)` , where `S` is the sum of all characters in all strings. In the worst case there will be `n` equal strings with length `m` and the algorithm performs `S=m⋅n`  character comparisons. 
 - Space complexity : `O(1)` We only used constant extra space.
+
+
+
+### [38. Count and Say](https://leetcode.cn/problems/count-and-say/) （外观数列）
+
+The **count-and-say** sequence is a sequence of digit strings defined by the recursive formula:
+
+- `countAndSay(1) = "1"`
+- `countAndSay(n)` is the way you would "say" the digit string from `countAndSay(n-1)`, which is then converted into a different digit string.
+
+To determine how you "say" a digit string, split it into the **minimal** number of substrings such that each substring contains exactly **one** unique digit. Then for each substring, say the number of digits, then say the digit. Finally, concatenate every said digit.
+
+![img](https://assets.leetcode.com/uploads/2020/10/23/countandsay.jpg)
+
+Given a positive integer `n`, return *the* `nth` *term of the **count-and-say** sequence*.
+
+#### Approach :  Just Flow the rules
+
+**Intuition**
+
+1. we assume  `S(i)` represent `countAndSay(i)` 
+2. if we want `S(i)` , we need to compute `S(i-1)` first , .... , till we have computed  `S(1)`
+3. Yes we have to using `Recursion` 
+
+```Java
+class Solution {
+    public String countAndSay(int n) {
+        String str = "1";
+        for (int i = 2; i <= n; ++i) {
+            StringBuilder sb = new StringBuilder();
+            int start = 0;
+            int pos = 0;
+
+            while (pos < str.length()) {
+                while (pos < str.length() && str.charAt(pos) == str.charAt(start)) {
+                    pos++;
+                }
+                sb.append(Integer.toString(pos - start)).append(str.charAt(start));
+                start = pos;
+            }
+            str = sb.toString();
+        }
+        
+        return str;
+    }
+}
+
+```
+
+**Complexity Analysis**:
+
+- time:  `O(N * M)`: N is the giving number, M is the longest length of the created String
+- Space: `O(M)`:  too obviously 
+
+
 
 
 
