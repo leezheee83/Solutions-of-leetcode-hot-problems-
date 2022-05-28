@@ -3887,10 +3887,11 @@ Explanation: The root node's value is 5 but its right child's value is 4.
 - we try to use the deapth-first searching to check the validation of each node, so we defined the helper function to check in recursive processing .
 - focusing on the boundary with left and right of the node value .
 - Helper function is to refresh the boundary in recursive processing 
-- the second deatails is to focus on the judge of the equal values.
+- the second deatails is to focus on the judge of the equal values, so we use recursive function to store each result .
 
 ***Code***
 ``` C++
+
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -3916,3 +3917,61 @@ public:
     }
 };
 ```
+
+
+### [101. Symmetric Tree](https://leetcode.cn/problems/symmetric-tree/)
+
+Given the root of a binary tree, check whether it is a mirror of itself (i.e., symmetric around its center).
+
+***Example 1:***
+```
+Input: root = [1,2,2,3,4,4,3]
+Output: true
+```
+
+***Example 2:***
+```
+Input: root = [1,2,2,null,3,null,3]
+Output: false
+```
+
+***Constraints:***
+
+The number of nodes in the tree is in the range [1, 1000].
+-100 <= Node.val <= 100
+
+#### Apporch :Deapth-First Searching
+***Instuition:***
+- we should tarverse each node and compare  it with the symmetric  node . Recursive Processing is a good way to check each node
+- the detail is how to make sure that the position of its symmetric node in traversing.
+
+***Code:***
+``` C++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    bool helper(TreeNode* left, TreeNode* right){
+        if(left == nullptr && right!=nullptr) return false;
+        else if(left != nullptr && right == nullptr) return false;
+        else if(left == nullptr && right == nullptr) return true;
+
+        else return (left->val == right->val) && helper(left->left,right->right)&& helper(left->right,right->left);
+    }
+    bool isSymmetric(TreeNode* root) {
+        if (root == nullptr) return true;
+        return helper(root->left, root->right);
+    }
+};
+
+```
+
