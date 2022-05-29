@@ -2314,6 +2314,72 @@ class Solution(object):
 
 too easy! It's not necessary to fill that
 
+### 48  Rotate Image
+
+You are given an `n x n` 2D `matrix` representing an image, rotate the image by **90** degrees (clockwise).
+
+You have to rotate the image [**in-place**](https://en.wikipedia.org/wiki/In-place_algorithm), which means you have to modify the input 2D matrix directly. **DO NOT** allocate another 2D matrix and do the rotation.
+
+**Example 1:**
+
+![img](https://assets.leetcode.com/uploads/2020/08/28/mat1.jpg)
+
+```
+Input: matrix = [[1,2,3],[4,5,6],[7,8,9]]
+Output: [[7,4,1],[8,5,2],[9,6,3]]
+```
+
+#### Approach : Reverse on Diagonal and then Reverse Left to Right
+
+**Intuition：**
+
+1. **Transpose** ：The most elegant solution for rotating the matrix is to firstly reverse the matrix around the main diagonal
+2. **reflect**：  And then reverse it from left to right. 
+3. These operations are called **transpose** and **reflect** in linear algebra.
+
+```C++
+class Solution {
+public:
+    void rotate(vector<vector<int>>& matrix) {
+        transpose(matrix);
+        reflect(matrix);
+    }
+    
+    void transpose(vector<vector<int>>& matrix){
+        int n = matrix.size();
+        for (int i = 0; i < n ;++i){
+            // j starts from i + 1 (Diagonal)
+            for ( int j = i + 1; j < n; ++j){
+                int temp = matrix[j][i];
+                matrix[j][i] = matrix[i][j];
+                matrix[i][j] = temp;
+            }
+        }
+    }
+    
+    void reflect(vector<vector<int>>& matrix){
+        int n = matrix.size();
+        for (int i = 0; i < n ;++i){
+            // left -> right: only need traverse half 
+            for ( int j = 0; j < n / 2; ++j){
+                int temp = matrix[i][j];
+                matrix[i][j] = matrix[i][n - j - 1];
+                matrix[i][n - j -1] = temp;
+            }
+        }
+    }
+};
+```
+
+**Complexity Analysis**:
+
+Let `M` be the number of cells in the grid.
+
+- Time: O(M) : Reversing each row also has a cost of `O(M)`, because again we're moving the value of each cell once.
+- Space: O(1)
+
+
+
 
 
 ## Sliding Window
