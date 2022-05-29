@@ -2382,6 +2382,47 @@ Let `M` be the number of cells in the grid.
 
 
 
+### [50. Pow(x, n)](https://leetcode.cn/problems/powx-n/)
+
+Implement [pow(x, n)](http://www.cplusplus.com/reference/valarray/pow/), which calculates `x` raised to the power `n` (i.e., `xn`).
+
+**Example 1:**
+
+```
+Input: x = 2.00000, n = 10
+Output: 1024.00000
+```
+
+**Example 2:**
+
+```
+Input: x = 2.10000, n = 3
+Output: 9.26100
+```
+
+#### Approach: Binary Search 
+
+**Intuition**
+
+1. Using the Binary Search Manners to find the answer (it's log of N time costs) by divided the `n`,  Until n turn into  0
+2. Careful the edge cases :  
+   - `if n < 0` , we have to return the reciprocal
+   -  if n is odd, then we need to multiply extra x 
+
+```C++
+class Solution {
+public:
+    double myPow(double x, int n) {
+        double res = 1.0;
+        for(int i = n ; i != 0; i /= 2){
+            if(i % 2 != 0) res *= x;
+            x = x * x;
+        }
+        return n < 0 ? 1 / res : res;
+    }
+};
+```
+
 
 
 ## Sliding Window
