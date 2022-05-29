@@ -1285,7 +1285,15 @@ public:
 
 ### [29 .Divide Two Integers](https://leetcode.cn/problems/divide-two-integers/) - Unimportant
 
- this **Fucking** problem is so **boring**, So I just decide not to copy the code, Cause it's too redundant, If I meet this problem in the interview. **I admit it's my daddy** 
+Example 1:
+
+```
+nput: dividend = 10, divisor = 3
+Output: 3
+Explanation: 10/3 = 3.33333.. which is truncated to 3.
+```
+
+This **Fucking** problem is so **boring**, So I just decide not to copy the code, Cause it's too redundant, If I meet this problem in the interview. **I admit it's my daddy** 
 
 [Here is the solution](https://leetcode.cn/problems/divide-two-integers/solution/liang-shu-xiang-chu-by-leetcode-solution-5hic/)  
 

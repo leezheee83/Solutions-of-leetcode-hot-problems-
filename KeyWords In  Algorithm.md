@@ -143,18 +143,20 @@
 
 42. Sum of all unit: 所有单元和 
 
-43. traverse the array : 遍历数组
+43. Symmetric :  对称的
+
+44. traverse the array : 遍历数组
 
     1. Scan through the array: 遍历数组
     2. Loop through the array/digit: 遍历数组/数字
 
-44. Temporary variable： 临时变量
+45. Temporary variable： 临时变量
 
-45. typos: 错别字：
+46. typos: 错别字：
 
     1. Don't forget your typos: 别忘记处理你的错别字
 
-46. Visit each member/element : 访问每个成员
+47. Visit each member/element : 访问每个成员
 
     1. Scan each element: 扫描每个成员
     1. Go through element/digit by element/digit: 扫描每个成员/数字
