@@ -2568,6 +2568,61 @@ public:
 };
 ```
 
+### [59. Spiral Matrix II](https://leetcode.cn/problems/spiral-matrix-ii/)
+
+Given a positive integer `n`, generate an `n x n` `matrix` filled with elements from `1` to `n2` in spiral order.
+
+**Example 1:**
+
+![img](https://assets.leetcode.com/uploads/2020/11/13/spiraln.jpg)
+
+```
+Input: n = 3
+Output: [[1,2,3],[8,9,4],[7,6,5]]
+```
+
+#### Approach:  Spiral Traversing
+
+```C++
+class Solution {
+public:
+    vector<vector<int>> generateMatrix(int n) {
+        if( n < 1) return {};
+        
+        int left = 0, right = n-1, up = 0, down = n-1;
+        vector<vector<int>> matrix(n,vector<int>(n,0));
+        int step = 0;
+        while ( step < n*n ){
+            for( int i = left; i <= right; ++i){
+                step++;
+                matrix[up][i] = step;
+            }
+            up++;
+            
+            for(int i = up; i <= down; ++i){
+                step++;
+                matrix[i][right] = step;
+            }
+            right--;
+            
+            for(int i = right; i >= left; --i){
+                step++;
+                matrix[down][i] = step;
+            }
+            down--;
+            
+            for(int i = down; i >= up; --i){
+                step++;
+                matrix[i][left] = step;
+            }
+            left++;
+                
+        }
+        return matrix;
+    }
+};
+```
+
 
 
 ## Sliding Window
