@@ -2470,6 +2470,46 @@ public:
 };
 ```
 
+### [69. Sqrt(x)](https://leetcode.cn/problems/sqrtx/)
+
+Given a non-negative integer `x`, compute and return *the square root of* `x`.
+
+Since the return type is an integer, the decimal digits are **truncated**, and only **the integer part** of the result is returned.
+
+**Note:** You are not allowed to use any built-in exponent function or operator, such as `pow(x, 0.5)` or `x ** 0.5`.
+
+**Example 1:**
+
+```
+Input: x = 4
+Output: 2
+```
+
+#### Approach : Binary Search 
+
+**Intuition**
+
+1. easy problem, Just using the Binary Search more fast
+
+```C++
+class Solution {
+public:
+    int mySqrt(int x) {
+        if(x == 0 || x == 1) return x;
+        int left = 0, right = x;
+        while( left < right-1){
+            int mid = (left + right) / 2;
+            if (mid <= x/mid)
+                left = mid;
+            else
+                right = mid;
+        }
+        
+        return left;
+    }
+};
+```
+
 
 
 ## Sliding Window
