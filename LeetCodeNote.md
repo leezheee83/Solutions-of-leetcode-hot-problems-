@@ -2363,70 +2363,6 @@ class Solution(object):
 
 too easy! It's not necessary to fill that
 
-### [48  Rotate Image](https://leetcode.com/problems/rotate-image/)
-
-You are given an `n x n` 2D `matrix` representing an image, rotate the image by **90** degrees (clockwise).
-
-You have to rotate the image [**in-place**](https://en.wikipedia.org/wiki/In-place_algorithm), which means you have to modify the input 2D matrix directly. **DO NOT** allocate another 2D matrix and do the rotation.
-
-**Example 1:**
-
-![img](https://assets.leetcode.com/uploads/2020/08/28/mat1.jpg)
-
-```
-Input: matrix = [[1,2,3],[4,5,6],[7,8,9]]
-Output: [[7,4,1],[8,5,2],[9,6,3]]
-```
-
-#### Approach : Reverse on Diagonal and then Reverse Left to Right
-
-**Intuition：**
-
-1. **Transpose** ：The most elegant solution for rotating the matrix is to firstly reverse the matrix around the main diagonal
-2. **reflect**：  And then reverse it from left to right. 
-3. These operations are called **transpose** and **reflect** in linear algebra.
-
-```C++
-class Solution {
-public:
-    void rotate(vector<vector<int>>& matrix) {
-        transpose(matrix);
-        reflect(matrix);
-    }
-    
-    void transpose(vector<vector<int>>& matrix){
-        int n = matrix.size();
-        for (int i = 0; i < n ;++i){
-            // j starts from i + 1 (Diagonal)
-            for ( int j = i + 1; j < n; ++j){
-                int temp = matrix[j][i];
-                matrix[j][i] = matrix[i][j];
-                matrix[i][j] = temp;
-            }
-        }
-    }
-    
-    void reflect(vector<vector<int>>& matrix){
-        int n = matrix.size();
-        for (int i = 0; i < n ;++i){
-            // left -> right: only need traverse half 
-            for ( int j = 0; j < n / 2; ++j){
-                int temp = matrix[i][j];
-                matrix[i][j] = matrix[i][n - j - 1];
-                matrix[i][n - j -1] = temp;
-            }
-        }
-    }
-};
-```
-
-**Complexity Analysis**:
-
-Let `M` be the number of cells in the grid.
-
-- Time: O(M) : Reversing each row also has a cost of `O(M)`, because again we're moving the value of each cell once.
-- Space: O(1)
-
 
 
 ### [50. Pow(x, n)](https://leetcode.cn/problems/powx-n/)
@@ -2509,6 +2445,76 @@ public:
     }
 };
 ```
+
+
+
+## Matrix
+
+### [48  Rotate Image](https://leetcode.com/problems/rotate-image/)
+
+You are given an `n x n` 2D `matrix` representing an image, rotate the image by **90** degrees (clockwise).
+
+You have to rotate the image [**in-place**](https://en.wikipedia.org/wiki/In-place_algorithm), which means you have to modify the input 2D matrix directly. **DO NOT** allocate another 2D matrix and do the rotation.
+
+**Example 1:**
+
+![img](https://assets.leetcode.com/uploads/2020/08/28/mat1.jpg)
+
+```
+Input: matrix = [[1,2,3],[4,5,6],[7,8,9]]
+Output: [[7,4,1],[8,5,2],[9,6,3]]
+```
+
+#### Approach : Reverse on Diagonal and then Reverse Left to Right
+
+**Intuition：**
+
+1. **Transpose** ：The most elegant solution for rotating the matrix is to firstly reverse the matrix around the main diagonal
+2. **reflect**：  And then reverse it from left to right. 
+3. These operations are called **transpose** and **reflect** in linear algebra.
+
+```C++
+class Solution {
+public:
+    void rotate(vector<vector<int>>& matrix) {
+        transpose(matrix);
+        reflect(matrix);
+    }
+    
+    void transpose(vector<vector<int>>& matrix){
+        int n = matrix.size();
+        for (int i = 0; i < n ;++i){
+            // j starts from i + 1 (Diagonal)
+            for ( int j = i + 1; j < n; ++j){
+                int temp = matrix[j][i];
+                matrix[j][i] = matrix[i][j];
+                matrix[i][j] = temp;
+            }
+        }
+    }
+    
+    void reflect(vector<vector<int>>& matrix){
+        int n = matrix.size();
+        for (int i = 0; i < n ;++i){
+            // left -> right: only need traverse half 
+            for ( int j = 0; j < n / 2; ++j){
+                int temp = matrix[i][j];
+                matrix[i][j] = matrix[i][n - j - 1];
+                matrix[i][n - j -1] = temp;
+            }
+        }
+    }
+};
+```
+
+**Complexity Analysis**:
+
+Let `M` be the number of cells in the grid.
+
+- Time: O(M) : Reversing each row also has a cost of `O(M)`, because again we're moving the value of each cell once.
+- Space: O(1)
+
+
 
 
 
@@ -4040,6 +4046,8 @@ class Solution:
 
 2. Space complexity: `O(n)`, where n is the length of the string s. 
 
+## Greedy (Scheduling)
+
 ### [53. Maximum Subarray](https://leetcode.cn/problems/maximum-subarray/)
 
 Given an integer array `nums`, find the contiguous `subarray` (containing at least one number) which has the largest sum and return *its sum*.
@@ -4076,6 +4084,43 @@ public:
             globalMax = max(globalMax,localMax);
         }
         return globalMax;
+    }
+};
+```
+
+## 
+
+### [55. Jump Game](https://leetcode.cn/problems/jump-game/)
+
+You are given an integer array `nums`. You are initially positioned at the array's **first index**, and each element in the array represents your maximum jump length at that position.
+
+Return `true` *if you can reach the last index, or* `false` *otherwise*.
+
+**Example 1:**
+
+```
+Input: nums = [2,3,1,1,4]
+Output: true
+Explanation: Jump 1 step from index 0 to 1, then 3 steps to the last index.
+```
+
+#### Apporach：Greedy+ self-Index
+
+1. Greedy idea: try to jump the furthest(longest) distance every time
+2. If we can reach to the last position, then we return true 
+
+```C++
+class Solution {
+public:
+    bool canJump(vector<int>& nums) {
+        int maxDistance = nums[0];
+        for (int i = 1; i < nums.size(); ++i){
+            if (i <= maxDistance)
+                // distance = nums[i](next distance) + i(current position) 
+                maxDistance = max(maxDistance, nums[i] + i);
+        }
+        // check whether we reach to end
+        return maxDistance >= nums.size() - 1;
     }
 };
 ```
