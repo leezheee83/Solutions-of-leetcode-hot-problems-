@@ -4439,5 +4439,68 @@ class Solution:
 - Time Complexity:  `O(SP), S= len(s), P = len(p)`
 - Space Complexity:  `O(SP), S= len(s), P = len(p)`
 
+
+
+### [45. Jump Game II](https://leetcode.cn/problems/jump-game-ii/)
+
+Given an array of non-negative integers `nums`, you are initially positioned at the first index of the array.
+
+Each element in the array represents your maximum jump length at that position.
+
+Your goal is to reach the last index in the minimum number of jumps.
+
+You can assume that you can always reach the last index.
+
+**Example 1:**
+
+```
+Input: nums = [2,3,1,1,4]
+Output: 2
+Explanation: The minimum number of jumps to reach the last index is 2. Jump 1 step from index 0 to 1, then 3 steps to the last index.
+```
+
+#### Approach : Greedy with Flag 
+
+**Intuition**
+
+1. It's a classic dynamic programming  with 1 dimension. Because every position, we have more than one choice to jump, And we want the minimum number of jumps
+2. Greedy idea can instead of DP array in this problem
+3. Using Greedy to make sure every jump can reach farthest with minimum number of steps to the end 
+4. Need a flag to check we can jump to the end exactly  
+
+```C++
+class Solution {
+public:
+    int jump(vector<int>& nums) {
+        int n = nums.size();
+        int end = 0, farthest = 0;
+        int jumps = 0;
+        for (int i =0 ; i < n - 1; ++i){
+            // farthest is the most far distance we could reach 
+            farthest = max(nums[i] + i, farthest);
+            // jumps to a right position
+            if (end == i){
+                jumps++;
+                end = farthest;
+            }
+        }    
+        return jumps;
+    }
+};
+```
+
+
+
 ## DP + Puzzle
 
+## DP + Tree
+
+## DP + Package
+
+## DP + Interval 
+
+## DP +  3-Dimension- Finite State Machine
+
+## DP + State Compression
+
+## DP + Memoization
