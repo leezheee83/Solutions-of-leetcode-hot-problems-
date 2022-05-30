@@ -2516,6 +2516,58 @@ Let `M` be the number of cells in the grid.
 
 
 
+### [54. Spiral Matrix](https://leetcode.cn/problems/spiral-matrix/)
+
+Given an `m x n` `matrix`, return *all elements of the* `matrix` *in spiral order*.
+
+**Example 1:**
+
+![img](https://assets.leetcode.com/uploads/2020/11/13/spiral1.jpg)
+
+```
+Input: matrix = [[1,2,3],[4,5,6],[7,8,9]]
+Output: [1,2,3,6,9,8,7,4,5]
+```
+
+#### Approach: Spiral Traversing(Scaning)
+
+**too easy, Sorry No intuition**
+
+```C++
+class Solution {
+public:
+    vector<int> spiralOrder(vector<vector<int>>& matrix) {
+        if(matrix.empty()) return {};
+        
+        int left = 0, right = matrix[0].size()-1, up = 0, down = matrix.size() - 1;
+        vector<int> res;
+        
+        while(1){
+            for(int i = left; i <= right; ++i)
+                res.push_back(matrix[up][i]);
+            up++;
+            if( up > down) break;
+            
+            for(int i = up; i <= down; ++i)
+                res.push_back(matrix[i][right]);
+            right--;
+            if(right < left) break;
+            
+            for(int i = right; i >= left; --i)
+                res.push_back(matrix[down][i]);
+            down--;
+            if(down < up) break;
+            
+            for(int i = down; i >= up; --i)
+                res.push_back(matrix[i][left]);
+            left++;
+            if(left > right) break;
+        }
+        return res;        
+    }
+};
+```
+
 
 
 ## Sliding Window

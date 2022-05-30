@@ -149,6 +149,7 @@
 
     1. Scan through the array: 遍历数组
     2. Loop through the array/digit: 遍历数组/数字
+    2. **Spiral Traversing**:  螺旋遍历
 
 45. Temporary variable： 临时变量
 
