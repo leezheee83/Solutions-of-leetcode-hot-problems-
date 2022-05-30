@@ -1406,192 +1406,7 @@ class Solution {
 
 
 
-## Depth-First Searching / Breadth-First Searching
-
-### [98. Validate Binary Search Tree](https://leetcode.cn/problems/validate-binary-search-tree/)
-
-Given the root of a binary tree, determine if it is a valid binary search tree (BST).
-
-A valid BST is defined as follows:
-
-The left subtree of a node contains only nodes with keys less than the node's key.
-The right subtree of a node contains only nodes with keys greater than the node's key.
-Both the left and right subtrees must also be binary search trees.
-
-***Example 1:***
-
-```
-Input: root = [2,1,3]
-Output: true
-```
-
-***Example 2:***
-
-```
-Input: root = [5,1,4,null,null,3,6]
-Output: false
-Explanation: The root node's value is 5 but its right child's value is 4.
-
-```
-
-#### Apporch 1: Deapth—First Searching
-
-***Intuition***
-
-- we try to use the deapth-first searching to check the validation of each node, so we defined the helper function to check in recursive processing .
-- focusing on the boundary with left and right of the node value .
-- Helper function is to refresh the boundary in recursive processing 
-- the second deatails is to focus on the judge of the equal values, so we use recursive function to store each result .
-
-***Code***
-
-``` C++
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
- *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
- * };
- */
-class Solution {
-public:
-    bool helper (TreeNode* root, long left, long right) {
-        if(root == nullptr) return true;
-
-        if(root->val <= left || root ->val >= right) return false;
-
-        return helper(root->left,left, root->val) && helper(root->right, root->val, right);
-    }
-    bool isValidBST(TreeNode* root) {
-        return helper(root, LONG_MIN, LONG_MAX);
-    }
-};
-```
-
-
-### [101. Symmetric Tree](https://leetcode.cn/problems/symmetric-tree/)
-
-Given the root of a binary tree, check whether it is a mirror of itself (i.e., symmetric around its center).
-
-***Example 1:***
-
-```
-Input: root = [1,2,2,3,4,4,3]
-Output: true
-```
-
-***Example 2:***
-
-```
-Input: root = [1,2,2,null,3,null,3]
-Output: false
-```
-
-***Constraints:***
-
-The number of nodes in the tree is in the range [1, 1000].
--100 <= Node.val <= 100
-
-#### Apporch :Deapth-First Searching
-
-***Instuition:***
-
-- we should tarverse each node and compare  it with the symmetric  node . Recursive Processing is a good way to check each node
-- the detail is how to make sure that the position of its symmetric node in traversing.
-
-***Code:***
-
-``` C++
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
- *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
- * };
- */
-class Solution {
-public:
-    bool helper(TreeNode* left, TreeNode* right){
-        if(left == nullptr && right!=nullptr) return false;
-        else if(left != nullptr && right == nullptr) return false;
-        else if(left == nullptr && right == nullptr) return true;
-
-        else return (left->val == right->val) && helper(left->left,right->right)&& helper(left->right,right->left);
-    }
-    bool isSymmetric(TreeNode* root) {
-        if (root == nullptr) return true;
-        return helper(root->left, root->right);
-    }
-};
-
-```
-
-### [226. Invert Binary Tree](https://leetcode.cn/problems/invert-binary-tree/)
-
-Given the root of a binary tree, invert the tree, and return its root.
-
-***Example 1:***
-
-```
-Input: root = [4,2,7,1,3,6,9]
-Output: [4,7,2,9,6,3,1]
-```
-
-***Example 2:***
-
-```
-Input: root = [2,1,3]
-Output: [2,3,1]
-```
-
-***Example 3:***
-
-```
-Input: root = []
-Output: []
-```
-
-#### Approach 1: Deapth-First Searching
-
-***Intuition:***
-
-- we exchange the left node to right node , and exchange the right node to left node 
-
-***Code: ***
-
-``` C++
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
- *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
- * };
- */
-class Solution {
-public:
-    TreeNode* invertTree(TreeNode* root) {
-        if(root == nullptr) return root;
-        invertTree(root->left);
-        invertTree(root->right);
-        TreeNode* tmp =root->left;
-        root->left = root->right;
-        root->right = tmp;
-        return root;
-    }
-};
-```
+## DFS(Depth-First Searching) / BFS(Breadth-First Searching)
 
 
 
@@ -3710,6 +3525,197 @@ class Solution:
 
 Time Complexity: `O(NlogN)`
 Space Complexity: O(N)
+
+
+
+## Tree / BST / AVL/ RBT
+
+This part should be included  `Tree`, `Binary Tree`, `Binary Search Tree`, `self-Balancing Binary Search Tree`,  `AVL tree`, `T tree`, `Red–black tree`
+
+### [98. Validate Binary Search Tree](https://leetcode.cn/problems/validate-binary-search-tree/)
+
+Given the root of a binary tree, determine if it is a valid binary search tree (BST).
+
+A valid BST is defined as follows:
+
+The left subtree of a node contains only nodes with keys less than the node's key.
+The right subtree of a node contains only nodes with keys greater than the node's key.
+Both the left and right subtrees must also be binary search trees.
+
+***Example 1:***
+
+```
+Input: root = [2,1,3]
+Output: true
+```
+
+***Example 2:***
+
+```
+Input: root = [5,1,4,null,null,3,6]
+Output: false
+Explanation: The root node's value is 5 but its right child's value is 4.
+
+```
+
+#### Apporch 1: Deapth—First Searching
+
+***Intuition***
+
+- we try to use the deapth-first searching to check the validation of each node, so we defined the helper function to check in recursive processing .
+- focusing on the boundary with left and right of the node value .
+- Helper function is to refresh the boundary in recursive processing 
+- the second deatails is to focus on the judge of the equal values, so we use recursive function to store each result .
+
+***Code***
+
+``` C++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    bool helper (TreeNode* root, long left, long right) {
+        if(root == nullptr) return true;
+
+        if(root->val <= left || root ->val >= right) return false;
+
+        return helper(root->left,left, root->val) && helper(root->right, root->val, right);
+    }
+    bool isValidBST(TreeNode* root) {
+        return helper(root, LONG_MIN, LONG_MAX);
+    }
+};
+```
+
+
+### [101. Symmetric Tree](https://leetcode.cn/problems/symmetric-tree/)
+
+Given the root of a binary tree, check whether it is a mirror of itself (i.e., symmetric around its center).
+
+***Example 1:***
+
+```
+Input: root = [1,2,2,3,4,4,3]
+Output: true
+```
+
+***Example 2:***
+
+```
+Input: root = [1,2,2,null,3,null,3]
+Output: false
+```
+
+***Constraints:***
+
+The number of nodes in the tree is in the range [1, 1000].
+-100 <= Node.val <= 100
+
+#### Apporch :Deapth-First Searching
+
+***Instuition:***
+
+- we should tarverse each node and compare  it with the symmetric  node . Recursive Processing is a good way to check each node
+- the detail is how to make sure that the position of its symmetric node in traversing.
+
+***Code:***
+
+``` C++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    bool helper(TreeNode* left, TreeNode* right){
+        if(left == nullptr && right!=nullptr) return false;
+        else if(left != nullptr && right == nullptr) return false;
+        else if(left == nullptr && right == nullptr) return true;
+
+        else return (left->val == right->val) && helper(left->left,right->right)&& helper(left->right,right->left);
+    }
+    bool isSymmetric(TreeNode* root) {
+        if (root == nullptr) return true;
+        return helper(root->left, root->right);
+    }
+};
+
+```
+
+### [226. Invert Binary Tree](https://leetcode.cn/problems/invert-binary-tree/)
+
+Given the root of a binary tree, invert the tree, and return its root.
+
+***Example 1:***
+
+```
+Input: root = [4,2,7,1,3,6,9]
+Output: [4,7,2,9,6,3,1]
+```
+
+***Example 2:***
+
+```
+Input: root = [2,1,3]
+Output: [2,3,1]
+```
+
+***Example 3:***
+
+```
+Input: root = []
+Output: []
+```
+
+#### Approach 1: Deapth-First Searching
+
+***Intuition:***
+
+- we exchange the left node to right node , and exchange the right node to left node 
+
+***Code: ***
+
+``` C++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* invertTree(TreeNode* root) {
+        if(root == nullptr) return root;
+        invertTree(root->left);
+        invertTree(root->right);
+        TreeNode* tmp =root->left;
+        root->left = root->right;
+        root->right = tmp;
+        return root;
+    }
+};
+```
 
 
 
