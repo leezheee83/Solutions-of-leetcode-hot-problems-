@@ -196,7 +196,11 @@
 
 3. *implicit* **LinkedList**.： 隐式链表
 
-3. left subTree: 左子树
+6. Tree
+
+   1. left subTree: 左子树
+   2. Binary Search Tree: 二叉搜索树
+   3. Inorder Traversal: 中序遍历
 
 7. List of List: 二维数组
 
@@ -205,13 +209,13 @@
 
 8. monotonic stack: 单调栈
 
-8. Priority  Queue： 优先级队列
+9. Priority  Queue： 优先级队列
 
-9. Singly linked list ： 单链表
+10. Singly linked list ： 单链表
 
-   
+    
 
-   
+    
 
 
 ## Specialism  CS Details

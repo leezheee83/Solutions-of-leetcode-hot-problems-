@@ -3768,6 +3768,49 @@ public:
 };
 ```
 
+### [94. Binary Tree Inorder Traversal](https://leetcode.cn/problems/binary-tree-inorder-traversal/)
+
+Given the `root` of a binary tree, return *the inorder traversal of its nodes' values*.
+
+**Example 1:**
+
+![img](https://assets.leetcode.com/uploads/2020/09/15/inorder_1.jpg)
+
+```
+Input: root = [1,null,2,3]
+Output: [1,3,2]
+```
+
+#### Approach： Loop+Stack / Recursion
+
+```python
+class Solution(object):
+    
+    def inorderTraversal(self, root):
+        res = []
+        def Loop_Inorder(root):
+            stack = []
+            cur = root
+            while cur or stack:
+                while cur:
+                    stack.append(cur)
+                    cur = cur.left
+                cur = stack.pop()
+                res.append(cur.val)
+                cur = cur.right
+
+        def Recurrent_inOrder(root):
+            if not root: return None
+            #if root.left:
+            Recurrent_inOrder(root.left)
+            res.append(root.val)
+            #if root.right:
+            Recurrent_inOrder(root.right)
+        
+        Recurrent_inOrder(root)
+        return res
+```
+
 
 
 ## Two Pointers
