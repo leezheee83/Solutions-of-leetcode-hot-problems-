@@ -2489,6 +2489,97 @@ public:
 };
 ```
 
+### [73. Set Matrix Zeroes](https://leetcode.cn/problems/set-matrix-zeroes/)
+
+Given an `m x n` integer matrix `matrix`, if an element is `0`, set its entire row and column to `0`'s.
+
+You must do it [in place](https://en.wikipedia.org/wiki/In-place_algorithm).
+
+**Example 1:**
+
+![img](https://assets.leetcode.com/uploads/2020/08/17/mat1.jpg)
+
+```
+Input: matrix = [[1,1,1],[1,0,1],[1,1,1]]
+Output: [[1,0,1],[0,0,0],[1,0,1]]
+```
+
+#### Approach :  Flag array 
+
+**Intuition**
+
+1. Using two `Flag array` to mark whether has zero exist in each column and row
+2. If find a `0` in matrix, just reflect `True` to the `Flag array`
+3. Finally, Re-traverse `matrix` and using Flag array to `shift matrix`  
+
+```C++
+class Solution {
+public:
+    void setZeroes(vector<vector<int>>& matrix) {
+        int m = matrix.size();
+        int n = matrix[0].size();
+        vector<int> row(m), col(n);
+        
+        for (int i = 0; i < m; ++i){
+            for (int j = 0; j < n; ++j){
+                if( !matrix[i][j]){
+                    row[i] = col[j] = true;
+                }
+            }
+        }
+        
+        for (int i = 0; i < m; ++i){
+            for (int j = 0; j < n; ++j){
+                if( row[i] || col[j])
+                    matrix[i][j] = 0;
+            }
+        }
+    }
+};
+```
+
+
+
+#### Approach: Optimized: one Flag variable 
+
+**Intuition**
+
+1. Based on Approach 1, we do really need two arrays, We can using only one flag instead of two array
+2. `FlagColZero` represent  whether first column has zero
+3. then the element of each column can be marked to  whether current cow has zero
+4. `Back traverse` needed to make sure first element would not be shifted at beginning 
+
+```C++
+class Solution {
+public:
+    void setZeroes(vector<vector<int>>& matrix) {
+        int m = matrix.size();
+        int n = matrix[0].size();
+        int flagColZero = false;
+        
+        for(int i =0; i < m; ++i){
+            if(!matrix[i][0])
+                flagColZero = true;
+            for(int j = 1; j < n; ++j){
+                if(!matrix[i][j])
+                    matrix[i][0] = matrix[0][j] = 0;
+            }
+        }
+        
+        for (int i = m - 1; i >= 0; --i){
+            for( int j = 1; j < n; ++j){
+                if( !matrix[i][0] || !matrix[0][j])
+                    matrix[i][j] = 0;
+            }
+            
+            if(flagColZero)
+                matrix[i][0] = 0;
+        }
+        
+    }
+};
+```
+
 
 
 ## Sliding Window
