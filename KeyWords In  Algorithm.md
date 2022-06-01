@@ -199,7 +199,8 @@
 6. Tree
 
    1. left subTree: 左子树
-   2. Binary Search Tree: 二叉搜索树
+   2. BInary Tree: 二叉树
+      1. Binary Search Tree: 二叉搜索树
    3. Inorder Traversal: 中序遍历
 
 7. List of List: 二维数组
