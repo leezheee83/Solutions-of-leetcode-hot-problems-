@@ -1711,6 +1711,55 @@ public:
 
 
 
+
+
+## Intervals
+
+### [56. Merge Intervals](https://leetcode.cn/problems/merge-intervals/)
+
+Given an array of `intervals` where `intervals[i] = [starti, endi]`, merge all overlapping intervals, and return *an array of the non-overlapping intervals that cover all the intervals in the input*.
+
+**Example 1:**
+
+```
+Input: intervals = [[1,3],[2,6],[8,10],[15,18]]
+Output: [[1,6],[8,10],[15,18]]
+Explanation: Since intervals [1,3] and [2,6] overlaps, merge them into [1,6].
+```
+
+#### Approach : Sorting + Greedy
+
+1.  two cases: overlap or not. if overlap happen , we **merge**,  but how to find overlap easily: **Sorting** , how to merge? **Greedy**
+2. It's a pair list, we could sort list by the `start` of pair or `end` , After **sorting** the list, then we insert the **first interval into our `merged` array**
+3. If the current interval begins  bigger than  the previous interval ends,then they **do not overlap**, just append current interval to `merged` array
+4. Otherwise, they **do overlap**, we compare  the `current interval's end` and `merged' end` , and choose the bigger one as to the **new merged array' end**
+
+```C++
+class Solution {
+public:
+    vector<vector<int>> merge(vector<vector<int>>& intervals) {
+        
+        // C++ Sort by begin of the pair Defaultly
+        sort(intervals.begin(), intervals.end() );
+        vector<vector<int>> merged;
+        for(auto interval : intervals){
+            // if the list of merged intervals is empty or if the current            
+            // interval does not overlap with the previous, simply append it 
+            if (merged.empty() || merged.back()[1] < interval[0])
+                merged.push_back(interval);
+            
+            // otherwise, there is overlap, so we merge the current and previous intervals
+            else
+                merged.back()[1] = max(merged.back()[1], interval[1]);
+        }
+        
+        return merged;
+    }
+};
+```
+
+
+
 ## Linked List
 
 ### [2. Add Two Numbers](https://leetcode.com/problems/add-two-numbers/) 
@@ -4419,8 +4468,6 @@ public:
 };
 ```
 
-## 
-
 ### [55. Jump Game](https://leetcode.cn/problems/jump-game/)
 
 You are given an integer array `nums`. You are initially positioned at the array's **first index**, and each element in the array represents your maximum jump length at that position.
@@ -4455,6 +4502,10 @@ public:
     }
 };
 ```
+
+
+
+
 
 
 
@@ -4531,7 +4582,6 @@ class Solution:
 
 2. Using memo to memory the `SubString` of `S` and `T` we already visited, then we could reduce the running time (complexity) 
 
-   
 
 ```python
 class Solution:
@@ -4707,19 +4757,7 @@ public:
 };
 ```
 
-
-
-## DP + Puzzle
-
-## DP + Tree
-
-## DP + Package
-
-## DP + Interval 
-
-## DP +  3-Dimension- Finite State Machine
-
-## DP + State Compression
+## 
 
 ## DP + Memoization
 
@@ -4836,3 +4874,18 @@ public:
 };
 ```
 
+
+
+## DP + Interval 
+
+## DP + Package
+
+## DP + Puzzle
+
+## DP + State Compression
+
+## DP + Tree
+
+## DP +  3-Dimension- Finite State Machine
+
+## 

@@ -186,33 +186,37 @@
 
 ## Specialism in Algorithm：
 
-1. binary search: 二分查找
+1. Array : 数组
 
-2. bit operation:   位运算
+   1. expand Array / extend Array : 扩充数组
 
-2. divide and  conquer approach :  分治法
+2. binary search: 二分查找
 
-2. Enumeration methods: 枚举法
+3. bit operation:   位运算
 
-3. *implicit* **LinkedList**.： 隐式链表
+4. divide and  conquer approach :  分治法
 
-6. Tree
+5. Enumeration methods: 枚举法
+
+6. *implicit* **LinkedList**.： 隐式链表
+
+7. Tree
 
    1. left subTree: 左子树
    2. BInary Tree: 二叉树
       1. Binary Search Tree: 二叉搜索树
    3. Inorder Traversal: 中序遍历
 
-7. List of List: 二维数组
+8. List of List: 二维数组
 
    1. two dimension list/array: 
    1. Adjacent List: 临近/界数组
 
-8. monotonic stack: 单调栈
+9. monotonic stack: 单调栈
 
-9. Priority  Queue： 优先级队列
+10. Priority  Queue： 优先级队列
 
-10. Singly linked list ： 单链表
+11. Singly linked list ： 单链表
 
     
 
