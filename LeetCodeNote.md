@@ -4676,3 +4676,72 @@ class Solution(object):
         return a
 ```
 
+### [62. Unique Paths](https://leetcode.cn/problems/unique-paths/)
+
+There is a robot on an `m x n` grid. The robot is initially located at the **top-left corner** (i.e., `grid[0][0]`). The robot tries to move to the **bottom-right corner** (i.e., `grid[m - 1][n - 1]`). The robot can only move either down or right at any point in time.
+
+Given the two integers `m` and `n`, return *the number of possible unique paths that the robot can take to reach the bottom-right corner*.
+
+The test cases are generated so that the answer will be less than or equal to `2 * 109`.
+
+**Example 1:**
+
+![img](https://assets.leetcode.com/uploads/2018/10/22/robot_maze.png)
+
+```
+Input: m = 3, n = 7
+Output: 28
+```
+
+#### Approach 1： Recursion: imitate the path choice
+
+**Intuition**
+
+1. each step , we have too choices:
+   1. move forward two steps in one direction
+   2. move one step in each direction
+
+```python
+class Solution:
+    def uniquePaths(self, m: int, n: int) -> int:
+        
+        def factor(m):
+            if m < 2:
+                return 1
+            res = 1
+            for i in range(1,m+1):
+                res *= i
+            return res
+
+        return factor(m+n-2) // (factor(m-1)*factor(n-1))
+```
+
+
+
+#### Approach 2： DP table
+
+**Intuition**
+
+1. Define the  meaning of DP table :
+   - `dp[i][j] =  the number of unique paths that from (0,0) -> (i,j) `
+   - `dp[i][j] = dp[i-1][j] + dp[i][j-1]`
+
+```C++
+class Solution {
+public:
+    int uniquePaths(int m, int n) {
+        vector<vector<int>> dp(m,vector<int>(n,0));
+        
+        for( int i = 0; i < m; ++i){
+            for( int j = 0 ; j < n; ++j){
+                if( i == 0 or j == 0)
+                    dp[i][j] = 1;
+                else
+                    dp[i][j] = dp[i-1][j] + dp[i][j-1];
+            }
+        }
+        return dp[m-1][n-1];
+    }
+};
+```
+
