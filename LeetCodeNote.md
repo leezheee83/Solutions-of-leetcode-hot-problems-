@@ -4546,7 +4546,53 @@ public:
 
 
 
-## 
+### [75. Sort Colors](https://leetcode.cn/problems/sort-colors/)
+
+Given an array `nums` with `n` objects colored red, white, or blue, sort them **[in-place](https://en.wikipedia.org/wiki/In-place_algorithm)** so that objects of the same color are adjacent, with the colors in the order red, white, and blue.
+
+We will use the integers `0`, `1`, and `2` to represent the color red, white, and blue, respectively.
+
+You must solve this problem without using the library's sort function.
+
+**Example 1:**
+
+```
+Input: nums = [2,0,2,1,1,0]
+Output: [0,0,1,1,2,2]
+```
+
+#### Approach: two pointers + swap
+
+**Intuition** 
+
+1.  `number 1` always be middle
+2.  So we can pick the `number 0` insert to the beginning and pick the the `number 2` insert to the end
+3. Just swap 0 and 2 , by using two pointers
+
+```C++
+class Solution {
+public:
+    void sortColors(vector<int>& nums) {
+        if(nums.empty()) return;
+        int left = 0, right = nums.size() - 1, i = 0;
+        
+        while (i <= right){
+            if(nums[i] == 0){
+                swap(nums[left],nums[i]); // insert 0 to start
+                i++;
+                left++;
+            }else if( nums[i] == 1){ // do nothing when 1
+                i++;
+            }else{
+                swap(nums[i],nums[right]); // insert 2 to end 
+                right--;                   // no need to move i, because it will be shifted later
+            }
+        }
+    }
+};
+```
+
+
 
 # Dynamic Programming
 
