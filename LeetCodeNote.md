@@ -938,6 +938,49 @@ public:
 
 
 
+### [78. Subsets](https://leetcode.cn/problems/subsets/)
+
+Given an integer array `nums` of **unique** elements, return *all possible subsets (the power set)*.
+
+The solution set **must not** contain duplicate subsets. Return the solution in **any order**.
+
+**Example 1:**
+
+```
+Input: nums = [1,2,3]
+Output: [[],[1],[2],[1,2],[3],[1,3],[2,3],[1,2,3]]
+```
+
+#### Approach: Just backtracking 
+
+**Intuition**
+
+1.  original backtracking and 
+2. `SubSet` means we need to append every node and leaf  in the backtracking Tree
+
+```Java
+class Solution {
+    
+    List<List<Integer>> res = new ArrayList<List<Integer>>();
+    
+    public List<List<Integer>> subsets(int[] nums) {   
+        backtrack(0, nums, new ArrayList<>());
+        return res;
+    }
+    
+    void backtrack(int cur, int[] nums,List<Integer> track){
+        res.add(new ArrayList<>(track));
+        for( int i = cur; i < nums.length; ++i){
+            track.add(nums[i]);
+            backtrack(i + 1,nums,track);
+            track.remove(track.size()-1);
+        }
+    }
+}
+```
+
+
+
 ## Binary Search
 
 ### [33. Search in Rotated Sorted Array](https://leetcode.com/problems/search-in-rotated-sorted-array/)
