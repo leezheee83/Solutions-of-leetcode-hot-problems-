@@ -3611,7 +3611,7 @@ Space Complexity: O(N)
 
 
 
-## Tree / BST / AVL/ RBT
+## Tree / BST / AVL / RBT
 
 This part should be included  `Tree`, `Binary Tree`, `Binary Search Tree`, `self-Balancing Binary Search Tree`,  `AVL tree`, `T tree`, `Red–black tree`
 
@@ -4034,6 +4034,66 @@ public:
     }
 };
 ```
+
+
+
+### [109. Convert Sorted List to Binary Search Tree](https://leetcode.cn/problems/convert-sorted-list-to-binary-search-tree/)
+
+Given the `head` of a singly linked list where elements are **sorted in ascending order**, convert it to a height balanced `BST`.
+
+For this problem, a height-balanced binary tree is defined as a binary tree in which the depth of the two subtrees of *every* node never differ by more than 1.
+
+**Example 1:**
+
+![img](https://assets.leetcode.com/uploads/2020/08/17/linked.jpg)
+
+```
+Input: head = [-10,-3,0,5,9]
+Output: [0,-3,9,-10,null,5]
+Explanation: One possible answer is [0,-3,9,-10,null,5], which represents the shown height balanced BST.
+```
+
+#### Approach :  Fast-Slow Pointer + DFS
+
+**Intuition**
+
+1.  find the middle of list, then we find the root Node of Binary  Search Tree , And divide linked list into left list and right list 
+
+2.  Keep finding the middle node of left list and right list Until we traverse and extend every linked list's node into the Tree structure  
+
+   ```C++
+   class Solution {
+   public:
+       TreeNode* sortedListToBST(ListNode* head) {
+           if (head == nullptr) return nullptr;
+           // reach into one node after several of steps
+           if (head->next == nullptr) return new TreeNode(head->val);
+           
+           ListNode* fast = head;
+           ListNode* slow = head;
+           ListNode* preMid = nullptr;
+           
+           while(fast != nullptr and fast->next != nullptr){
+               fast = fast->next->next;
+               preMid = slow;
+               slow = slow->next;
+           }
+           preMid->next = nullptr;
+           TreeNode* root = new TreeNode(slow->val);
+           root->left = sortedListToBST(head);
+           root->right = sortedListToBST(slow->next);
+           
+           return root;
+       }
+   };
+   ```
+
+   **Complexity Analysis** 
+
+   - Time: `O(NlogN)` ： Building `BST`  needed `O(logN)`, but find the middle Node need `O(N)`, and it's a recursion, SO finally it costs `O(NLogN)`  
+   - Space: `O(logN)` :  recursion need Space, the Space should be the depth of  `BST`
+
+
 
 
 
