@@ -10,11 +10,12 @@
 
 
 
-## Bit Manipulation
+## Bit Manipulation / symbols
 
-1. bitwise negation： ~ 取反：
-2. ^ : 异或 ：bitwise  XOR
-3. ~：取反： flip
+1. ^ : 异或 ：bitwise  XOR
+2. ~：取反： flip / bitwise negation
+3. `-` : hyphen: 连接号
+4. `--` : dash : 破折号 （比hyphen长）
 
 ## C++/Python/Java Specific Vocabulary
 

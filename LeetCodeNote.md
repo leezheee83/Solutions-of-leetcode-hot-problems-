@@ -1457,6 +1457,45 @@ class Solution {
 
 
 
+### [136. Single Number](https://leetcode.cn/problems/single-number/)
+
+Given a **non-empty** array of integers `nums`, every element appears *twice* except for one. Find that single one.
+
+You must implement a solution with a linear runtime complexity and use only constant extra space.
+
+**Example 1:**
+
+```
+Input: nums = [2,2,1]
+Output: 1
+```
+
+#### Approach : XOR
+
+**Intuition**
+
+1. a ^ a = 0,   a ^ 0 = a
+
+2. XOR could consumed pair of number if it appears twice 
+
+   ```C++
+   class Solution {
+   public:
+       int singleNumber(vector<int>& nums) {
+           int res = 0;
+           for( int n : nums){
+               // x ^ X = 0,so the single one lefted
+               res ^= n;
+           }
+           return res;
+       }
+   };
+   ```
+
+   
+
+
+
 ## DFS(Depth-First Searching) / BFS(Breadth-First Searching)
 
 
