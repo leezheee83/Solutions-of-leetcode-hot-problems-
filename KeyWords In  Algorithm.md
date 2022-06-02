@@ -8,7 +8,22 @@
 
 [Math operation in Chinese and English/ 常见数学操作表对照表](https://zhuanlan.zhihu.com/p/136367900?ivk_sa=1024320u)
 
-## Complexity Analysis Related
+
+
+## Bit Manipulation
+
+1. bitwise negation： ~ 取反：
+2. ^ : 异或 ：bitwise  XOR
+3. ~：取反： flip
+
+## C++/Python/Java Specific Vocabulary
+
+1. & ：references ： 引用
+2. `*`：dereference or star or pointer ：指针 指向， 
+
+##  
+
+## Complexity Analysis 
 
 1.  O(n) :  big O of N; `Linear time = Single pass = Single iteration`
 2.  O(N^2): big O of N square 
@@ -19,12 +34,7 @@
 4.  `O(3^N)`: big O of three to the Nth power
 4.  `O(n!)`: big O of  factorial of n 
 
-## Bit Manipulation
-
-1. bitwise negation： ~ 取反：
-2. ^ : 异或 ：bitwise  XOR
-
-## Describing in Algorithm
+## Describing  Algorithm
 
 1. abs() :  absolute value of 绝对值：
 
@@ -166,25 +176,17 @@
     
 
 
-
-
-## Describing in Project
+## Describing  Project
 
 1. deployed : 部署
 
 
 
-## Math  Related
 
-1. **Linear algebra** : 线性代数
 
-   - Transpose：（矩阵）转置
 
-   - Reflect ： 镜像（反射）
 
-2. Reciprocal: 倒数
-
-## Specialism in Algorithm：
+## DataStruct  
 
 1. Array : 数组
 
@@ -220,8 +222,18 @@
 
     
 
-    
 
+## Math  Related
+
+1. **Linear algebra** : 线性代数
+
+   - Transpose：（矩阵）转置
+
+   - Reflect ： 镜像（反射）
+
+2. Reciprocal: 倒数
+
+C++ Sp
 
 ## Specialism  CS Details
 

@@ -3169,114 +3169,6 @@ public:
 };
 
 ```
-### [114. Flatten Binary Tree to Linked List](https://leetcode.com/problems/flatten-binary-tree-to-linked-list/)
-
-Given the root of a binary tree, flatten the tree into a "linked list":
-
-- The "linked list" should use the same TreeNode class where the right child pointer points to the next node in the list and the left child pointer is always null.
-- The "linked list" should be in the same order as a pre-order traversal of the binary tree.
-
-***Example 1:***
-
-```
-Input: root = [1,2,5,3,4,null,6]
-Output: [1,null,2,null,3,null,4,null,5,null,6]
-```
-***Example 2:***
-```
-Input: root = []
-Output: []
-```
-#### Apporach 1 Stack , subsequent Traversal
-***Intuition:***
-1.  using stack stores full treecode
-2.  from back to begin ,travesing the stack rebuild the list ,because actually  the list is built by the tree with right code .
-
-
-***Code:***
-``` C++
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
- *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
- * };
- */
-class Solution {
-public:
-    stack <TreeNode*> stk; 
-    void subsequentTraversal(TreeNode* root ){
-        if(root == nullptr) return ;
-        stk.push(root);
-        subsequentTraversal(root->left);
-        subsequentTraversal(root->right);
-        return ;
-    }
-    void flatten(TreeNode* root) {
-        if(root == nullptr) return ;
-        subsequentTraversal(root);
-        TreeNode * tmp = nullptr;
-        while(!stk.empty()){
-            TreeNode * node  = stk.top();
-            node->left = nullptr;
-            node->right = tmp;
-            tmp = node;
-            stk.pop();
-        }
-        root = tmp;
-        return ;
-    }
-};
-```
-
-#### Apporch 2: subsequent Traversal
-***Intuition：***
-1.  using subsequent Traversal 
-2.  slice orignal right to current right.
-3.  the detail is  that  it is not normal  subsequent Traversal ,because we should slice right tree rather than replace the right tree. 
-***Code: ***
-``` C++
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
- *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
- * };
- */
-class Solution {
-public:
-    void flatten(TreeNode* root) {
-        if (root == nullptr) return ;
-        //subsequent Traversal
-        flatten(root->right);
-        flatten(root->left);
-        
-        // process the node  
-        
-        TreeNode* right = root->right;
-        TreeNode* left = root->left;
-        root->left = nullptr;
-        root->right = left;
-       
-        //slice orignal right to current right
-        TreeNode* p  = root;
-        while(p->right != nullptr){
-            p = p->right;
-        }
-        p->right = right;
-        return ;
-        
-    }
-};
-```
 ## String & SubString & Subsequence & Palindrome
 
 ### [8.  String to Integer (atoi)](https://leetcode.com/problems/string-to-integer-atoi/solution/)
@@ -3978,6 +3870,167 @@ public:
         int rightMax = maxDepth(root->right);
         
         return 1 + max(leftMax,rightMax);
+    }
+};
+```
+
+
+
+### [114. Flatten Binary Tree to Linked List](https://leetcode.com/problems/flatten-binary-tree-to-linked-list/)
+
+Given the root of a binary tree, flatten the tree into a "linked list":
+
+- The "linked list" should use the same TreeNode class where the right child pointer points to the next node in the list and the left child pointer is always null.
+- The "linked list" should be in the same order as a pre-order traversal of the binary tree.
+
+***Example 1:***
+
+```
+Input: root = [1,2,5,3,4,null,6]
+Output: [1,null,2,null,3,null,4,null,5,null,6]
+```
+
+***Example 2:***
+
+```
+Input: root = []
+Output: []
+```
+
+#### Apporach 1 Stack , subsequent Traversal
+
+***Intuition:***
+
+1.  using stack stores full treecode
+2.  from back to begin ,travesing the stack rebuild the list ,because actually  the list is built by the tree with right code .
+
+
+***Code:***
+
+``` C++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    stack <TreeNode*> stk; 
+    void subsequentTraversal(TreeNode* root ){
+        if(root == nullptr) return ;
+        stk.push(root);
+        subsequentTraversal(root->left);
+        subsequentTraversal(root->right);
+        return ;
+    }
+    void flatten(TreeNode* root) {
+        if(root == nullptr) return ;
+        subsequentTraversal(root);
+        TreeNode * tmp = nullptr;
+        while(!stk.empty()){
+            TreeNode * node  = stk.top();
+            node->left = nullptr;
+            node->right = tmp;
+            tmp = node;
+            stk.pop();
+        }
+        root = tmp;
+        return ;
+    }
+};
+```
+
+#### Apporch 2: subsequent Traversal
+
+***Intuition：***
+
+1.  using subsequent Traversal 
+2.  slice orignal right to current right.
+3.  the detail is  that  it is not normal  subsequent Traversal ,because we should slice right tree rather than replace the right tree. 
+    ***Code: ***
+
+``` C++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    void flatten(TreeNode* root) {
+        if (root == nullptr) return ;
+        //subsequent Traversal
+        flatten(root->right);
+        flatten(root->left);
+        
+        // process the node  
+        
+        TreeNode* right = root->right;
+        TreeNode* left = root->left;
+        root->left = nullptr;
+        root->right = left;
+       
+        //slice orignal right to current right
+        TreeNode* p  = root;
+        while(p->right != nullptr){
+            p = p->right;
+        }
+        p->right = right;
+        return ;
+        
+    }
+};
+```
+
+## 
+
+### [108. Convert Sorted Array to Binary Search Tree](https://leetcode.cn/problems/convert-sorted-array-to-binary-search-tree/)
+
+Given an integer array `nums` where the elements are sorted in **ascending order**, convert *it to a **height-balanced** binary search tree*.
+
+A **height-balanced** binary tree is a binary tree in which the depth of the two subtrees of every node never differs by more than one.
+
+**Example 1:**
+
+<img src="LeetCodeNote.assets/image-20220602225002060.png" alt="image-20220602225002060" style="zoom:50%;" />
+
+```
+Input: nums = [-10,-3,0,5,9]
+Output: [0,-3,9,-10,null,5]
+Explanation: [0,-10,5,null,-3,null,9] is also accepted:
+```
+
+#### Approach:  dfs
+
+```C++
+class Solution {
+public:
+    TreeNode* sortedArrayToBST(vector<int>& nums) {
+        
+        return dfs(nums,0,nums.size()-1);
+    }
+    
+    TreeNode* dfs(vector<int>& nums, int start, int end){
+        
+        if( start > end) return nullptr;
+        int mid = start + ((end - start) >> 1);
+        TreeNode* root = new TreeNode(nums[mid]);
+        root->left = dfs(nums, start, mid - 1);
+        root->right = dfs(nums,mid + 1, end);
+        return root;
+            
     }
 };
 ```
