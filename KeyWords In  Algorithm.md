@@ -43,6 +43,8 @@
    1. allocated  memory： 分配内存
    2. allocated array: 分配的数组 
 
+3. alphanumeric ： 字母数字
+
 3. brackets：括号
 
    1. parentheses ： 括弧
