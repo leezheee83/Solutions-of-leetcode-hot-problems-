@@ -2331,6 +2331,37 @@ public:
 };
 ```
 
+### [160. Intersection of Two Linked Lists](https://leetcode.cn/problems/intersection-of-two-linked-lists/)
+
+Given the heads of two singly linked-lists `headA` and `headB`, return *the node at which the two lists intersect*. If the two linked lists have no intersection at all, return `null`.
+
+For example, the following two linked lists begin to intersect at node `c1`:
+
+![img](https://assets.leetcode.com/uploads/2021/03/05/160_statement.png)
+
+The test cases are generated such that there are no cycles anywhere in the entire linked structure.
+
+#### Approach : two pointers traversing same time
+
+```C++
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        ListNode *p1 = headA;
+        ListNode *p2 = headB;
+        
+        while (p1 != p2){
+            if( p1 != nullptr) p1 = p1->next;
+            else p1 = headB; // start from another list, that menas p1 and p2 is scanning one same list(listA+listB)
+            
+            if( p2 != nullptr) p2 = p2->next;
+            else p2 = headA;
+        }
+        return p1;
+    }
+};
+```
+
 
 
 ## Math Tricks
