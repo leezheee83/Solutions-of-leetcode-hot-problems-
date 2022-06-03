@@ -680,6 +680,42 @@ public:
 };
 ```
 
+### [169. Majority Element](https://leetcode.cn/problems/majority-element/)
+
+Given an array `nums` of size `n`, return *the majority element*.
+
+The majority element is the element that appears more than `⌊n / 2⌋` times. You may assume that the majority element always exists in the array.
+
+**Example 1:**
+
+```
+Input: nums = [3,2,3]
+Output: 3
+```
+
+####  Approach : Moore Voting method
+
+1. Majority Element MUST appears more than `⌊n / 2⌋` times. SO we can choose anyone and counting the occurent times
+
+```C++
+class Solution {
+public:
+    int majorityElement(vector<int>& nums) {
+        int count = 0;
+        int candidate = INT_MIN;
+        for( auto n : nums){
+            if( count == 0) candidate = n;
+            if( candidate == n) count++;
+            else count--;
+        }
+        
+        return candidate;
+    }
+};
+```
+
+
+
 ## Backtracking & Recursion & Memory Search
 
 ### Step of Backtracking
