@@ -1633,6 +1633,70 @@ public:
 };
 ```
 
+### [130. Surrounded Regions](https://leetcode.cn/problems/surrounded-regions/)
+
+Given an `m x n` matrix `board` containing `'X'` and `'O'`, *capture all regions that are 4-directionally surrounded by* `'X'`.
+
+A region is **captured** by flipping all `'O'`s into `'X'`s in that surrounded region.
+
+**Example 1:**
+
+![img](https://assets.leetcode.com/uploads/2021/02/19/xogrid.jpg)
+
+#### Approach 1: DFS/BFS
+
+**Intuition**
+
+1. how to judge which `O` region were surrounded by `X` , NOTICE that, the region linked to `O` in the boundary was never been surrounded
+2. SO `DFS/BFS` Should start from the boundary `O`, then we can find all O surrounded region, mark them 
+3. Finally scanning whole matrix, shifted the element based on the mark
+
+```python
+class Solution:
+    def solve(self, board: List[List[str]]) -> None:
+        """
+        Do not return anything, modify board in-place instead.
+        """
+        def dfs(board,i,j):
+            board[i][j] = '#'
+            for dx, dy in [[0,1],[1,0],[-1,0],[0,-1]]:
+                x = dx + i
+                y = dy + j
+                if 0 <= x < len(board) and 0 <= y < len(board[0]) and board[x][y] == 'O':
+                    dfs(board, x, y)
+        
+        def bfs(board,i,j):
+            board[i][j] = '#'
+            queue = [(i,j)]
+            
+            while queue:
+                i, j = queue.pop(0)
+                for dx, dy in [[0,1],[1,0],[-1,0],[0,-1]]:
+                    x = dx + i
+                    y = dy + j
+                    if 0 <= x < len(board) and 0 <= y < len(board[0]) and board[x][y] == 'O':
+                        board[x][y] = '#'
+                        queue.append((x,y))
+        
+        for i in range(len(board)):
+            for j in range(len(board[0])):
+                if (i==0 or i==len(board)-1 or j==0 or j==len(board[0])-1) and board[i][j] == 'O':
+                    bfs(board,i,j)
+        
+        for i in range(len(board)):
+            for j in range(len(board[0])):
+                if board[i][j] == 'O':
+                    board[i][j] = 'X'
+                if board[i][j] == '#':
+                    board[i][j] = 'O'
+```
+
+
+
+#### Approach 2: Union Find
+
+
+
 
 
 ## Fast Slow  Pointers: Floyd's Cycle-Finding 
@@ -4010,6 +4074,35 @@ public:
     }
 };
 ```
+
+#### Approach 2: BFS + Queue
+
+```python
+class Solution(object):
+    def isValidBST(self, root):
+        if not root: return True 
+
+        def dfs(root,lower,upper):
+            if not root:return True 
+            if root.val <= lower or root.val >= upper: return False 
+            return dfs(root.left, lower, root.val) and  dfs(root.right, root.val, upper)
+        
+        #return dfs(root,-float('INF'),float('INF'))
+
+        def iteration(root):
+            queue = [ (root,float('-INF'),float('INF')) ]
+            while queue:
+                cur,lower,upper = queue.pop(0)
+                if cur:
+                    if cur.val <= lower or cur.val >= upper:
+                         return False 
+                    queue.append((cur.left, lower,cur.val))                
+                    queue.append((cur.right, cur.val, upper))
+            return True 
+        
+        return iteration(root)
+```
+
 
 
 ### [101. Symmetric Tree](https://leetcode.cn/problems/symmetric-tree/)
