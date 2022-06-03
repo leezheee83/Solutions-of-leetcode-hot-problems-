@@ -3299,6 +3299,7 @@ The largest rectangle is shown in the red area, which has an area = 10 units.
 
 ```
 ***Intuition:***
+
 1. the detail is to find the lower bar behind each element.
 2. we should design the incresing monotonic stack to store the lower bar of the elements in left side.
 3. we can easily find the lower element of the element in right side traversing the array.
@@ -3349,6 +3350,59 @@ public:
 };
 
 ```
+### [155. Min Stack](https://leetcode.cn/problems/min-stack/)
+
+Design a stack that supports push, pop, top, and retrieving the minimum element in constant time.
+
+Implement the `MinStack` class:
+
+- `MinStack()` initializes the stack object.
+- `void push(int val)` pushes the element `val` onto the stack.
+- `void pop()` removes the element on the top of the stack.
+- `int top()` gets the top element of the stack.
+- `int getMin()` retrieves the minimum element in the stack.
+
+#### Approach : two stacks
+
+```C++
+class MinStack {
+public:
+    stack<int> st1;
+    stack<int> st2;
+    
+    MinStack() {
+        
+    }
+    
+    void push(int val) {
+        st1.push(val);
+        if(st2.empty() or val <= st2.top())
+            st2.push(val);
+        else
+            st2.push(st2.top());
+    }   
+    
+    void pop() {
+        st1.pop();
+        st2.pop();
+    }
+    
+    int top() {
+        return st1.top();
+    }
+    
+    int getMin() {
+        return st2.top();
+    }
+};
+```
+
+
+
+
+
+
+
 ## String & SubString & Subsequence & Palindrome
 
 ### [8.  String to Integer (atoi)](https://leetcode.com/problems/string-to-integer-atoi/solution/)
