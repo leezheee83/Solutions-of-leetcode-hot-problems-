@@ -2066,6 +2066,41 @@ public:
 
 ## Linked List
 
+### [206. Reverse Linked List](https://leetcode.cn/problems/reverse-linked-list/)
+
+Given the `head` of a singly linked list, reverse the list, and return *the reversed list*.
+
+**Example 1:**
+
+![img](https://assets.leetcode.com/uploads/2021/02/19/rev1ex1.jpg)
+
+```
+Input: head = [1,2,3,4,5]
+Output: [5,4,3,2,1]
+```
+
+#### Approach ： head insert methods
+
+```C++
+class Solution {
+public:
+    ListNode* reverseList(ListNode* head) {
+        ListNode * cur = head;
+        ListNode * pre = nullptr;
+        
+        while ( cur != nullptr){
+            ListNode *tmp = cur->next;
+            cur->next = pre;
+            pre = cur;
+            cur = tmp;
+        }
+        return pre;
+    }
+};
+```
+
+
+
 ### [2. Add Two Numbers](https://leetcode.com/problems/add-two-numbers/) 
 
 You are given two **non-empty** linked lists representing two non-negative integers. The digits are stored in **reverse order**, and each of their nodes contains a single digit. Add the two numbers and return the sum as a linked list.
