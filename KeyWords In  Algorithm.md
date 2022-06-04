@@ -207,7 +207,7 @@
 
 
 
-## DataStruct  
+## Data Structure
 
 1. Array : 数组
 
@@ -229,7 +229,9 @@
    2. BInary Tree: 二叉树
       1. Binary Search Tree: 二叉搜索树
    3. Inorder Traversal: 中序遍历
-   3.  Zigzag Level Order Traversal: z字形顺序遍历
+      1. preOrder Traversal : 先序遍历
+      2. postOrder Traversal: 后序遍历
+   4. Zigzag Level Order Traversal: z字形顺序遍历
 
 8. List of List: 二维数组
 
@@ -248,11 +250,10 @@
 ## Math  Related
 
 1. **Linear algebra** : 线性代数
-
    - Transpose：（矩阵）转置
-
+   
    - Reflect ： 镜像（反射）
-
+   
 2. Reciprocal: 倒数
 
 C++ Sp

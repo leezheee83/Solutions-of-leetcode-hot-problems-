@@ -4664,6 +4664,56 @@ Explanation: One possible answer is [0,-3,9,-10,null,5], which represents the sh
 
 
 
+### [105. Construct Binary Tree from Preorder and Inorder Traversal](https://leetcode.cn/problems/construct-binary-tree-from-preorder-and-inorder-traversal/)
+
+Given two integer arrays `preorder` and `inorder` where `preorder` is the preorder traversal of a binary tree and `inorder` is the inorder traversal of the same tree, construct and return *the binary tree*.
+
+**Example 1:**
+
+![img](https://assets.leetcode.com/uploads/2021/02/19/tree.jpg)
+
+```
+Input: preorder = [3,9,20,15,7], inorder = [9,3,15,20,7]
+Output: [3,9,20,null,null,15,7]
+```
+
+#### Approach: DFS (Divided and Conquer)
+
+**Intuition**
+
+1. `preOrder` gives us the root of the binary tree ,  and we extend the root into our tree structure
+2. Using the root could divide the `inOrder` list into two parts, left part and right part
+3. Keep this process until reach to the end of `preOrder` list 
+
+```Java
+class Solution {
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        if (preorder.length == 0 || inorder.length == 0) return null;
+        
+        TreeNode root = new TreeNode(preorder[0]);
+        for ( int  i = 0; i < preorder.length; ++i){
+            if(preorder[0] == inorder[i]){
+                root.left = buildTree(Arrays.copyOfRange(preorder,1,i+1),
+                                      Arrays.copyOfRange(inorder,0,i));
+                root.right = buildTree(Arrays.copyOfRange(preorder,i+1,preorder.length),
+                                       Arrays.copyOfRange(inorder,i+1,inorder.length));
+                break;
+            }
+        }
+        return root;
+    }
+}
+```
+
+**Complexity Analysis**
+
+- time : `O(N)` , it's kind of like `preOrder traverse`, 
+-  space :  `O(N)` 
+  - Build the new Tree : `O(N)`
+  - recursion needed system stack space that's due to the depth of tree 
+    - the worst case:  tree like a linked list will cost `O(N)`
+    - average case: `O(log N)` 
+
 
 
 ## Two Pointers
