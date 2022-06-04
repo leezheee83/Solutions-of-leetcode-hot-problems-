@@ -231,7 +231,9 @@
    3. Inorder Traversal: 中序遍历
       1. preOrder Traversal : 先序遍历
       2. postOrder Traversal: 后序遍历
-   4. Zigzag Level Order Traversal: z字形顺序遍历
+         1. subsequent Traversal ：  后序遍历
+      3. Level Order Traversal ： 层级遍历
+      4. Zigzag Level Order Traversal: z字形顺序遍历
 
 8. List of List: 二维数组
 

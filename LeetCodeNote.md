@@ -4714,6 +4714,79 @@ class Solution {
     - the worst case:  tree like a linked list will cost `O(N)`
     - average case: `O(log N)` 
 
+### [102. Binary Tree Level Order Traversal](https://leetcode.cn/problems/binary-tree-level-order-traversal/)
+
+Given the `root` of a binary tree, return *the level order traversal of its nodes' values*. (i.e., from left to right, level by level).
+
+**Example 1:**
+
+![img](https://assets.leetcode.com/uploads/2021/02/19/tree1.jpg)
+
+```
+Input: root = [3,9,20,null,null,15,7]
+Output: [[3],[9,20],[15,7]]
+```
+
+#### Approach : BFS with Queue
+
+```Java
+class Solution {
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        List<List<Integer>> res = new LinkedList<>();
+        if (root == null) return res;
+        
+        Queue<TreeNode> q = new LinkedList<>();
+        q.offer(root);
+        
+        while( !q.isEmpty()){
+            int size = q.size();
+            List<Integer> level = new LinkedList<>();
+            
+            for( int i = 0; i < size; ++i){
+                TreeNode cur = q.poll();
+                level.add(cur.val);
+                if( cur.left != null)
+                    q.offer(cur.left);
+                if( cur.right != null)
+                    q.offer(cur.right);
+            }
+            res.add(level);
+        }
+        return res;
+    }
+}
+```
+
+```C++
+class Solution {
+public:
+    vector<vector<int>> levelOrder(TreeNode* root) {
+        vector<vector<int>> res;
+        if( !root) return res;
+        
+        queue<TreeNode*> q;
+        q.push(root);
+        
+        while ( !q.empty()){
+            int size = q.size();
+            res.push_back(vector<int>());
+            for ( int i = 1; i <=  size; ++i){
+                auto node = q.front();
+                q.pop();
+                res.back().push_back(node->val);
+                if(node->left) q.push(node->left);
+                if(node->right) q.push(node->right);
+            }
+        }
+        return res;
+    }
+};
+```
+
+
+
+
+
 
 
 ## Two Pointers
