@@ -20,10 +20,13 @@
 6. `>>` : 有移： right Shift
 7. `-` : hyphen: 连接号
 8. `--` : dash : 破折号 （比hyphen长）
-9. 二进制： binary
-   1. 10进制：Decimal
-   2. 16进制 ： Hexadecimal  
-   3. 8进制： octal
+9. mop this bit up :  擦去这个 比特位
+   1. erase this bit place up: 抹去这个 比特位 
+
+10. 二进制： binary
+    1. 10进制：Decimal
+    2. 16进制 ： Hexadecimal  
+    3. 8进制： octal
 
 
 ## C++/Python/Java Specific Vocabulary
