@@ -4069,6 +4069,67 @@ class Solution:
         return True
 ```
 
+### [131. Palindrome Partitioning](https://leetcode.cn/problems/palindrome-partitioning/)
+
+Given a string `s`, partition `s` such that every substring of the partition is a **palindrome**. Return all possible palindrome partitioning of `s`.
+
+A **palindrome** string is a string that reads the same backward as forward.
+
+**Example 1:**
+
+```
+Input: s = "aab"
+Output: [["a","a","b"],["aa","b"]]
+```
+
+**Example 2:**
+
+```
+Input: s = "a"
+Output: [["a"]]
+```
+
+#### Approach: backtracking + Palindrome check
+
+1. try to cut S at each position
+2. check the Partitioning is Palindrome or not
+
+```Java
+class Solution {
+    public List<List<String>> partition(String s) {
+        List<List<String>> res = new ArrayList<List<String>>();
+        dfs(0, res, new ArrayList<String>(), s);
+        return res;
+            
+    }
+    
+    void dfs(int start, List<List<String>> res, List<String> curList, String s){
+        if (start >= s.length()) res.add(new ArrayList<String>(curList));
+        for (int end = start; end < s.length(); end++){
+            if(isPalindrome(s,start, end)){
+                curList.add(s.substring(start,end + 1));
+                dfs(end + 1, res, curList, s);
+                curList.remove(curList.size() - 1);
+            }
+        }
+    }
+    
+    boolean isPalindrome(String s, int low, int high){
+        while( low < high)
+            if(s.charAt(low++) != s.charAt(high--)) return false;
+        return true;
+    }
+}
+```
+
+**Complexity Analysis**
+
+- Time : `O(N * 2^N)` , N is the length of String s
+  -  For each substring, it takes O(*N*) time to generate substring
+  -  Scanning whole backtracking tree need Nth power of 2
+- Space: `O(N)`
+  - system stack needed for backtracking, it depends on the depth of backtracking tree , in this problem  the depth of tree is `N`
+
 
 
 ## Sorting
