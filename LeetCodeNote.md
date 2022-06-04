@@ -5497,6 +5497,54 @@ public:
 
 
 
+### [45. Jump Game II](https://leetcode.cn/problems/jump-game-ii/)
+
+Given an array of non-negative integers `nums`, you are initially positioned at the first index of the array.
+
+Each element in the array represents your maximum jump length at that position.
+
+Your goal is to reach the last index in the minimum number of jumps.
+
+You can assume that you can always reach the last index.
+
+**Example 1:**
+
+```
+Input: nums = [2,3,1,1,4]
+Output: 2
+Explanation: The minimum number of jumps to reach the last index is 2. Jump 1 step from index 0 to 1, then 3 steps to the last index.
+```
+
+#### Approach : Greedy with Flag 
+
+**Intuition**
+
+1. It's a classic dynamic programming  with 1 dimension. Because every position, we have more than one choice to jump, And we want the minimum number of jumps
+2. Greedy idea can instead of DP array in this problem
+3. Using Greedy to make sure every jump can reach farthest with minimum number of steps to the end 
+4. Need a flag to check we can jump to the end exactly  
+
+```C++
+class Solution {
+public:
+    int jump(vector<int>& nums) {
+        int n = nums.size();
+        int end = 0, farthest = 0;
+        int jumps = 0;
+        for (int i =0 ; i < n - 1; ++i){
+            // farthest is the most far distance we could reach 
+            farthest = max(nums[i] + i, farthest);
+            // jumps to a right position
+            if (end == i){
+                jumps++;
+                end = farthest;
+            }
+        }    
+        return jumps;
+    }
+};
+```
+
 
 
 
@@ -5701,55 +5749,7 @@ class Solution:
 
 
 
-### [45. Jump Game II](https://leetcode.cn/problems/jump-game-ii/)
 
-Given an array of non-negative integers `nums`, you are initially positioned at the first index of the array.
-
-Each element in the array represents your maximum jump length at that position.
-
-Your goal is to reach the last index in the minimum number of jumps.
-
-You can assume that you can always reach the last index.
-
-**Example 1:**
-
-```
-Input: nums = [2,3,1,1,4]
-Output: 2
-Explanation: The minimum number of jumps to reach the last index is 2. Jump 1 step from index 0 to 1, then 3 steps to the last index.
-```
-
-#### Approach : Greedy with Flag 
-
-**Intuition**
-
-1. It's a classic dynamic programming  with 1 dimension. Because every position, we have more than one choice to jump, And we want the minimum number of jumps
-2. Greedy idea can instead of DP array in this problem
-3. Using Greedy to make sure every jump can reach farthest with minimum number of steps to the end 
-4. Need a flag to check we can jump to the end exactly  
-
-```C++
-class Solution {
-public:
-    int jump(vector<int>& nums) {
-        int n = nums.size();
-        int end = 0, farthest = 0;
-        int jumps = 0;
-        for (int i =0 ; i < n - 1; ++i){
-            // farthest is the most far distance we could reach 
-            farthest = max(nums[i] + i, farthest);
-            // jumps to a right position
-            if (end == i){
-                jumps++;
-                end = farthest;
-            }
-        }    
-        return jumps;
-    }
-};
-```
-
-## 
 
 ## DP + Memoization
 
@@ -5796,6 +5796,87 @@ class Solution(object):
             a, b = b, a + b;
         return a
 ```
+
+### [91. Decode Ways](https://leetcode.cn/problems/decode-ways/)
+
+A message containing letters from `A-Z` can be **encoded** into numbers using the following mapping:
+
+```
+'A' -> "1"
+'B' -> "2"
+...
+'Z' -> "26"
+```
+
+Example 1:
+
+```
+Input: s = "12"
+Output: 2
+Explanation: "12" could be decoded as "AB" (1 2) or "L" (12).
+```
+
+#### Approach: Climbing Stairs Plus : DP (1 dimention)
+
+**Intuition**
+
+1. double characters has two decode way  like "11" = "A" + "A" or  "K" . two choice 
+2. if `s = '1XXX'` , if we settled the first position, then we need to decode the substring `XXX` ,So the original problem was grouped by lots of subproblem.
+3. That's why using  Dynamic programming coding
+4. `dp[i]`  means number Decode ways  between  `{0, i-1}` from `s` 
+   - `dp[i] = dp[i] + dp[i-1]` if  current number  `s[i-1] in {1, 9}`
+   - `dp[i] = dp[i] + dp[i-2]` if current double numbers `s[i-2]*10 + s[i-1]`  >= 10 and <= 26
+
+```C++
+class Solution {
+public:
+    int numDecodings(string s) {
+        if(s[0] == '0') return 0;
+        int n = s.size();
+        vector<int> dp(n+1,0);
+        dp[0] = 1; // edge cases for one number must have one decode way
+        
+        for (int i = 1; i < n + 1; ++i){
+            if(s[i-1] >= '1' && s[i-1] <= '9') dp[i] += dp[i-1];
+            if (i > 1){
+                int value = int(s[i-2] - '0')* 10 + int(s[i-1] - '0');
+                if (value >= 10 && value <= 26) dp[i] += dp[i-2];
+            }
+        }
+        return dp[n];
+    }
+};
+```
+
+#### Approach:  Optimized to constant space
+
+**Intuition**
+
+1. `dp[i]` only related to `dp[i-1]` and `dp[i-2]`, So we could use 3 variable instead of  array
+
+```C++
+class Solution {
+public:
+    int numDecodings(string s) {
+        if(s[0] == '0') return 0;
+        int n = s.size();
+        // dpI=dp[i], dpM1=dp[i-1], dpM2=dp[i-2]
+        int dpI = 0, dpIM1 = 1, dpIM2 = 0;
+        for (int i = 1; i < n + 1; ++i){
+            dpI = 0;
+            if(s[i-1] >= '1' && s[i-1] <= '9') dpI += dpIM1;
+            if (i > 1){
+                int value = int(s[i-2] - '0')* 10 + int(s[i-1] - '0');
+                if (value >= 10 && value <= 26) dpI += dpIM2;
+            }
+            tie(dpIM2,dpIM1) = {dpIM1,dpI}; 
+        }
+        return dpI;
+    }
+};
+```
+
+
 
 ### [62. Unique Paths](https://leetcode.cn/problems/unique-paths/)
 
