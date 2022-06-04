@@ -13,10 +13,14 @@
 ## Bit Manipulation / symbols
 
 1. ^ : 异或 ：bitwise  XOR
-2. ~：取反： flip / bitwise negation
-3. `-` : hyphen: 连接号
-4. `--` : dash : 破折号 （比hyphen长）
-5. 二进制： binary
+2. ~：取反： bitwise NOT / flip / bitwise negation 
+3. & : 并: bitwise AND
+4. | : 或: bitwise OR
+5. << : 左移 : left Shift 
+6. `>>` : 有移： right Shift
+7. `-` : hyphen: 连接号
+8. `--` : dash : 破折号 （比hyphen长）
+9. 二进制： binary
    1. 10进制：Decimal
    2. 16进制 ： Hexadecimal  
    3. 8进制： octal

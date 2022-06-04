@@ -1,4 +1,4 @@
-# LeetCode Note
+#  LeetCode Note
 
 ## Rules For added Problems and Explanations
 
@@ -1572,6 +1572,42 @@ Output: 1
    ```
 
    
+
+### [190. Reverse Bits](https://leetcode.cn/problems/reverse-bits/)
+
+Reverse bits of a given 32 bits unsigned integer.
+
+**Example 1:**
+
+```
+Input: n = 00000010100101000001111010011100
+Output:    964176192 (00111001011110000010100101000000)
+Explanation: The input binary string 00000010100101000001111010011100 represents the unsigned integer 43261596, so return 964176192 which its binary representation is 00111001011110000010100101000000.
+```
+
+#### Approach: Loop
+
+**Intuition**
+
+1.   `(n & 1) `  will get `first right` bit of n , then `n >> 1` will keep move the bit of n to right 
+
+```C++
+class Solution {
+public:
+    uint32_t reverseBits(uint32_t n) {
+        uint32_t rev = 0;
+        for (int i = 0; i < 32 && n > 0; ++i){
+            rev  |= (n & 1) << (31 - i);
+            n >>= 1;
+        }
+        return rev;
+    }
+};
+```
+
+#### Approach: Binary Search(divided And conquer)
+
+
 
 
 
