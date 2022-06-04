@@ -4766,11 +4766,10 @@ public:
         
         queue<TreeNode*> q;
         q.push(root);
-        
         while ( !q.empty()){
             int size = q.size();
             res.push_back(vector<int>());
-            for ( int i = 1; i <=  size; ++i){
+            for ( int i = 0; i < size; ++i){
                 auto node = q.front();
                 q.pop();
                 res.back().push_back(node->val);
@@ -4785,7 +4784,88 @@ public:
 
 
 
+### [103. Binary Tree Zigzag Level Order Traversal](https://leetcode.cn/problems/binary-tree-zigzag-level-order-traversal/)
 
+Given the `root` of a binary tree, return *the zigzag level order traversal of its nodes' values*. (i.e., from left to right, then right to left for the next level and alternate between).
+
+**Example 1:**
+
+![img](https://assets.leetcode.com/uploads/2021/02/19/tree1.jpg)
+
+```
+Input: root = [3,9,20,null,null,15,7]
+Output: [[3],[20,9],[15,7]]
+```
+
+#### Approach : BFS+ Queue+ reverse
+
+**Intuition**
+
+1. Very similar to 102, just need extra reverse for every level list 
+
+```C++
+class Solution {
+public:
+    vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
+        vector<vector<int>> res;
+        if(!root) return res;
+        
+        int levelFlag = 1;
+        queue<TreeNode*> q;
+        q.push(root);
+        
+        while(!q.empty()){
+            int size = q.size();
+            vector<int> level;
+            for( int i = 0; i < size; ++i ){
+                auto node = q.front();
+                level.push_back(node->val);
+                q.pop();
+               
+                if(node->left) q.push(node->left);
+                if(node->right) q.push(node->right);
+            }
+            if (levelFlag % 2 == 0) reverse(level.begin(),level.end());
+            res.push_back(level);
+            levelFlag++;
+        }
+        return res;
+    }
+};
+```
+
+**Java Version** 
+
+```Java
+class Solution {
+    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+        List<List<Integer>> res = new LinkedList<>();
+        if (root == null) return res;
+        
+        int levelFlag = 1;
+        Queue<TreeNode> q = new LinkedList<>();
+        q.offer(root);
+        
+        while( !q.isEmpty()){
+            int size = q.size();
+            List<Integer> level = new LinkedList<>();
+            
+            for( int i = 0; i < size; ++i){
+                TreeNode cur = q.poll();
+                level.add(cur.val);
+                if( cur.left != null)
+                    q.offer(cur.left);
+                if( cur.right != null)
+                    q.offer(cur.right);
+            }
+            if(levelFlag % 2 == 0) Collections.reverse(level);
+            levelFlag++;
+            res.add(level);
+        }
+        return res;
+    }
+}
+```
 
 
 
