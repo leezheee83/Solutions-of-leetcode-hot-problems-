@@ -16,6 +16,11 @@
 2. ~：取反： flip / bitwise negation
 3. `-` : hyphen: 连接号
 4. `--` : dash : 破折号 （比hyphen长）
+5. 二进制： binary
+   1. 10进制：Decimal
+   2. 16进制 ： Hexadecimal  
+   3. 8进制： octal
+
 
 ## C++/Python/Java Specific Vocabulary
 
@@ -217,6 +222,7 @@
    2. BInary Tree: 二叉树
       1. Binary Search Tree: 二叉搜索树
    3. Inorder Traversal: 中序遍历
+   3.  Zigzag Level Order Traversal: z字形顺序遍历
 
 8. List of List: 二维数组
 
