@@ -1679,7 +1679,62 @@ public:
 };
 ```
 
+### [268. Missing Number](https://leetcode.cn/problems/missing-number/)
 
+Given an array `nums` containing `n` distinct numbers in the range `[0, n]`, return *the only number in the range that is missing from the array.*
+
+**Example 1:**
+
+```
+Input: nums = [3,0,1]
+Output: 2
+Explanation: n = 3 since there are 3 numbers, so all numbers are in the range [0,3]. 2 is the missing number in the range since it does not appear in nums.
+```
+
+#### Approach 1 : XOR with index
+
+1. missing number we could use Hash to find ,it's pretty easy.  But the problem ask for constant space, So hash does not fit/meet the requirements
+2. the index range is `[0,n-1]` and  we extend it to `[0,n]`,  and the `nums` range is `[0,n]` , so the index and `nums` has almost same pair elements expert missing numbers 
+3. we all know that `XOR : 1 ^ 1 = 0` , `1 ^ 3^ 1 = 1 ^ 1 ^ 3 = 3`  , the order of element don't affect the outcome of XOR binary operation.
+4. `index XOR nums`  finally we could get the missing number
+
+```C++
+class Solution {
+public:
+    int missingNumber(vector<int>& nums) {
+        int n = nums.size();
+        int res = 0;
+        // XOR with index n : index range extend to [0,n]
+        res ^= n;
+        for(int i = 0; i < n; ++i){
+            res ^= i ^ nums[i];
+        }
+        return res;
+    }
+};
+```
+
+
+
+#### Approach 2： Arithmetic Progression
+
+1. `sum(index)+n - sum(nums[i]) = missing number`
+2. index list is an Arithmetic progression, we can use sum formula to calculate the index list 
+
+```C++
+class Solution {
+public:
+    int missingNumber(vector<int>& nums) {
+        int n = nums.size();
+        int total = n * (n + 1) / 2;
+        int numSum = 0;
+        for (int i = 0; i < n; ++i){
+            numSum += nums[i];
+        }
+        return total - numSum;
+    }
+};
+```
 
 
 

@@ -12,6 +12,7 @@
 
 ## Bit Manipulation / symbols
 
+1. binary solution/operation: 位运算
 1. ^ : 异或 ：bitwise  XOR
 2. ~：取反： bitwise NOT / flip / bitwise negation 
 3. & : 并: bitwise AND
@@ -22,7 +23,6 @@
 8. `--` : dash : 破折号 （比hyphen长）
 9. mop this bit up :  擦去这个 比特位
    1. erase this bit place up: 抹去这个 比特位 
-
 10. 二进制： binary
     1. 10进制：Decimal
     2. 16进制 ： Hexadecimal  
@@ -255,10 +255,10 @@
    - Transpose：（矩阵）转置
    
    - Reflect ： 镜像（反射）
-   
 2. Reciprocal: 倒数
+2. Arithmetic Progression: 等差数列
 
-C++ Sp
+
 
 ## Specialism  CS Details
 
