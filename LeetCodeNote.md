@@ -2078,7 +2078,38 @@ Output: 3
 
  It's very easy to using hashMap or Sorted this array to solve this problem, but these solving are not elegant enough, and  it need to consume more time or space 
 
-#### [Approach 2: Marking visited value within the array](https://www.youtube.com/watch?v=wjYnzkAhcNk)
+#### Approach 2: Fast & Slow Pointer
+
+```java
+class Solution {
+    public int findDuplicate(int[] nums) {
+        /**
+        快慢指针思想, fast 和 slow 是指针, nums[slow] 表示取指针对应的元素
+        注意 nums 数组中的数字都是在 1 到 n 之间的(在数组中进行游走不会越界),
+        因为有重复数字的出现, 所以这个游走必然是成环的, 环的入口就是重复的元素, 
+        即按照寻找链表环入口的思路来做
+        **/
+        int fast = 0, slow = 0;
+        while(true) {
+            fast = nums[nums[fast]];
+            slow = nums[slow];
+            if(slow == fast) {
+                fast = 0;
+                while(nums[slow] != nums[fast]) {
+                    fast = nums[fast];
+                    slow = nums[slow];
+                }
+                return nums[slow];
+            }
+        }
+        return -1;
+    }
+}
+```
+
+
+
+#### [Approach 3: Marking visited value within the array](https://www.youtube.com/watch?v=wjYnzkAhcNk)
 
 **Intuition**
 
@@ -2086,8 +2117,6 @@ Output: 3
 2. the array is loop linked array, so we can using nums[i] be the index to Skip search the Duplicate Number
 3. while scanning the array from left to right, we set the `nums[n]` to its negative value.
 4. when the Duplicate value occurs for the second times, the Duplicate value already been negative
-
-
 
 ```C++
 class Solution {
@@ -2108,9 +2137,42 @@ public:
 };
 ```
 
+### [27. Remove Element](https://leetcode.cn/problems/remove-element/)
+
+Given an integer array `nums` and an integer `val`, remove all occurrences of `val` in `nums` [**in-place**](https://en.wikipedia.org/wiki/In-place_algorithm). The relative order of the elements may be changed.
+
+Example 1:
+
+```
+Input: nums = [3,2,2,3], val = 3
+Output: 2, nums = [2,2,_,_]
+Explanation: Your function should return k = 2, with the first two elements of nums being 2.
+It does not matter what you leave beyond the returned k (hence they are underscores).
+```
+
+#### Approach : Fast Slow pointer
+
+**Intuition**
+
+1. Fast pointer will scan the array, if find the val which should be removed, Fast just  skip, and slow pointer will move forward and replace the found val 
+2. Finally the index of slow is the amount of rest numbers
 
 
 
+#### [83. Remove Duplicates from Sorted List](https://leetcode.cn/problems/remove-duplicates-from-sorted-list/)
+
+Given the `head` of a sorted linked list, *delete all duplicates such that each element appears only once*. Return *the linked list **sorted** as well*.
+
+**Example 1:**
+
+![img](https://assets.leetcode.com/uploads/2021/01/04/list1.jpg)
+
+```
+Input: head = [1,1,2]
+Output: [1,2]
+```
+
+#### Approach: Fast Slow pointers just same to above problem
 
 
 
