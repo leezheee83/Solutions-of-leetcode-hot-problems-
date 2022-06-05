@@ -754,6 +754,10 @@ class Solution {
 
 
 
+
+
+
+
 ## Backtracking & Recursion & Memory Search
 
 ### Step of Backtracking
@@ -2597,6 +2601,29 @@ public:
             else p2 = headA;
         }
         return p1;
+    }
+};
+```
+
+### [237. Delete Node in a Linked List](https://leetcode.cn/problems/delete-node-in-a-linked-list/)
+
+Write a function to **delete a node** in a singly-linked list. You will **not** be given access to the `head` of the list, instead you will be given access to **the node to be deleted** directly.
+
+It is **guaranteed** that the node to be deleted is **not a tail node** in the list.
+
+**Example 1:**
+
+![img](https://assets.leetcode.com/uploads/2020/09/01/node1.jpg)
+
+#### Approach： Swap the next node
+
+```C++
+class Solution {
+public:
+    void deleteNode(ListNode* node) {
+        if(node->next == nullptr) return;
+        node->val = node->next->val;
+        node->next = node->next->next;
     }
 };
 ```
