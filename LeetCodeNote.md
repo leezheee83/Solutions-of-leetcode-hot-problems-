@@ -5667,6 +5667,64 @@ public:
 
 
 
+### [134. Gas Station](https://leetcode.cn/problems/gas-station/)
+
+There are `n` gas stations along a circular route, where the amount of gas at the `ith` station is `gas[i]`.
+
+You have a car with an unlimited gas tank and it costs `cost[i]` of gas to travel from the `ith` station to its next `(i + 1)th` station. You begin the journey with an empty tank at one of the gas stations.
+
+Given two integer arrays `gas` and `cost`, return *the starting gas station's index if you can travel around the circuit once in the clockwise direction, otherwise return* `-1`. If there exists a solution, it is **guaranteed** to be **unique**
+
+**Example 1:**
+
+```
+Input: gas = [1,2,3,4,5], cost = [3,4,5,1,2]
+Output: 3
+Explanation:
+Start at station 3 (index 3) and fill up with 4 unit of gas. Your tank = 0 + 4 = 4
+Travel to station 4. Your tank = 4 - 1 + 5 = 8
+Travel to station 0. Your tank = 8 - 2 + 1 = 7
+Travel to station 1. Your tank = 7 - 3 + 2 = 6
+Travel to station 2. Your tank = 6 - 4 + 3 = 5
+Travel to station 3. The cost is 5. Your gas is just enough to travel back to station 3.
+Therefore, return 3 as the starting index.
+```
+
+**Approach : Greedy**
+
+**Intuition**
+
+1. First Intuition is Brute force, Start from every index, and try to travel the circle array, the running time complexity should be `O(N^2)`  , it's not good enough
+2. whatever the car start from any gas station, we need to make sure (guarantee) that  the `sum(gas[i] - cost[i]) >= 0`
+3. So just traverse the array to accumulate the rest of gas,  `restGas should >=  0 = minGas` 
+4. If  `restGas < 0(negative)`, we using greedy manners to shift the `minGas` and that prove current index is invalid 
+5. finally  if  `restGas >= 0`  that means the car can travel the circle gas station
+
+```C++
+class Solution {
+public:
+    int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
+        int n = gas.size();
+        int restGas = 0, minGas = 0;
+        int startIndex = 0;
+        for( int i = 0; i < n; ++i){
+            restGas += gas[i] - cost[i];
+            // shift the minGas
+            if( restGas < minGas){
+                //start station move on, because station is invalid
+                startIndex = i + 1;
+                minGas = restGas;
+            }
+        }
+        // not enough gas to travel circle
+        if(restGas < 0) return -1;
+        // otherwise the accumulate rest gas > 0
+        // startIndex == n just start from the first station 
+        return startIndex == n ? 0 : startIndex;
+    }
+};
+```
+
 
 
 ## DP + Matching 
