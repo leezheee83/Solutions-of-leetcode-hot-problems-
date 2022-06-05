@@ -716,6 +716,44 @@ public:
 
 
 
+### [217. Contains Duplicate](https://leetcode.cn/problems/contains-duplicate/) 
+
+**Example 1:**
+
+```
+Input: nums = [1,2,3,1]
+Output: true
+```
+
+**Example 2:**
+
+```
+Input: nums = [1,2,3,4]
+Output: false
+```
+
+​	
+
+#### Approach ：hashSet
+
+**Intuition**
+
+1. Using the `hashTab` to detect whether list has duplicate numbers or not 
+
+```Java
+class Solution {
+    public boolean containsDuplicate(int[] nums) {
+        Set<Integer> set = new HashSet<Integer>();
+        for (int x : nums){
+            if( !set.add(x)) return true;
+        }
+        return false;
+    }
+}
+```
+
+
+
 ## Backtracking & Recursion & Memory Search
 
 ### Step of Backtracking
