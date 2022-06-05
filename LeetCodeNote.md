@@ -2150,12 +2150,29 @@ Explanation: Your function should return k = 2, with the first two elements of n
 It does not matter what you leave beyond the returned k (hence they are underscores).
 ```
 
-#### Approach : Fast Slow pointer
+#### Approach : Fast Slow Replace 
 
 **Intuition**
 
 1. Fast pointer will scan the array, if find the val which should be removed, Fast just  skip, and slow pointer will move forward and replace the found val 
 2. Finally the index of slow is the amount of rest numbers
+
+```C++
+class Solution {
+public:
+    int removeElement(vector<int>& nums, int val) {
+        int fast = 0, slow = 0;
+        while (fast < nums.size()){
+            if(nums[fast]  != val){
+                nums[slow] = nums[fast];
+                slow++;
+            }
+            fast++;
+        }
+        return slow;
+    }
+};
+```
 
 
 
@@ -2172,7 +2189,50 @@ Input: head = [1,1,2]
 Output: [1,2]
 ```
 
-#### Approach: Fast Slow pointers just same to above problem
+#### Approach:  Fast Slow + Replace (just same to above problem)
+
+```Java
+class Solution {
+    public ListNode deleteDuplicates(ListNode head) {
+        if(head == null) return null;
+        ListNode slow = head, fast = head;
+        while (fast != null){
+            if(fast.val != slow.val){
+                slow.next = fast;
+                slow = slow.next;    
+            }
+            fast = fast.next;
+        }
+        // slow is the end of unique val list 
+        slow.next = null;
+        return head;
+    }
+}
+```
+
+
+
+### [283. Move Zeroes](https://leetcode.cn/problems/move-zeroes/)
+
+Given an integer array `nums`, move all `0`'s to the end of it while maintaining the relative order of the non-zero elements.
+
+**Note** that you must do this in-place without making a copy of the array.
+
+**Example 1:**
+
+```
+Input: nums = [0,1,0,3,12]
+Output: [1,3,12,0,0]
+```
+
+**Example 2:**
+
+```
+Input: nums = [0]
+Output: [0]
+```
+
+Approach : Fast Slow + Replace
 
 
 
