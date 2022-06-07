@@ -215,6 +215,42 @@ class Solution {
 }
 ```
 
+### [242. Valid Anagram](https://leetcode.cn/problems/valid-anagram/)
+
+Given two strings `s` and `t`, return `true` *if* `t` *is an anagram of* `s`*, and* `false` *otherwise*.
+
+An **Anagram** is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.
+
+**Example 1:**
+
+```
+Input: s = "anagram", t = "nagaram"
+Output: true
+```
+
+#### Approach: Hash: Counting letters
+
+```Java
+class Solution {
+    public boolean isAnagram(String s, String t) {
+        if (s.length() != t.length()) return false;
+        
+        int[] table = new int[26];
+        for(int i = 0; i < s.length(); ++i){
+            table[s.charAt(i) - 'a']++;
+        }
+        for(int i = 0; i < t.length(); ++i){
+            table[t.charAt(i) - 'a']--;
+            if(table[t.charAt(i) - 'a'] < 0)
+                return false;
+        }
+        return true;
+    }
+}
+```
+
+
+
 ### [49. Group Anagrams](https://leetcode.com/problems/group-anagrams/)
 
 Given an array of strings `strs`, group **the anagrams** together. You can return the answer in **any order**.
@@ -2232,7 +2268,36 @@ Input: nums = [0]
 Output: [0]
 ```
 
-Approach : Fast Slow + Replace
+#### Approach : Fast Slow + Replace
+
+**Intuition**
+
+1. Almost same to No.27
+2. After remove 0 ,just replace the rest of  list to 0
+
+```C++
+class Solution {
+    public void moveZeroes(int[] nums) {
+        
+        // return the end of list without 0
+        int p = removeElement(nums,0);
+        for( ; p < nums.length; p++)
+            nums[p] = 0;
+    }
+
+      int removeElement(int[] nums, int val) {
+        int fast = 0, slow = 0;
+        while (fast < nums.length) {
+            if (nums[fast] != val) {
+                nums[slow] = nums[fast];
+                slow++;
+            }
+            fast++;
+        }
+        return slow;
+    }
+}
+```
 
 
 
