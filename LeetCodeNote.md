@@ -1896,6 +1896,78 @@ class Solution:
 
 
 
+### [200. Number of Islands](https://leetcode.cn/problems/number-of-islands/)
+Given an m x n 2D binary grid grid which represents a map of '1's (land) and '0's (water), return the number of islands.
+
+An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically. You may assume all four edges of the grid are all surrounded by water.
+***Example 1:***
+```
+Input: grid = [
+  ["1","1","1","1","0"],
+  ["1","1","0","1","0"],
+  ["1","1","0","0","0"],
+  ["0","0","0","0","0"]
+]
+Output: 1
+```
+
+
+***Example 2:***
+```
+Input: grid = [
+  ["1","1","0","0","0"],
+  ["1","1","0","0","0"],
+  ["0","0","1","0","0"],
+  ["0","0","0","1","1"]
+]
+Output: 3
+```
+
+#### Approach 1: Depth-First Searching
+***Instuition***
+-   using  Depth-First Searching to tarverse the islands because we define the constant '1' element as the islands.
+-   we should mark whether visit the elements in the Depth-First Searching, so we modify the '1' to '0' .
+
+***Code:***
+```C++
+class Solution {
+public:
+    int row ;
+    int column;
+    void dfs(vector<vector<char>>& grid, int n ,int m){
+        grid[n][m] = '0';
+        if(n-1 >=0 && grid[n-1][m] == '1') dfs(grid,n-1,m);
+        if(m-1 >=0 && grid[n][m-1] == '1') dfs(grid,n,m-1);
+        if(n+1 <row && grid[n+1][m] == '1') dfs(grid,n+1,m);
+        if(m+1 < column && grid[n][m+1] == '1') dfs(grid,n,m+1);
+
+        return ;
+    }
+    int numIslands(vector<vector<char>>& grid) {
+        row = grid.size();
+        if (row == 0) return 0;
+        column = grid[0].size();
+        
+
+        int res =0;
+
+        for (int i = 0;i< row;++i){
+            for(int j =0;j < column; ++j){
+                if(grid[i][j] == '1') {
+                    res +=1;
+                    dfs(grid,i,j);
+                }
+            }
+        }
+        return res;
+    }
+};
+```
+
+#### Approach 2: Breadth-first searching
+
+#### Approach 3: Union Find 
+
 
 
 ## Fast Slow  Pointers: Floyd's Cycle-Finding 
@@ -4751,6 +4823,7 @@ public:
     }
 };
 ```
+
 
 #### Approach 2: BFS + Queue
 
