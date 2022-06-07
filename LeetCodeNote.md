@@ -2997,6 +2997,32 @@ class Solution(object):
 
 too easy! It's not necessary to fill that
 
+### [326. Power of Three](https://leetcode.cn/problems/power-of-three/)
+
+Given an integer `n`, return *`true` if it is a power of three. Otherwise, return `false`*.
+
+An integer `n` is a power of three, if there exists an integer `x` such that `n == 3x`.
+
+**Example 1:**
+
+```
+Input: n = 27
+Output: true
+```
+
+#### Approach： Keep Division
+
+```Java
+class Solution {
+    public boolean isPowerOfThree(int n) {
+        while ( n != 0 && n % 3 == 0){
+            n /= 3;
+        }
+        return n == 1;
+    }
+}
+```
+
 
 
 ### [50. Pow(x, n)](https://leetcode.cn/problems/powx-n/)
