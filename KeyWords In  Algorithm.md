@@ -33,6 +33,7 @@
 
 1. & ：references ： 引用
 2. `*`：dereference or star or pointer ：指针 指向， 
+2. `-`：delimiter ： 分界符 
 
 ##  
 

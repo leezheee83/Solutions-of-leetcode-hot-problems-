@@ -4624,8 +4624,63 @@ class Solution:
         return self.merge(left, right)               # merge the sorted lists
 ```
 
-Time Complexity: `O(NlogN)`
-Space Complexity: O(N)
+**Complexity Analysis**
+
+- Time Complexity: `O(NlogN)`
+- Space Complexity: `O(N)`
+
+
+
+### [179. Largest Number](https://leetcode.cn/problems/largest-number/)
+
+Given a list of non-negative integers `nums`, arrange them such that they form the largest number and return it.
+
+Since the result may be very large, so you need to return a string instead of an integer.
+
+**Example 1:**
+
+```
+Input: nums = [10,2]
+Output: "210"
+```
+
+**Example 2:**
+
+```
+Input: nums = [3,30,34,5,9]
+Output: "9534330"
+```
+
+#### Approach: Customized Compare Sorting
+
+**Intuition**
+
+1. How To construct the largest number, we want to ensure that the left front position are occupied by the largest digits.
+2. how to get the bigger combination by using two elements from `nums` 
+3. we could create a Customized Compare rulers : `a + b` > `b + a` for the string digits
+4. Then using above rulers to sort the `nums`  
+5. Finally connected the sorted `nums`
+
+```C++
+class Solution {
+public:
+    static bool cmp(int a, int b){
+        string sa = to_string(a);
+        string sb = to_string(b);
+        return sa + sb > sb + sa;
+    }
+    
+    string largestNumber(vector<int>& nums) {
+        sort(nums.begin(), nums.end(),cmp);
+        string res;
+        for(auto num:nums){
+            if (!(num == 0 && res[0] == '0')) // avoid edge case [0,0,0]
+                res += to_string(num);
+        }
+        return res;
+    }
+};
+```
 
 
 
