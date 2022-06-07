@@ -4463,6 +4463,33 @@ class Solution {
 - Space: `O(N)`
   - system stack needed for backtracking, it depends on the depth of backtracking tree , in this problem  the depth of tree is `N`
 
+### [344. Reverse String](https://leetcode.cn/problems/reverse-string/)
+
+Write a function that reverses a string. The input string is given as an array of characters `s`.
+
+You must do this by modifying the input array [in-place](https://en.wikipedia.org/wiki/In-place_algorithm) with `O(1)` extra memory.
+
+**Example 1:**
+
+```
+Input: s = ["h","e","l","l","o"]
+Output: ["o","l","l","e","h"]
+```
+
+#### Approach: two pointer
+
+```C++
+class Solution {
+public:
+    void reverseString(vector<char>& s) {
+        int n = s.size();
+        for (int left =0, right = n -1; left < right; ++left, --right){
+            swap(s[left],s[right]);
+        }
+    }
+};
+```
+
 
 
 ## Sorting
