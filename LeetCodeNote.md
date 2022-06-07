@@ -2872,6 +2872,63 @@ public:
 
 
 
+### [138. Copy List with Random Pointer](https://leetcode.cn/problems/copy-list-with-random-pointer/)
+
+A linked list of length `n` is given such that each node contains an additional random pointer, which could point to any node in the list, or `null`.
+
+Construct a `deep copy of the list.` The deep copy should consist of exactly n brand new nodes
+
+None of the pointers in the new list should point to nodes in the original list.
+
+For example, if there are two nodes X and Y in the original list, where `X.random --> Y`, then for the corresponding two nodes x and y in the copied list, `x.random --> y`.
+
+```
+   public Node(int val) {
+        this.val = val;
+        this.next = null;
+        this.random = null;
+    }
+```
+
+**Example 1:**
+
+![img](https://assets.leetcode.com/uploads/2019/12/18/e1.png)
+
+```
+Input: head = [[7,null],[13,0],[11,4],[10,2],[1,0]]
+Output: [[7,null],[13,0],[11,4],[10,2],[1,0]]
+```
+
+#### Approach: Hash + Recursion 
+
+1. Biggest problem : If the random pointer's object hasn't been created ,what do we copy that ?  how do we know a node's address which event don't exist 
+2. Recursion : we can using recursion to linked these new copied node  `from back to front`, finally return the head 
+3. Using Hash to make sure do not copy duplicate nodes
+
+```C++
+class Solution {
+public:
+    unordered_map<Node*, Node*> cachedNode;
+    Node* copyRandomList(Node* head) {
+        if (head == nullptr) return nullptr;
+        
+        if( !cachedNode.count(head)){
+            Node* headNew = new Node(head->val);
+            cachedNode[head] = headNew;
+            headNew->next = copyRandomList(head->next);
+            // using recursion linked the random pointered node
+            headNew->random = copyRandomList(head->random);
+        }
+        return cachedNode[head];
+    }
+};
+```
+
+**Complexity Analysis**
+
+- Time: `O(N)` ,Cause traverse each Node
+- Space: `O(N)` Map required N Node
+
 ## Math Tricks
 
 ### [7. Reverse Integer](https://leetcode.com/problems/reverse-integer/solution/)
