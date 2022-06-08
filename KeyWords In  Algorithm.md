@@ -254,13 +254,22 @@
 
 ## Math  Related
 
+1. Arithmetic Progression: 等差数列
+
 1. **Linear algebra** : 线性代数
+   
    - Transpose：（矩阵）转置
    
    - Reflect ： 镜像（反射）
-2. Reciprocal: 倒数
-2. Arithmetic Progression: 等差数列
-2. 
+   
+3. Prime number : 质数
+
+   1. Composite number： 合数
+   2. factor ： 因数，因子
+
+4. Reciprocal: 倒数
+
+   
 
 
 

@@ -3403,6 +3403,57 @@ class Solution {
 
 
 
+### [204. Count Primes](https://leetcode.cn/problems/count-primes/)
+
+Given an integer `n`, return *the number of prime numbers that are strictly less than* `n`. 
+
+**Example 1:**
+
+```
+Input: n = 10
+Output: 4
+Explanation: There are 4 prime numbers less than 10, they are 2, 3, 5, 7.
+```
+
+#### Approach: Exclude the Composite number
+
+**Intuition**
+
+1. checking primes number is time consuming
+2. So if we exclude the composite number, the rest number is primes number
+3. we only need to check the interval `[2, sqrt(x)]`, Because if `y` is a factor of `x`，that means  `x/y` also a factor of `x` , so we only need check the number till  `min(y, x/y)`, then the smaller number must between the interval `[2, sqrt(x)]`
+
+```Java
+class Solution {
+    public int countPrimes(int n) {
+        boolean[] isPrime = new boolean[n];
+        Arrays.fill(isPrime,true);
+        // only need to check the interval [0, sqrt(x)]
+        for (int i = 2; i * i < n; ++i){
+            if (isPrime[i]){
+                for(int j = i * i; j < n; j += i){
+                    isPrime[j] = false;
+                }
+            }
+        }
+        
+        int count = 0;
+        for (int i = 2; i < n; ++i){
+            if (isPrime[i]) count++;
+        }
+        
+        return count;
+    }
+}
+```
+
+**Complexity Analysis**
+
+- time: `O(n*log log N)`
+- space: `O(N)`
+
+
+
 ## Matrix
 
 ### [48  Rotate Image](https://leetcode.com/problems/rotate-image/)
