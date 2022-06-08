@@ -788,9 +788,50 @@ class Solution {
 }
 ```
 
+### [350. Intersection of Two Arrays II](https://leetcode.cn/problems/intersection-of-two-arrays-ii/)
 
+Given two integer arrays `nums1` and `nums2`, return *an array of their intersection*. Each element in the result must appear as many times as it shows in both arrays and you may return the result in **any order**.
 
+**Example 1:**
 
+```
+Input: nums1 = [1,2,2,1], nums2 = [2,2]
+Output: [2,2]
+```
+
+#### Approach : Hash
+
+```Java
+class Solution {
+    public int[] intersect(int[] nums1, int[] nums2) {
+        if (nums1.length > nums2.length){
+            return intersect(nums2,nums1);
+        }
+        
+        Map<Integer,Integer> map = new HashMap<Integer,Integer>();
+        for(int num : nums1){
+            int count = map.getOrDefault(num,0) + 1;
+            map.put(num,count);
+        }
+        
+        int[] intersection = new int[nums1.length];
+        int index = 0;
+        for (int num : nums2){
+            int count = map.getOrDefault(num,0);
+            if(count > 0){
+                intersection[index++] = num;
+                count--;
+                if (count > 0)
+                    map.put(num,count);
+                else
+                    map.remove(num);
+            }
+        }
+        
+        return Arrays.copyOfRange(intersection, 0 ,index);
+    }
+}
+```
 
 
 
@@ -1901,6 +1942,7 @@ Given an m x n 2D binary grid grid which represents a map of '1's (land) and '0'
 
 An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically. You may assume all four edges of the grid are all surrounded by water.
 ***Example 1:***
+
 ```
 Input: grid = [
   ["1","1","1","1","0"],
@@ -1929,6 +1971,7 @@ Output: 3
 -   we should mark whether visit the elements in the Depth-First Searching, so we modify the '1' to '0' .
 
 ***Code:***
+
 ```C++
 class Solution {
 public:
