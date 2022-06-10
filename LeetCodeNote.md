@@ -2530,7 +2530,7 @@ Explanation: There are a total of 2 courses to take.
 To take course 1 you should have finished course 0, and to take course 0 you should also have finished course 1. So it is impossible.
 ```
 
-#### Approach: Transpose  Graph  Circle Check
+#### Approach:  Topology Sort (Transpose  Graph  Circle Check)
 
 **Intuition**
 
@@ -2545,14 +2545,13 @@ class Solution {
 public:
     bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
          // store the connection (edges)
-        map<int, set<int>> edges;
-        
+         vector<vector<int>> edges(numCourses);
         // The count the times of current node being pointed to 
         vector<int> inEdges(numCourses);
         
         for (auto& edge: prerequisites){
-            edges[edge[0]].insert(edge[1]);
-            inEdges[edge[1]]++;
+            edges[edge[1]].push_back(edge[0]);
+            inEdges[edge[0]]++;
         }
         
         queue<int> q;
@@ -2576,7 +2575,6 @@ public:
                 if(inEdges[item] == 0) q.push(item);
             }
         }
-        
         return cnt == numCourses;
     }
 };
@@ -2584,8 +2582,73 @@ public:
 
 **Complexity Analysis**
 
-- time: `O(M + N)`， m is the length of prerequisites, N = numCourses
+- time: `O(M + N)`， m is the length of prerequisites, `N = numCourses`
 - space : `O(M + N)`
+
+
+
+### [210. Course Schedule II](https://leetcode.cn/problems/course-schedule-ii/)
+
+There are a total of `numCourses` courses you have to take, labeled from `0` to `numCourses - 1`. You are given an array `prerequisites` where `prerequisites[i] = [ai, bi]` indicates that you **must** take course `bi` first if you want to take course `ai`.
+
+- For example, the pair `[0, 1]`, indicates that to take course `0` you have to first take course `1`.
+
+Return *the ordering of courses you should take to finish all courses*. If there are many valid answers, return **any** of them. If it is impossible to finish all courses, return **an empty array**.
+
+**Example 1:**
+
+```
+Input: numCourses = 2, prerequisites = [[1,0]]
+Output: [0,1]
+Explanation: There are a total of 2 courses to take. To take course 1 you should have finished course 0. So the correct course order is [0,1].
+```
+
+#### Approach:  Topology Sort (Transpose  Graph  Circle Check)
+
+almost same to 207, just return the path of scanning/traversing the graph
+
+```Java
+class Solution {
+   
+     public int[] findOrder(int numCourses, int[][] prerequisites) {
+        
+        List<List<Integer>> edges = new ArrayList<List<Integer>>();
+        for (int i =0; i <numCourses; ++i){
+            edges.add(new ArrayList<Integer>());
+        }
+         
+        int[] inEdges = new int[numCourses];
+        int[] result = new int[numCourses];
+        
+        for (int[] edge : prerequisites){
+            edges.get(edge[1]).add(edge[0]);
+            inEdges[edge[0]]++;
+        }
+         
+        Queue<Integer> q = new LinkedList<Integer>();
+        for (int i = 0; i < numCourses; ++i){
+            if(inEdges[i] == 0) q.offer(i);
+        }
+        
+        int cnt = 0;
+        while (!q.isEmpty()){
+            int top = q.poll();
+            result[cnt++] = top;
+            for (int item : edges.get(top)) {
+                --inEdges[item];
+                if(inEdges[item] == 0) q.offer(item);
+            }
+        }
+         
+        if (cnt != numCourses) {
+            return new int[0];
+        }
+        return result;
+    }
+}
+```
+
+
 
 
 
