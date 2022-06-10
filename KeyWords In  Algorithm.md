@@ -229,9 +229,13 @@
    1. **Max-Heap** : 堆顶元素最大
    2. **Min-Heap**: 堆顶元素最小
 
-7. *implicit* **LinkedList**.： 隐式链表
+7. Graph / Topology : 图 拓扑
 
-8. Tree
+   1. Transpose graph : 有向图
+
+8. *implicit* **LinkedList**.： 隐式链表
+
+9. Tree
 
    1. left subTree: 左子树
    2. BInary Tree: 二叉树
@@ -243,16 +247,16 @@
       3. Level Order Traversal ： 层级遍历
       4. Zigzag Level Order Traversal: z字形顺序遍历
 
-9. List of List: 二维数组
+10. List of List: 二维数组
 
    1. two dimension list/array: 
    1. Adjacent List: 临近/界数组
 
-10. monotonic stack: 单调栈
+11. monotonic stack: 单调栈
 
-11. Priority  Queue： 优先级队列
+12. Priority  Queue： 优先级队列
 
-12. Singly linked list ： 单链表
+13. Singly linked list ： 单链表
 
     
 

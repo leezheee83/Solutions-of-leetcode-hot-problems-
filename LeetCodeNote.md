@@ -2502,6 +2502,93 @@ class Solution {
 }
 ```
 
+## Graph /  Topology
+
+### [207. Course Schedule](https://leetcode.cn/problems/course-schedule/)
+
+There are a total of `numCourses` courses you have to take, labeled from `0` to `numCourses - 1`. You are given an array `prerequisites` where `prerequisites[i] = [ai, bi]` indicates that you **must** take course `bi` first if you want to take course `ai`.
+
+- For example, the pair `[0, 1]`, indicates that to take course `0` you have to first take course `1`.
+
+Return `true` if you can finish all courses. Otherwise, return `false`.
+
+**Example 1:**
+
+```
+Input: numCourses = 2, prerequisites = [[1,0]]
+Output: true
+Explanation: There are a total of 2 courses to take. 
+To take course 1 you should have finished course 0. So it is possible.
+```
+
+**Example 2:**
+
+```
+Input: numCourses = 2, prerequisites = [[1,0],[0,1]]
+Output: false
+Explanation: There are a total of 2 courses to take. 
+To take course 1 you should have finished course 0, and to take course 0 you should also have finished course 1. So it is impossible.
+```
+
+#### Approach: Transpose  Graph  Circle Check
+
+**Intuition**
+
+1. the every prerequisite contains is a `connection` between two Course . `eg [0,1]` that means, from 0 point to 1
+2. If we plot every connection using a line, It will be a Transpose  graph structure
+3. Here's solution, If we can `Traverse done whole  Transpose  Graph`, that means there `no conflict` for Schedule course 
+4. But if we `find a circle in graph`, that;s means we can't scan all node and It is impossible to finish all courses
+5. Using `BFS` to scan whole graph
+
+```C++
+class Solution {
+public:
+    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+         // store the connection (edges)
+        map<int, set<int>> edges;
+        
+        // The count the times of current node being pointed to 
+        vector<int> inEdges(numCourses);
+        
+        for (auto& edge: prerequisites){
+            edges[edge[0]].insert(edge[1]);
+            inEdges[edge[1]]++;
+        }
+        
+        queue<int> q;
+        for (int i = 0; i < inEdges.size(); ++i)
+            // if count=0, that means current course has no prerequisites
+            // we can learn this course withour any condition 
+            if (inEdges[i] == 0) q.push(i);
+        
+        int cnt = 0;
+        // BFS 
+        while (!q.empty()){
+            auto top = q.front();
+            // find the no prerequisite course-> learned 
+            cnt++;
+            q.pop();
+            // search current node's all edges
+            for(auto item: edges[top]){
+                // remove the edges which point to current node
+                inEdges[item]--;
+                // find a no prerequisite, push to q for next round search
+                if(inEdges[item] == 0) q.push(item);
+            }
+        }
+        
+        return cnt == numCourses;
+    }
+};
+```
+
+**Complexity Analysis**
+
+- time: `O(M + N)`， m is the length of prerequisites, N = numCourses
+- space : `O(M + N)`
+
+
+
 ## Heap（Priority Queue） 
 
 
