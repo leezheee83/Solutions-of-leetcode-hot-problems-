@@ -224,9 +224,14 @@
 
 5. Enumeration methods: 枚举法
 
-6. *implicit* **LinkedList**.： 隐式链表
+6. Heap: 堆
 
-7. Tree
+   1. **Max-Heap** : 堆顶元素最大
+   2. **Min-Heap**: 堆顶元素最小
+
+7. *implicit* **LinkedList**.： 隐式链表
+
+8. Tree
 
    1. left subTree: 左子树
    2. BInary Tree: 二叉树
@@ -238,16 +243,16 @@
       3. Level Order Traversal ： 层级遍历
       4. Zigzag Level Order Traversal: z字形顺序遍历
 
-8. List of List: 二维数组
+9. List of List: 二维数组
 
    1. two dimension list/array: 
    1. Adjacent List: 临近/界数组
 
-9. monotonic stack: 单调栈
+10. monotonic stack: 单调栈
 
-10. Priority  Queue： 优先级队列
+11. Priority  Queue： 优先级队列
 
-11. Singly linked list ： 单链表
+12. Singly linked list ： 单链表
 
     
 

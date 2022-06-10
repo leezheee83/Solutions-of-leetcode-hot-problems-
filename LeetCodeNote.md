@@ -2502,6 +2502,12 @@ class Solution {
 }
 ```
 
+## Heap（Priority Queue） 
+
+
+
+
+
 
 
 ## Intervals
@@ -4977,6 +4983,37 @@ public:
     }
 };
 ```
+
+### [215. Kth Largest Element in an Array](https://leetcode.cn/problems/kth-largest-element-in-an-array/)
+
+Given an integer array `nums` and an integer `k`, return *the* `kth` *largest element in the array*.
+
+Note that it is the `kth` largest element in the sorted order, not the `kth` distinct element.
+
+**Example 1:**
+
+```
+Input: nums = [3,2,1,5,6,4], k = 2
+Output: 5
+```
+
+#### Approach ： Heap Sort
+
+**Intuition**
+
+1. It's easy to figure out this problem by using Sort 
+2. But for thus kind of `Kth` Largest problem, usually. we use heap / priority Queue to solve 
+3. we using min-Heap to maintain k numbers , the length of heap should be `k`
+4. After scanned all elements, the most largest k integers already stored in the heap, the top value of heap should be `K-th` largest element in array
+
+```
+
+```
+
+**Complexity Analysis**
+
+- Time : `O(N*logK)`
+- Space: `O(K)`
 
 
 
