@@ -5006,8 +5006,25 @@ Output: 5
 3. we using min-Heap to maintain k numbers , the length of heap should be `k`
 4. After scanned all elements, the most largest k integers already stored in the heap, the top value of heap should be `K-th` largest element in array
 
-```
-
+```Java
+class Solution {
+    public int findKthLargest(int[] nums, int k) {
+        //initialize the heap
+        
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        for (int e: nums){
+            // push each element to pq
+            pq.offer(e);
+            // keep k elements in Heap
+            if (pq.size() > k){
+                pq.poll();
+            }
+        }
+        
+        return pq.peek();
+        
+    }
+}
 ```
 
 **Complexity Analysis**
