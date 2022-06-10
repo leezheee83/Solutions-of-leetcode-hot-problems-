@@ -250,6 +250,7 @@
 10. List of List: 二维数组
 
    1. two dimension list/array: 
+   1. nested list 
    1. Adjacent List: 临近/界数组
 
 11. monotonic stack: 单调栈

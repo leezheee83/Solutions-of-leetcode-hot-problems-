@@ -2530,11 +2530,46 @@ Explanation: There are a total of 2 courses to take.
 To take course 1 you should have finished course 0, and to take course 0 you should also have finished course 1. So it is impossible.
 ```
 
-#### Approach:  Topology Sort (Transpose  Graph  Circle Check)
+#### Approach :DFS -Topology Sort (Transpose  Graph  Circle Check)
+
+```python
+class Solution:
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        
+        # map each course to prereq list
+        preMap = {i : [] for i in range(numCourses)}
+        for crs, pre in prerequisites:
+            preMap[crs].append(pre);
+        
+        # visitSet = all courses aLong the curr DFS path
+        visitSet = set()
+        def dfs(crs):
+            if crs in visitSet:
+                return False 
+            if preMap[crs] == []:
+                return True 
+            
+            visitSet.add(crs)
+            for pre in preMap[crs]:
+                if not dfs(pre): 
+                    return False 
+            visitSet.remove(crs)
+            preMap[crs] = []
+            return True 
+        
+        for crs in range(numCourses):
+            if not dfs(crs): return False 
+        return True
+        
+```
+
+
+
+#### Approach:  BFS
 
 **Intuition**
 
-1. the every prerequisite contains is a `connection` between two Course . `eg [0,1]` that means, from 0 point to 1
+1. the every prerequisite contains is a `connection` between two Course . `eg [1,0]` that means, edge outward going from 1 point to 0. so the 0 has no any prerequisite. we can finish course 0 without any limit<img src="LeetCodeNote.assets/image-20220610234748645.png" alt="image-20220610234748645" style="zoom:25%;" />
 2. If we plot every connection using a line, It will be a Transpose  graph structure
 3. Here's solution, If we can `Traverse done whole  Transpose  Graph`, that means there `no conflict` for Schedule course 
 4. But if we `find a circle in graph`, that;s means we can't scan all node and It is impossible to finish all courses
@@ -6411,6 +6446,54 @@ class Solution {
    1. where `n` is the length of the string `s`. We have a total of `O(n)` states to calculate, and each calculation needs to enumerate `O(n)` split points. The hash table determines whether a string appears in a given string list. It takes `O(1)` time, so the total time complexity is `O(n^2)`
 
 2. Space complexity: `O(n)`, where n is the length of the string s. 
+
+
+
+### [198. House Robber](https://leetcode.cn/problems/house-robber/)
+
+You are a professional robber planning to rob houses along a street. Each house has a certain amount of money stashed, the only constraint stopping you from robbing each of them is that adjacent houses have security systems connected and **it will automatically contact the police if two adjacent houses were broken into on the same night**.
+
+Given an integer array `nums` representing the amount of money of each house, return *the maximum amount of money you can rob tonight **without alerting the police***.
+
+**Example 1:**
+
+```
+Input: nums = [1,2,3,1]
+Output: 4
+Explanation: Rob house 1 (money = 1) and then rob house 3 (money = 3).
+Total amount you can rob = 1 + 3 = 4.
+```
+
+#### Approach:  DP
+
+**Intuition**
+
+1. For each House There are two choices : rob or not 
+2. `dp[i] = the maximum of money could robber between [0,i] house`
+3. `dp[i] = max( dp[i-2] + num[i], dp[i-1])`
+   1. case 1: If already robed current house, then should skip the `i-1 th` house
+   2. case 2: don't rob current house 
+
+4. the `dp[i] only related to dp[i-1] and dp[i-2]` ，so the space cost could reduce down to constant level
+
+```C++
+class Solution {
+public:
+    int rob(vector<int>& nums) {
+        
+        int first = 0, second = 0;
+        for(auto num : nums){
+            int temp = second;
+            second  = max(first + num, second);
+            first = temp; 
+        }
+         
+        return max(first,second);
+    }
+};
+```
+
+
 
 ## Greedy (Scheduling)
 
