@@ -61,137 +61,141 @@
 
 3. alphanumeric ： 字母数字
 
-4. Appear n times: 出现了n次 
+4. Ascending Sort : 升序排序
+
+   1. Descending Sort： 降序排序
+
+5. Appear n times: 出现了n次 
 
    1. showed n times ：展现了n次 
    2. visited n times： 访问n次
    3. counting the times of appearance : 记录出现的次数
 
-5. brackets：括号
+6. brackets：括号
 
    1. parentheses ： 括弧
    1. nesting parentheses： 嵌套括号
    1. open/left parentheses:  `(`
    1. close/right parentheses: `)`
 
-6. backwards: 向后
+7. backwards: 向后
 
    1. right pointer  goes backwards:  右指针反向走
    2. left pointers goes forwards:  左指针正向走
 
-7. Bit Manipulation ：位运算/位操作
+8. Bit Manipulation ：位运算/位操作
 
-8. B is going be set to A： 把A赋值给B
+9. B is going be set to A： 把A赋值给B
    1. copy the value from A to B： 把A赋值给B
 
-9. Bounds/boundary
+10. Bounds/boundary
 
    1. out of bounds: 越界
    2. in bounds: 在界限内
 
-10. convergence： 收敛
+11. convergence： 收敛
 
-11. declare a variable:  声明变量
+12. declare a variable:  声明变量
 
-12. Diagonal  : 对角线
+13. Diagonal  : 对角线
 
     - anti-diagonal：反对角线
 
-13. De-duplication:  去重
+14. De-duplication:  去重
 
-14. endless loops ：死循环
+15. endless loops ：死循环
 
-15. indentation : 缩进
+16. indentation : 缩进
 
-16. If statements: if 语句(声明)， 
+17. If statements: if 语句(声明)， 
     1. the conditions of the first If statements / block：第一个if模块的条件
     1. **the else case = opposite case**  ，对else的情况/相反的情况
     1. we will do similary in the opposite case :  else的情况也是类似的做法
 
-17. initialize :  初始化
+18. initialize :  初始化
 
-18. inner loop: 两层循环
+19. inner loop: 两层循环
 
-19. infinite loop: 死循环
+20. infinite loop: 死循环
 
-20. increment ：递增，decrement ： 递减；  
+21. increment ：递增，decrement ： 递减；  
 
     1. pointer left  increment by one (step): 左指针加一
 
-21. interval: 区间
+22. interval: 区间
 
-22. Kind of  modified  A： A的变种版
+23. Kind of  modified  A： A的变种版
 
-23. loop : 循环
+24. loop : 循环
 
-24. loop stop executing: 循环停止
+25. loop stop executing: 循环停止
 
-25. moves one spot of head: 链表从头指针走一步
+26. moves one spot of head: 链表从头指针走一步
 
-26. moves the pointers inwards: 让两头指针向内走，让两头指针聚拢
+27. moves the pointers inwards: 让两头指针向内走，让两头指针聚拢
 
-27. Negate ： 取反
+28. Negate ： 取反
 
-28. non-null /nang nəl/ :非空
+29. non-null /nang nəl/ :非空
 
-29. Not simple and elegant enough：不够简洁优雅
+30. Not simple and elegant enough：不够简洁优雅
 
     1. Not the prettiest way to XX: 不是最优雅的方式
 
-30. odd： 奇数， even：偶数
+31. odd： 奇数， even：偶数
 
-31. one's places value： 每一位的值；eg：get one's places value `1， 2，3`  from  `123` 
+32. one's places value： 每一位的值；eg：get one's places value `1， 2，3`  from  `123` 
 
-32. pass N to function:  给函数传参 N
+33. pass N to function:  给函数传参 N
 
-33. permutation：排列
+34. permutation：排列
 
     1. combination: 组合
 
-34. Pop them off： 弹出他们
+35. Pop them off： 弹出他们
 
-35. priority：优先级 ；A has higher priority
+36. priority：优先级 ；A has higher priority
 
-36. precedence： 优先级； A has the highest precedence : A有最高有优先级
+37. precedence： 优先级； A has the highest precedence : A有最高有优先级
 
-37. remainder： 余数； 除法(fraction divide)的余数， also to destripe some things left
+38. remainder： 余数； 除法(fraction divide)的余数， also to destripe some things left
 
-38. Regular Expression: 正则表达式
+39. Regular Expression: 正则表达式
 
-39. Rounded up : 向上取整
+40. Rounded up : 向上取整
 
     1. Round down:  向下取整
     1. round towards zero: 向0舍入
 
-40. shift every time : 每次更新
+41. shift every time : 每次更新
 
-41. step forward : 前进一步
+42. step forward : 前进一步
 
-42. split the array in tow parts:  将数组分成两部分
+43. split the array in tow parts:  将数组分成两部分
 
     1. chop off the integer into different digits: 将整数分割成不同的单数
     2. chop it off:  砍掉它
     3. chop off the last digit of integer:  砍掉整数的最后一位数字 
 
-43. subtract: 减去，代表完整的行为， minus 是 "-"这个symbol
+44. subtract: 减去，代表完整的行为， minus 是 "-"这个symbol
 
-44. Sum of all unit: 所有单元和 
+45. Sum of all unit: 所有单元和 
 
-45. Symmetric :  对称的
+46. Symmetric :  对称的
 
-46. traverse the array : 遍历数组
+47. traverse the array : 遍历数组
 
     1. Scan through the array: 遍历数组
     2. Loop through the array/digit: 遍历数组/数字
     2. **Spiral Traversing**:  螺旋遍历
 
-47. Temporary variable： 临时变量
+48. Temporary variable： 临时变量
 
-48. typos: 错别字：
+49. typos: 错别字：
 
     1. Don't forget your typos: 别忘记处理你的错别字
 
-49. Visit each member/element : 访问每个成员
+50. Visit each member/element : 访问每个成员
 
     1. Scan each element: 扫描每个成员
     1. Go through element/digit by element/digit: 扫描每个成员/数字
@@ -246,18 +250,22 @@
          1. subsequent Traversal ：  后序遍历
       3. Level Order Traversal ： 层级遍历
       4. Zigzag Level Order Traversal: z字形顺序遍历
+   4. descendants ： 子孙节点
+   5. Ancestor: 祖先节点
 
 10. List of List: 二维数组
 
-   1. two dimension list/array: 
-   1. nested list 
-   1. Adjacent List: 临近/界数组
+   11. two dimension list/array: 
 
-11. monotonic stack: 单调栈
+   12. nested list 
 
-12. Priority  Queue： 优先级队列
+   13. Adjacent List: 临近/界数组
 
-13. Singly linked list ： 单链表
+14. monotonic stack: 单调栈
+
+15. Priority  Queue： 优先级队列
+
+16. Singly linked list ： 单链表
 
     
 

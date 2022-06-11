@@ -2131,15 +2131,16 @@ Output: []
 #### [Approach 1](https://leetcode.cn/problems/populating-next-right-pointers-in-each-node/solution/tian-chong-mei-ge-jie-dian-de-xia-yi-ge-you-ce-2-4/):level_order tarversal ,queue
 ***Instuition :***
   the tree has two type next pointer:
+
   1. the first type is that those have same father node .We can access those node easily.
   2. the other type is that those donot have the same father node .we cannot connect two node directly. 
-   
+
 ***Alogrithm : ***
    1. using the queue to store the same level node .
    2. traversal the queue and connect node by next pointer.
 
 ***Code: ***
-```
+```c++
 /*
 // Definition for a Node.
 class Node {
@@ -6022,6 +6023,54 @@ class Solution {
     }
 }
 ```
+
+
+
+### [236. Lowest Common Ancestor of a Binary Tree](https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-tree/)
+
+Given a binary tree, find the lowest common ancestor (LCA) of two given nodes in the tree.
+
+According to the [definition of LCA on Wikipedia](https://en.wikipedia.org/wiki/Lowest_common_ancestor): “The lowest common ancestor is defined between two nodes `p` and `q` as the lowest node in `T` that has both `p` and `q` as descendants (where we allow **a node to be a descendant of itself**).”
+
+ 
+
+**Example 1:**
+
+![img](https://assets.leetcode.com/uploads/2018/12/14/binarytree.png)
+
+```
+Input: root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 1
+Output: 3
+Explanation: The LCA of nodes 5 and 1 is 3.
+```
+
+#### Approach : Divided And Conquer
+
+**Intuition**
+
+1. Find the left, fined the right , node's ancestor could be itself
+
+```C++
+class Solution {
+public:
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        if (!root or root == p or root == q) return root;
+        if (p == q) return q;
+        TreeNode* left = lowestCommonAncestor(root->left,p,q);
+        TreeNode* right = lowestCommonAncestor(root->right,p,q);
+        if (!left) return right;
+        if (!right) return left;
+        return root;
+    }
+};
+```
+
+**Complexity Analysis**
+
+- Time ： `O（N）`, N is the amount of nodes
+- Space: `O(N)`: recursion need system stack space
+
+
 
 
 
