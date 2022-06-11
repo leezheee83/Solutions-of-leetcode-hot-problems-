@@ -2099,7 +2099,94 @@ public:
 
 #### Approach 3: Union Find 
 
+### [116. Populating Next Right Pointers in Each Node](https://leetcode.cn/problems/populating-next-right-pointers-in-each-node/)
+You are given a perfect binary tree where all leaves are on the same level, and every parent has two children. The binary tree has the following definition:
+```
+struct Node {
+  int val;
+  Node *left;
+  Node *right;
+  Node *next;
+}
+```
 
+Populate each next pointer to point to its next right node. If there is no next right node, the next pointer should be set to NULL.
+
+Initially, all next pointers are set to NULL.
+
+***Example 1:***
+```
+Input: root = [1,2,3,4,5,6,7]
+Output: [1,#,2,3,#,4,5,6,7,#]
+Explanation: Given the above perfect binary tree (Figure A), your function should populate each next pointer to point to its next right node, just like in Figure B. The serialized output is in level order as connected by the next pointers, with '#' signifying the end of each level.
+
+```
+
+***Example 2:***
+```
+Input: root = []
+Output: []
+
+```
+#### [Approach 1](https://leetcode.cn/problems/populating-next-right-pointers-in-each-node/solution/tian-chong-mei-ge-jie-dian-de-xia-yi-ge-you-ce-2-4/):level_order tarversal ,queue
+***Instuition :***
+  the tree has two type next pointer:
+  1. the first type is that those have same father node .We can access those node easily.
+  2. the other type is that those donot have the same father node .we cannot connect two node directly. 
+   
+***Alogrithm : ***
+   1. using the queue to store the same level node .
+   2. traversal the queue and connect node by next pointer.
+
+***Code: ***
+```
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    Node* left;
+    Node* right;
+    Node* next;
+
+    Node() : val(0), left(NULL), right(NULL), next(NULL) {}
+
+    Node(int _val) : val(_val), left(NULL), right(NULL), next(NULL) {}
+
+    Node(int _val, Node* _left, Node* _right, Node* _next)
+        : val(_val), left(_left), right(_right), next(_next) {}
+};
+*/
+
+class Solution {
+public:
+    Node* connect(Node* root) {
+        if(root == nullptr) return root;
+
+        queue<Node*> q;
+        q.push(root);
+
+        while(!q.empty()){
+            int size = q.size();
+
+            for(int i = 0;i<size;++i){
+                Node* n = q.front();
+                q.pop();
+
+                if(i < size-1){
+                    n->next = q.front();
+                }
+                if(n->left != nullptr) q.push(n->left);
+                if(n->right != nullptr) q.push(n->right);
+            }
+        }
+        return root;
+    }
+};
+```
+
+#### [Approach 2](https://leetcode.cn/problems/populating-next-right-pointers-in-each-node/solution/tian-chong-mei-ge-jie-dian-de-xia-yi-ge-you-ce-2-4/):level_order tarversal 
+###
 
 ## Fast Slow  Pointers: Floyd's Cycle-Finding 
 
