@@ -6222,6 +6222,106 @@ class Solution {
 
 
 
+
+
+## Trie (Prefix Tree)
+
+![image-20220611212803072](LeetCodeNote.assets/image-20220611212803072.png)
+
+
+
+### [208. Implement Trie (Prefix Tree)](https://leetcode.cn/problems/implement-trie-prefix-tree/)
+
+A [**trie**](https://en.wikipedia.org/wiki/Trie) (pronounced as "try") or **prefix tree** is a tree data structure used to efficiently store and retrieve keys in a dataset of strings. There are various applications of this data structure, such as autocomplete and spellchecker.
+
+Implement the Trie class:
+
+- `Trie()` Initializes the trie object.
+- `void insert(String word)` Inserts the string `word` into the trie.
+- `boolean search(String word)` Returns `true` if the string `word` is in the trie (i.e., was inserted before), and `false` otherwise.
+- `boolean startsWith(String prefix)` Returns `true` if there is a previously inserted string `word` that has the prefix `prefix`, and `false` otherwise.
+
+**Example 1:**
+
+```
+Input
+["Trie", "insert", "search", "search", "startsWith", "insert", "search"]
+[[], ["apple"], ["apple"], ["app"], ["app"], ["app"], ["app"]]
+Output
+[null, null, true, false, true, null, true]
+
+Explanation
+Trie trie = new Trie();
+trie.insert("apple");
+trie.search("apple");   // return True
+trie.search("app");     // return False
+trie.startsWith("app"); // return True
+trie.insert("app");
+trie.search("app");     // return True
+```
+
+#### Approach: Using Map to build Prefix Tree
+
+```Java
+class Trie {
+    private Trie[] children;
+    private boolean isEnd;
+    
+    public Trie() {
+        children = new Trie[26];
+        isEnd = false;
+    }
+    
+    public void insert(String word) {
+        Trie node = this;
+        for (int i = 0; i < word.length(); ++i){
+            char ch = word.charAt(i);
+            int index = ch - 'a';
+            if (node.children[index] == null){
+                node.children[index] = new Trie();
+            }
+            node = node.children[index];
+        }
+        node.isEnd = true;
+    }
+    
+    public boolean search(String word) {
+        Trie node = searchPrefix(word);
+        return node != null && node.isEnd;
+    }
+    
+    public boolean startsWith(String prefix) {
+        return searchPrefix(prefix) != null;
+    }
+    
+    private Trie searchPrefix(String prefix){
+        Trie node = this;
+        for (int i = 0; i < prefix.length(); ++i){
+            char ch = prefix.charAt(i);
+            int index = ch - 'a';
+            if (node.children[index] == null){
+                return null;
+            }
+            node = node.children[index];
+        }
+        return node;
+    }
+}
+
+/**
+ * Your Trie object will be instantiated and called as such:
+ * Trie obj = new Trie();
+ * obj.insert(word);
+ * boolean param_2 = obj.search(word);
+ * boolean param_3 = obj.startsWith(prefix);
+ */
+```
+
+**Complexity Analysis**
+
+- Time : Initialize : `O(1)`, insert and search `O(S)` ,S = length of giving s 
+- Space: `O(SUM(all s) * 26)`
+
 ## Two Pointers
 
 ### [26. Remove Duplicates from Sorted Array](https://leetcode.com/problems/remove-duplicates-from-sorted-array/)
