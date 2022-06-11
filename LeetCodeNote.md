@@ -3783,6 +3783,34 @@ class Solution {
 
 
 
+#### [172. Factorial Trailing Zeroes](https://leetcode.cn/problems/factorial-trailing-zeroes/)
+
+Given an integer `n`, return *the number of trailing zeroes in* `n!`.
+
+Note that `n! = n * (n - 1) * (n - 2) * ... * 3 * 2 * 1`.
+
+**Example 1:**
+
+```
+Input: n = 3
+Output: 0
+Explanation: 3! = 6, no trailing zero.
+```
+
+**Example 2:**
+
+```
+Input: n = 5
+Output: 1
+Explanation: 5! = 120, one trailing zero.
+```
+
+
+
+
+
+
+
 ## Matrix
 
 ### [48  Rotate Image](https://leetcode.com/problems/rotate-image/)
@@ -4637,9 +4665,85 @@ public:
 };
 ```
 
+### [227. Basic Calculator II](https://leetcode.cn/problems/basic-calculator-ii/)
 
+Given a string `s` which represents an expression, *evaluate this expression and return its value*. 
 
+The integer division should truncate toward zero.
 
+You may assume that the given expression is always valid. All intermediate results will be in the range of `[-231, 231 - 1]`.
+
+**Note:** You are not allowed to use any built-in function which evaluates strings as mathematical expressions, such as `eval()`.
+
+**Example 1:**
+
+```
+Input: s = "3+2*2"
+Output: 7
+```
+
+**Example 2:**
+
+```
+Input: s = " 3/2 "
+Output: 1
+```
+
+#### Approach： Stack
+
+**Intuition**
+
+1. Generally Specking, Calculator need two stacks, one for integers ,anther for signs , but this time we would use a variable to instead of sign stack
+2. This is the whole idea
+   1. plus ONLY (turn the subtract into adding the negative number)
+   2. Multiplication and division operation has higher priority , So we straightly compute the Multiplication and division
+   3. Care the integer > 10 ,and out of bound of Int 
+   4. the giving S has no `parentheses`
+
+```Java
+class Solution {
+    public int calculate(String s) {
+        
+        // sign marked to last integer
+        char sign = '+';
+        Stack<Integer> numStack = new Stack<>();
+        
+        // save current number in Case > 10 (two places integers)
+        int num = 0;
+        int result = 0;
+        for (int i = 0; i < s.length(); ++i){
+            char cur = s.charAt(i);
+            if (cur >= '0'){
+                // subtract first to avoid out of boundary
+                num = num*10 - '0' + cur;
+            }
+            
+            if( (cur < '0' && cur != ' ') || i == s.length() - 1){
+                // check the last sign
+                switch(sign){
+                    // '+' -> push current number
+                    case '+': numStack.push(num); break;
+                    
+                    // '-' -> push current number after flip
+                    case '-': numStack.push(-num); break;
+                    // '*' Multiplication just compute and push the outComes
+                    case '*': numStack.push(numStack.pop() * num); break;
+                    // '/' similar
+                    case '/': numStack.push(numStack.pop() / num); break;
+                }
+                // save current sign 
+                sign = cur;
+                num = 0;
+            }
+        }
+        // accumulate the rest number in stack
+        while( !numStack.isEmpty()){
+            result += numStack.pop();
+        }
+        return result;
+    }
+}
+```
 
 
 

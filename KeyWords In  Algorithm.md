@@ -274,18 +274,26 @@
 
 1. Arithmetic Progression: 等差数列
 
-1. **Linear algebra** : 线性代数
-   
+2. Division : 除法
+
+   1. Multiplication ： 乘法 
+
+3. Factorial : 阶乘
+
+   1. Factorial  Trailing Zeroes： 阶乘尾随的0
+
+4. **Linear algebra** : 线性代数
+
    - Transpose：（矩阵）转置
-   
+
    - Reflect ： 镜像（反射）
-   
-3. Prime number : 质数
+
+5. Prime number : 质数
 
    1. Composite number： 合数
    2. factor ： 因数，因子
 
-4. Reciprocal: 倒数
+6. Reciprocal: 倒数
 
    
 
