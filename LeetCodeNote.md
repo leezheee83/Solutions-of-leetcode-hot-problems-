@@ -3783,7 +3783,7 @@ class Solution {
 
 
 
-#### [172. Factorial Trailing Zeroes](https://leetcode.cn/problems/factorial-trailing-zeroes/)
+### [172. Factorial Trailing Zeroes](https://leetcode.cn/problems/factorial-trailing-zeroes/)
 
 Given an integer `n`, return *the number of trailing zeroes in* `n!`.
 
@@ -3805,9 +3805,39 @@ Output: 1
 Explanation: 5! = 120, one trailing zero.
 ```
 
+#### Approach 1: factorization
 
+**Intuition** 
 
+1.  Factorial `5 ! = 5 * 4 * 3 * 2 * 1`, How do we make sure the result has a Trailing zero
 
+2. For the trailing zero that due to the factor 2 and 5 
+
+3. So we could count the 2 or 5 ? Actually we only need to count the 5, because the 2 is also a factor of other numbers, like 4 = 2 * 2, 8 = 2 * 2 *2. if we count 2, there's no help to get correct amount of Trailing zeros
+
+4. Careful the  Factorial  number has multiple 5  like `n = 25`, 
+
+   -  finally result should be `6 =  ( 25 / 5  = 5  + 5 / 5 = 1)` ， because we need to keep repeating the divide until they're completely broken down to 1
+
+     
+
+```Java
+class Solution {
+    public int trailingZeroes(int n) {
+        int numberOfFive = 0;
+        while (n >= 5){
+            numberOfFive += n / 5;
+            n = n / 5;
+        }
+        return numberOfFive;
+    }
+}
+```
+
+**Complexity Analysis**  
+
+- Time : `O(log n)`
+- Space : `O(1)` 
 
 
 
@@ -6280,8 +6310,10 @@ class Trie {
             if (node.children[index] == null){
                 node.children[index] = new Trie();
             }
+            // pointer move forward one step
             node = node.children[index];
         }
+        // mark the end of current word
         node.isEnd = true;
     }
     
@@ -6296,6 +6328,76 @@ class Trie {
     
     private Trie searchPrefix(String prefix){
         Trie node = this;
+        for (int i = 0; i < prefix.length(); ++i){
+            char ch = prefix.charAt(i);
+            int index = ch - 'a';
+            if (node.children[index] == null){
+                return null;
+            }
+            node = node.children[index];
+        }
+        return node;
+    }
+}
+
+/**
+ * Your Trie object will be instantiated and called as such:
+ * Trie obj = new Trie();
+ * obj.insert(word);
+ * boolean param_2 = obj.search(word);
+ * boolean param_3 = obj.startsWith(prefix);
+ */
+```
+
+**Another Version of Java** 
+
+```Java
+
+class TrieNode {
+    // You shoulde using private intead of public for the member variable 
+    // and create public manners for others to use the self-variable   
+    // here just to avoid writing lots of member functions
+    public TrieNode[] children;
+    public boolean isEnd;
+    
+    public TrieNode() {
+        children = new TrieNode[26];
+        isEnd = false;
+    }
+    
+}
+
+class Trie {
+    private TrieNode root;
+    
+    public Trie() {
+        root = new TrieNode();
+    }
+    
+    public void insert(String word) {
+        TrieNode node = root;
+        for (int i = 0; i < word.length(); ++i){
+            char ch = word.charAt(i);
+            int index = ch - 'a';
+            if (node.children[index] == null){
+                node.children[index] = new TrieNode();
+            }
+            node = node.children[index];
+        }
+        node.isEnd = true;
+    }
+    
+    public boolean search(String word) {
+        TrieNode node  = searchPrefix(word);
+        return node != null && node.isEnd;
+    }
+    
+    public boolean startsWith(String prefix) {
+        return searchPrefix(prefix) != null;
+    }
+    
+    private TrieNode searchPrefix(String prefix){
+        TrieNode node = root;
         for (int i = 0; i < prefix.length(); ++i){
             char ch = prefix.charAt(i);
             int index = ch - 'a';

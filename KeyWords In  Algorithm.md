@@ -278,22 +278,26 @@
 
    1. Multiplication ： 乘法 
 
-3. Factorial : 阶乘
+3. Divide : 除
+
+   1. multiple / times : 乘 
+
+4. Factorial : 阶乘
 
    1. Factorial  Trailing Zeroes： 阶乘尾随的0
 
-4. **Linear algebra** : 线性代数
+5. **Linear algebra** : 线性代数
 
    - Transpose：（矩阵）转置
 
    - Reflect ： 镜像（反射）
 
-5. Prime number : 质数
+6. Prime number : 质数
 
    1. Composite number： 合数
    2. factor ： 因数，因子
 
-6. Reciprocal: 倒数
+7. Reciprocal: 倒数
 
    
 
