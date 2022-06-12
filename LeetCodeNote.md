@@ -4687,6 +4687,28 @@ class Solution {
 }
 ```
 
+### [150. Evaluate Reverse Polish Notation](https://leetcode.cn/problems/evaluate-reverse-polish-notation/)
+
+Evaluate the value of an arithmetic expression in [Reverse Polish Notation](http://en.wikipedia.org/wiki/Reverse_Polish_notation).
+
+Valid operators are `+`, `-`, `*`, and `/`. Each operand may be an integer or another expression.
+
+**Note** that division between two integers should truncate toward zero.
+
+It is guaranteed that the given RPN expression is always valid. That means the expression would always evaluate to a result, and there will not be any division by zero operation.
+
+ 
+
+**Example 1:**
+
+```
+Input: tokens = ["2","1","+","3","*"]
+Output: 9
+Explanation: ((2 + 1) * 3) = 9
+```
+
+
+
 
 
 ## String & SubString & Subsequence & Palindrome
@@ -7019,6 +7041,32 @@ public:
     }
 };
 ```
+
+### [152. Maximum Product Subarray](https://leetcode.cn/problems/maximum-product-subarray/)
+
+Given an integer array `nums`, find a contiguous non-empty subarray within the array that has the largest product, and return *the product*.
+
+The test cases are generated so that the answer will fit in a **32-bit** integer.
+
+A **subarray** is a contiguous subsequence of the array.
+
+**Example 1:**
+
+```
+Input: nums = [2,3,-2,4]
+Output: 6
+Explanation: [2,3] has the largest product 6.
+```
+
+**Example 2:**
+
+```
+Input: nums = [-2,0,-1]
+Output: 0
+Explanation: The result cannot be 2, because [-2,-1] is not a subarray.
+```
+
+Approach ： 
 
 
 

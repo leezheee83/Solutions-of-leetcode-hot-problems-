@@ -224,6 +224,7 @@
 1. Array : 数组
 
    1. expand Array / extend Array : 扩充数组
+   1. Product Subarray ： 成绩子数组
 
 2. binary search: 二分查找
 
@@ -305,6 +306,8 @@
    2. factor ： 因数，因子
 
 7. Reciprocal: 倒数
+
+7. Reverse Polish Notation: 逆波兰等式
 
    
 
