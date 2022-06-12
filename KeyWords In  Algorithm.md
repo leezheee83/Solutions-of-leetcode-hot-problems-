@@ -280,36 +280,48 @@
 
 ## Math  Related
 
+1. Arithmetic expression： 算数表达式
+
 1. Arithmetic Progression: 等差数列
 
-2. Division : 除法
+3. Division : 除法
 
    1. Multiplication ： 乘法 
+      1. multiple / times : 乘 
 
-3. Divide : 除
+4. Divide : 除
 
-   1. multiple / times : 乘 
+   1. Remainder : 余数
+   2. truncate toward zero : 向0截断
 
-4. Factorial : 阶乘
+5. Factorial : 阶乘
 
    1. Factorial  Trailing Zeroes： 阶乘尾随的0
 
-5. **Linear algebra** : 线性代数
+6. Fraction  ： 分数
+
+   1. Denominator  : 分母， 除数
+   2. Numerator  ： 分子，被除数
+   3. Remainder : 余数
+
+7. **Linear algebra** : 线性代数
 
    - Transpose：（矩阵）转置
 
    - Reflect ： 镜像（反射）
 
-6. Prime number : 质数
+8. Prime number : 质数
 
    1. Composite number： 合数
    2. factor ： 因数，因子
 
-7. Reciprocal: 倒数
+9. Reciprocal: 倒数
 
-7. Reverse Polish Notation: 逆波兰等式
+10. Recurring Decimal： 循环小数
 
-   
+11. Reverse Polish Notation: 逆波兰等式
+
+    
 
 
 

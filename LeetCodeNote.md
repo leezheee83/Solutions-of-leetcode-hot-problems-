@@ -3751,6 +3751,71 @@ class Solution {
 - Time : `O(log n)`
 - Space : `O(1)` 
 
+### [166. Fraction to Recurring Decimal](https://leetcode.cn/problems/fraction-to-recurring-decimal/)
+
+Given two integers representing the `numerator` and `denominator` of a fraction, return *the fraction in string format*.
+
+If the fractional part is repeating, enclose the repeating part in parentheses.
+
+If multiple answers are possible, return **any of them**.
+
+It is **guaranteed** that the length of the answer string is less than `104` for all the given inputs.
+
+**Example 1:**
+
+```
+Input: numerator = 1, denominator = 2
+Output: "0.5"
+```
+
+**Example 2:**
+
+```
+Input: numerator = 2, denominator = 1
+Output: "2"
+```
+
+#### Approach : imitating the vertical Division 
+
+**Intuition**
+
+1. imitating the vertical Division  to deal the Recurring Decimal
+
+```Java
+class Solution {
+    public String fractionToDecimal(int numerator, int denominator) {
+        
+        // convert to long to avoid out of bounary 
+        long a = numerator, b = denominator;
+        // if it could be divid down (without Recurring Decimal),just return the result
+        if (a % b == 0) return String.valueOf(a / b);
+        StringBuilder sb = new StringBuilder();
+        // if has negative integer,just append '-'
+        if (a * b < 0) sb.append('-');
+        a = Math.abs(a); 
+        b = Math.abs(b);
+        // compute the integer part of fraction
+        sb.append(String.valueOf(a / b) + '.');
+        a %= b;
+        Map<Long, Integer> map = new HashMap<>();
+        // start to mock the vertical division
+        while (a != 0){
+            // mark the position of Remainder
+            map.put(a, sb.length());
+            a *= 10;
+            sb.append(a / b);
+            a %= b;
+            // if current Remainder is visited,then means recurring Decimal shows up
+            if (map.containsKey(a)){
+                int u = map.get(a);
+                return String.format("%s(%s)", sb.substring(0,u),sb.substring(u));
+            }
+        }
+        return sb.toString();
+    }
+}
+```
+
 
 
 ## Matrix
@@ -4695,9 +4760,7 @@ Valid operators are `+`, `-`, `*`, and `/`. Each operand may be an integer or an
 
 **Note** that division between two integers should truncate toward zero.
 
-It is guaranteed that the given RPN expression is always valid. That means the expression would always evaluate to a result, and there will not be any division by zero operation.
-
- 
+It is guaranteed that the given `RPN` expression is always valid. That means the expression would always evaluate to a result, and there will not be any division by zero operation
 
 **Example 1:**
 
@@ -4707,7 +4770,47 @@ Output: 9
 Explanation: ((2 + 1) * 3) = 9
 ```
 
+#### Approach : stack mock the calculate ruler  
 
+**Intuition**
+
+1. Rulers for Reverse Polish Notation, for example  like `[2,1,+]`, when we meet the operator, any operator should be apply to the previous two values, so the `[2,1,+] -> [3]`
+2. the ruler of Reverse Polish Notation, it's very suitable for stack, when we meet a operator just pop top 2 numbers to calculate 
+
+```Java
+class Solution {
+    public int evalRPN(String[] tokens) {
+        Stack<Integer> stk = new Stack<>();
+        for (String token : tokens){
+            if ("+-*/".contains(token)){
+                // meet operator, just pop two integers and calculate 
+                // then push the result to stack
+                int a = stk.pop(), b = stk.pop();
+                switch (token) {
+                    case "+":
+                        stk.push(a + b);
+                        break;
+                    case "*":
+                        stk.push(a * b);
+                        break;
+                    case "-":
+                        // care the order of subtract and division
+                        stk.push(b - a);
+                        break;
+                    case "/":
+                        stk.push(b / a);
+                        break;
+                }
+            } else{
+                // if's a integer, just push to stack
+                stk.push(Integer.parseInt(token));
+            }
+        }
+        // finally the last number in stack is the result we wanted 
+        return stk.pop();
+    }
+}
+```
 
 
 
