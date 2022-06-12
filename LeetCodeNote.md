@@ -6529,6 +6529,67 @@ public:
 };
 ```
 
+### [199. Binary Tree Right Side View]{https://leetcode.com/problems/binary-tree-right-side-view/}
+Given the root of a binary tree, imagine yourself standing on the right side of it, return the values of the nodes you can see ordered from top to bottom.
+**Example 1:**
+
+![~~1~~](https://assets.leetcode.com/uploads/2021/02/14/tree.jpg)
+```
+Input: root = [1,2,3,null,5,null,4]
+Output: [1,3,4]
+```
+**Example 2:**
+
+
+```
+Input: root = [1,null,3]
+Output: [1,3]
+```
+#### Approach 1 :level order traverse
+**Instuition :**
+-    using the queue to store same level node .
+-    push the last element into the res vector in each level.
+-    using the size to control the end condition of loop
+  
+**Code :**
+``` C++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    vector<int> rightSideView(TreeNode* root) {
+        if(root == nullptr) return {};
+        queue<TreeNode*> q;
+        vector<int> res;
+        q.push(root);
+        while(!q.empty()){
+            int size = q.size();
+            for(int i =0;i<size;++i){
+                if(i == size -1) {
+                    if(q.front()!=nullptr){
+                        res.push_back(q.front()->val);
+                    }
+                    
+                }
+                TreeNode* n = q.front();
+                q.pop();
+                if(n->left != nullptr) q.push(n->left);
+                if(n->right != nullptr) q.push(n->right);
+            }
+        }
+        return res;
+    }
+};
+```
 ## Trie (Prefix Tree)
 
 ![image-20220611212803072](LeetCodeNote.assets/image-20220611212803072.png)
