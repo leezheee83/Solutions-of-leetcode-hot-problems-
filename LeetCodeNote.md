@@ -6205,12 +6205,12 @@ Output: []
     1. the first type is that those have same father node .We can access those node easily.
     2. the other type is that those donot have the same father node .we cannot connect two node directly. 
 
-***Alogrithm : ***
+**Alogrithm : **
 
       1. using the queue to store the same level node .
       2. traversal the queue and connect node by next pointer.
 
-***Code: ***
+**Code: **
 
 ```c++
 /*
@@ -6259,6 +6259,57 @@ public:
 ```
 
 #### [Approach 2](https://leetcode.cn/problems/populating-next-right-pointers-in-each-node/solution/tian-chong-mei-ge-jie-dian-de-xia-yi-ge-you-ce-2-4/):level_order tarversal 
+
+**Intuition**
+
+- using the leftmost node to traverse the same level node 
+- when traversing the n+1 level node ,we can use the n level node connection
+
+**Alogrithm : **
+
+**Code: **
+
+```c++
+class Solution {
+public:
+    Node* connect(Node* root) {
+        if (root == nullptr) {
+            return root;
+        }
+        
+        // 从根节点开始
+        Node* leftmost = root;
+        
+        while (leftmost->left != nullptr) {
+            
+            // 遍历这一层节点组织成的链表，为下一层的节点更新 next 指针
+            Node* head = leftmost;
+            
+            while (head != nullptr) {
+                
+                // CONNECTION 1
+                head->left->next = head->right;
+                
+                // CONNECTION 2
+                if (head->next != nullptr) {
+                    head->right->next = head->next->left;
+                }
+                
+                // 指针向后移动
+                head = head->next;
+            }
+            
+            // 去下一层的最左的节点
+            leftmost = leftmost->left;
+        }
+        
+        return root;
+    }
+};
+
+```
+
+
 
 #### Approach 3: DFS
 
