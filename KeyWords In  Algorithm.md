@@ -90,7 +90,8 @@
 
 10. Bounds/boundary
 
-   1. out of bounds: 越界
+   11. out of bounds: 越界
+
    2. in bounds: 在界限内
 
 11. convergence： 收敛
@@ -112,90 +113,94 @@
     1. **the else case = opposite case**  ，对else的情况/相反的情况
     1. we will do similary in the opposite case :  else的情况也是类似的做法
 
-18. initialize :  初始化
+20. implement ：填充，实现
 
-19. inner loop: 两层循环
+    1. Populating ：填充
 
-20. infinite loop: 死循环
+21. initialize :  初始化
 
-21. increment ：递增，decrement ： 递减；  
+22. inner loop: 两层循环
+
+23. infinite loop: 死循环
+
+24. increment ：递增，decrement ： 递减；  
 
     1. pointer left  increment by one (step): 左指针加一
 
-22. interval: 区间
+25. interval: 区间
 
-23. Kind of  modified  A： A的变种版
+26. Kind of  modified  A： A的变种版
 
-24. loop : 循环
+27. loop : 循环
 
-25. loop stop executing: 循环停止
+28. loop stop executing: 循环停止
 
-26. moves one spot of head: 链表从头指针走一步
+29. moves one spot of head: 链表从头指针走一步
 
-27. moves the pointers inwards: 让两头指针向内走，让两头指针聚拢
+30. moves the pointers inwards: 让两头指针向内走，让两头指针聚拢
 
-28. Negate ： 取反
+31. Negate ： 取反
 
-29. non-null /nang nəl/ :非空
+32. non-null /nang nəl/ :非空
 
-30. Not simple and elegant enough：不够简洁优雅
+33. Not simple and elegant enough：不够简洁优雅
 
     1. Not the prettiest way to XX: 不是最优雅的方式
 
-31. odd： 奇数， even：偶数
+34. odd： 奇数， even：偶数
 
-32. one's places value： 每一位的值；eg：get one's places value `1， 2，3`  from  `123` 
+35. one's places value： 每一位的值；eg：get one's places value `1， 2，3`  from  `123` 
 
-33. pass N to function:  给函数传参 N
+36. pass N to function:  给函数传参 N
 
-34. permutation：排列
+37. permutation：排列
 
     1. combination: 组合
 
-35. Pop them off： 弹出他们
+38. Pop them off： 弹出他们
 
-36. priority：优先级 ；A has higher priority
+39. priority：优先级 ；A has higher priority
 
-37. precedence： 优先级； A has the highest precedence : A有最高有优先级
+40. precedence： 优先级； A has the highest precedence : A有最高有优先级
 
-38. remainder： 余数； 除法(fraction divide)的余数， also to destripe some things left
+41. remainder： 余数； 除法(fraction divide)的余数， also to destripe some things left
 
-39. Regular Expression: 正则表达式
+42. Regular Expression: 正则表达式
 
-40. Rounded up : 向上取整
+43. Rounded up : 向上取整
 
     1. Round down:  向下取整
     1. round towards zero: 向0舍入
 
-41. shift every time : 每次更新
+44. shift every time : 每次更新
 
-42. step forward : 前进一步
+45. step forward : 前进一步
 
-43. split the array in tow parts:  将数组分成两部分
+46. split the array in tow parts:  将数组分成两部分
 
     1. chop off the integer into different digits: 将整数分割成不同的单数
     2. chop it off:  砍掉它
     3. chop off the last digit of integer:  砍掉整数的最后一位数字 
 
-44. subtract: 减去，代表完整的行为， minus 是 "-"这个symbol
+47. subtract: 减去，代表完整的行为， minus 是 "-"这个symbol
 
-45. Sum of all unit: 所有单元和 
+48. Sum of all unit: 所有单元和 
 
-46. Symmetric :  对称的
+49. Symmetric :  对称的
 
-47. traverse the array : 遍历数组
+50. traverse the array : 遍历数组
 
     1. Scan through the array: 遍历数组
     2. Loop through the array/digit: 遍历数组/数字
     2. **Spiral Traversing**:  螺旋遍历
 
-48. Temporary variable： 临时变量
+51. Temporary variable： 临时变量
 
-49. typos: 错别字：
+52. typos: 错别字：
 
     1. Don't forget your typos: 别忘记处理你的错别字
 
-50. Visit each member/element : 访问每个成员
+53. Visit each member/element : 访问每个成员
 
     1. Scan each element: 扫描每个成员
     1. Go through element/digit by element/digit: 扫描每个成员/数字
@@ -241,31 +246,33 @@
 
 9. Tree
 
-   1. left subTree: 左子树
-   2. BInary Tree: 二叉树
+   1. binary tree ： 二叉树
+   2. ternary tree：三叉树
+   3. left subTree: 左子树
+   4. BInary Tree: 二叉树
       1. Binary Search Tree: 二叉搜索树
-   3. Inorder Traversal: 中序遍历
+   5. Inorder Traversal: 中序遍历
       1. preOrder Traversal : 先序遍历
       2. postOrder Traversal: 后序遍历
          1. subsequent Traversal ：  后序遍历
       3. Level Order Traversal ： 层级遍历
       4. Zigzag Level Order Traversal: z字形顺序遍历
-   4. descendants ： 子孙节点
-   5. Ancestor: 祖先节点
+   6. descendants ： 子孙节点
+   7. Ancestor: 祖先节点
 
 10. List of List: 二维数组
 
-   11. two dimension list/array: 
+    1. two dimension list/array: 
 
-   12. nested list 
+    2. nested list 
 
-   13. Adjacent List: 临近/界数组
+   11. Adjacent List: 临近/界数组
 
-14. monotonic stack: 单调栈
+12. monotonic stack: 单调栈
 
-15. Priority  Queue： 优先级队列
+13. Priority  Queue： 优先级队列
 
-16. Singly linked list ： 单链表
+14. Singly linked list ： 单链表
 
     
 
