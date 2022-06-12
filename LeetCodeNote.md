@@ -6477,7 +6477,7 @@ the different point is that the tree is not the full binaray tree.but we also ca
 ### Instuition:
 - defining the helper function to connect two point 
 - using leftmost node being the start point.
-
+- helper function should using & being input params ,because we want to record the position of the node and the leftmost node .
 ### Code:
 ``` C++
 /*
