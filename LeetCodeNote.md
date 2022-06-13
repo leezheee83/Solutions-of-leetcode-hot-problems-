@@ -6469,16 +6469,16 @@ class Solution {
 }
 ```
 
-### [117. Populating Next Right Pointers in Each Node II
-](https://leetcode.com/problems/populating-next-right-pointers-in-each-node-ii/)
-
+### [117. Populating Next Right Pointers in Each Node II](https://leetcode.com/problems/populating-next-right-pointers-in-each-node-ii/)
 the different point is that the tree is not the full binaray tree.but we also can use similar solution to solve this problem 
 
-### Instuition:
+#### Instuition:
 - defining the helper function to connect two point 
 - using leftmost node being the start point.
 - helper function should using & being input params ,because we want to record the position of the node and the leftmost node .
-### Code:
+
+**Code:**
+
 ``` C++
 /*
 // Definition for a Node.
@@ -6547,10 +6547,11 @@ Output: [1,3]
 ```
 #### Approach 1 :level order traverse
 **Instuition :**
+
 -    using the queue to store same level node .
 -    push the last element into the res vector in each level.
 -    using the size to control the end condition of loop
-  
+
 **Code :**
 ``` C++
 /**
@@ -7339,7 +7340,28 @@ Output: 0
 Explanation: The result cannot be 2, because [-2,-1] is not a subarray.
 ```
 
-Approach ： 
+#### Approach ：  greed + dp
+
+```C++
+class Solution {
+public:
+    int maxProduct(vector<int>& nums) {
+        int positiveMax = 1, negativeMax = 1;
+        int result = INT_MIN;
+        for (auto num : nums){
+            if (num < 0) {
+                int tmp = positiveMax;
+                positiveMax = negativeMax;
+                negativeMax = tmp;
+            }
+            positiveMax = max(positiveMax * num, num);
+            negativeMax = min(negativeMax * num, num);
+            result = max(result,max(positiveMax,negativeMax));  
+        }
+        return result;
+    }
+};
+```
 
 
 
