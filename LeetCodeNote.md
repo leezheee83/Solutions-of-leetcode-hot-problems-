@@ -8124,3 +8124,63 @@ public:
 };
 ```
 
+### [123. Best Time to Buy and Sell Stock III](https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-iii/)
+
+You are given an array `prices` where `prices[i]` is the price of a given stock on the `ith` day.
+
+Find the maximum profit you can achieve. You may complete **at most two transactions**.
+
+**Note:** You may not engage in multiple transactions simultaneously (i.e., you must sell the stock before you buy again).
+
+**Example 1:**
+
+```
+Input: prices = [3,3,5,0,0,3,1,4]
+Output: 6
+Explanation: Buy on day 4 (price = 0) and sell on day 6 (price = 3), profit = 3-0 = 3.
+Then buy on day 7 (price = 1) and sell on day 8 (price = 4), profit = 4-1 = 3.
+```
+
+#### Approach: 3DFSM
+
+1. It's a classic DP problem, for every we have two choices : hold the stock or not, and we need to consider that when we sell the stock or not, or we need to care the Remaining tradables times  (the number of transactions)
+2. So there has three state or factors for sell stock
+   1.  make the choice : hold stock or not 
+   2. when to make the choice
+   3. whether we have enough tradables times  (are we allow to have transactions (counting on sell or bug due to the request ))
+3.  And we just give the definition of DP table , we call them 3-Dimension-Finite-State-Machine
+4.  `dp[n][k][0] = Represents the amount of funds/money in the state when you throw the stock and there are k transactions on the nth day (till to nth)`
+5.  `dp[n][k][1] = Represents the amount of funds/money in the state when you hold the stock and there are k transactions on the nth day`
+6. here's the formula
+   1. nth day I don't have stock, cause yesterday I don't have stock either , or I sell the stock yesterday so you get the profit `price[i]`
+      - `dp[n][k][0] = max(hold, sell) = max( dp[n-1][k][0] , dp[n-1][k][1] + price[i])` , 
+   2. nth day I have stock, cause yesterday I have stock either , or I buy the stock yesterday so you get the pay the   `price[i]`
+      - `dp[n][k][1] = max(hold, sell) = max( dp[n-1][k][1], dp[n-1][k-1][0] - price[i])`
+
+7. for this question:  `K <= 2`, so the above formula could words, and need to care the edge cases.
+
+```Java
+class Solution {
+    public int maxProfit(int[] prices) {
+        int max_k = 2 , n = prices.length;
+        int [][][] dp = new int[n][max_k + 1][2];
+        for (int i = 0; i < n; ++i){
+            for (int k = max_k; k >= 0; k--){
+                // edge cases
+                if (i == 0){
+                    dp[i][k][0] = 0;
+                    dp[i][k][1] = -prices[0];
+                }else if (k == 0){
+                    dp[i][k][0] = 0;
+                    dp[i][k][1] = -prices[0];
+                }else {
+                    dp[i][k][0] = Math.max(dp[i-1][k][0], dp[i-1][k][1] + prices[i]);
+                    dp[i][k][1] = Math.max(dp[i-1][k][1], dp[i-1][k-1][0] - prices[i]);
+                }
+            }
+        }
+        return dp[n - 1][max_k][0];
+    }
+}
+```
+
