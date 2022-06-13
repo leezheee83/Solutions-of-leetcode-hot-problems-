@@ -7365,6 +7365,8 @@ public:
 
 
 
+
+
 ## Greedy (Scheduling)
 
 ### [53. Maximum Subarray](https://leetcode.cn/problems/maximum-subarray/)
@@ -7517,7 +7519,7 @@ Travel to station 3. The cost is 5. Your gas is just enough to travel back to st
 Therefore, return 3 as the starting index.
 ```
 
-**Approach : Greedy**
+#### **Approach : Greedy**
 
 **Intuition**
 
@@ -7999,4 +8001,64 @@ public:
 
 ## DP +  3-Dimension- Finite State Machine
 
-## 
+### [121. Best Time to Buy and Sell Stock](https://leetcode.cn/problems/best-time-to-buy-and-sell-stock/)
+
+You are given an array `prices` where `prices[i]` is the price of a given stock on the `ith` day.
+
+You want to maximize your profit by choosing a **single day** to buy one stock and choosing a **different day in the future** to sell that stock.
+
+Return *the maximum profit you can achieve from this transaction*. If you cannot achieve any profit, return `0`.
+
+**Example 1:**
+
+```
+Input: prices = [7,1,5,3,6,4]
+Output: 5
+Explanation: Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5.
+Note that buying on day 2 and selling on day 1 is not allowed because you must buy before you sell.
+```
+
+#### Approach : greedy or 3DFSM
+
+**Intuition**
+
+1. It's a classic DP problem, for every we have two choices : hold the stock or not, and we need to consider that when we sell the stock or not, or we need to care the Remaining tradables times  (the number of transactions)
+2. So there has three state or factors for sell stock
+   1.  make the choice : hold stock or not 
+   2. when to make the choice
+   3. whether we have enough tradables times  (are we allow to have transactions (counting on sell or bug due to the request ))
+3.  And we just give the definition of DP table , we call them 3-Dimension-Finite-State-Machine
+4.  `dp[n][k][0] = Represents the amount of funds/money in the state when you throw the stock and there are k transactions on the nth day`
+5.  `dp[n][k][1] = Represents the amount of funds/money in the state when you hold the stock and there are k transactions on the nth day`
+6. here's the formula
+   1. nth day I don't have stock, cause yesterday I don't have stock either , or I sell the stock yesterday so you get the profit `price[i]`
+      - `dp[n][k][0] = max(hold, sell) = max( dp[n-1][k][0] , dp[n-1][k][1] + price[i])` , 
+   2. nth day I have stock, cause yesterday I have stock either , or I buy the stock yesterday so you get the pay the   `price[i]`
+      - `dp[n][k][1] = max(hold, sell) = max( dp[n-1][k][1], dp[n-1][k-1][0] - price[i])`
+
+7. for this problem ： k = 1 , so 
+   1. Sell =  max( Sell , hold+  price[i])
+   2. hold= max( hold, - price[i])
+
+```C++
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        if( prices.size() == 0) return 0;
+        int sell = 0;
+        int hold = INT_MIN; // cause hold the stock is invalid at the start
+        for (int i = 0; i < prices.size(); ++i){
+            // you sell it -> you get the profix 
+            // precondition is you must hold it first
+            sell = max(sell, hold + prices[i]);
+            // when you hold the stock. you could hold it before 
+            // or buy the stock
+            hold = max(hold, -prices[i]);
+        }
+        // must return sell, cause when you sold out the stoack, 
+        // you coud get the biggest profit
+        return sell;
+    }
+};
+```
+
