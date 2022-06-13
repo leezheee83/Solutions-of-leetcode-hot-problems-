@@ -8036,9 +8036,9 @@ Note that buying on day 2 and selling on day 1 is not allowed because you must b
    2. nth day I have stock, cause yesterday I have stock either , or I buy the stock yesterday so you get the pay the   `price[i]`
       - `dp[n][k][1] = max(hold, sell) = max( dp[n-1][k][1], dp[n-1][k-1][0] - price[i])`
 
-7. for this problem ： k = 1 , so 
-   1. Sell =  max( Sell , hold+  price[i])
-   2. hold= max( hold, - price[i])
+7. for this problem ： `k = 1` (one buy, one sell), and we don't need `n`, so the formula just turn into 
+   1. `Sell =  max( Sell , hold+  price[i])`
+   2. `hold= max( hold, - price[i])`
 
 ```C++
 class Solution {
@@ -8054,6 +8054,68 @@ public:
             // when you hold the stock. you could hold it before 
             // or buy the stock
             hold = max(hold, -prices[i]);
+        }
+        // must return sell, cause when you sold out the stoack, 
+        // you coud get the biggest profit
+        return sell;
+    }
+};
+```
+
+### [22. Best Time to Buy and Sell Stock II](https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-ii/)
+
+You are given an integer array `prices` where `prices[i]` is the price of a given stock on the `ith` day.
+
+On each day, you may decide to buy and/or sell the stock. You can only hold **at most one** share of the stock at any time. However, you can buy it then immediately sell it on the **same day**.
+
+Find and return *the **maximum** profit you can achieve*.
+
+**Example 1:**
+
+```
+Input: prices = [7,1,5,3,6,4]
+Output: 7
+Explanation: Buy on day 2 (price = 1) and sell on day 3 (price = 5), profit = 5-1 = 4.
+Then buy on day 4 (price = 3) and sell on day 5 (price = 6), profit = 6-3 = 3.
+Total profit is 4 + 3 = 7.
+```
+
+#### Approach : greedy or 3DFSM
+
+**Intuition:**
+
+1. It's a classic DP problem, for every we have two choices : hold the stock or not, and we need to consider that when we sell the stock or not, or we need to care the Remaining tradables times  (the number of transactions)
+2. So there has three state or factors for sell stock
+   1.  make the choice : hold stock or not 
+   2. when to make the choice
+   3. whether we have enough tradables times  (are we allow to have transactions (counting on sell or bug due to the request ))
+3.  And we just give the definition of DP table , we call them 3-Dimension-Finite-State-Machine
+4.  `dp[n][k][0] = Represents the amount of funds/money in the state when you throw the stock and there are k transactions on the nth day`
+5.  `dp[n][k][1] = Represents the amount of funds/money in the state when you hold the stock and there are k transactions on the nth day`
+6. here's the formula
+   1. nth day I don't have stock, cause yesterday I don't have stock either , or I sell the stock yesterday so you get the profit `price[i]`
+      - `dp[n][k][0] = max(hold, sell) = max( dp[n-1][k][0] , dp[n-1][k][1] + price[i])` , 
+   2. nth day I have stock, cause yesterday I have stock either , or I buy the stock yesterday so you get the pay the   `price[i]`
+      - `dp[n][k][1] = max(hold, sell) = max( dp[n-1][k][1], dp[n-1][k-1][0] - price[i])`
+
+7. for this question:  `K = endless / infinite`, and you can buy and sell on the same day  so the formula will turn into 
+   1. `dp[i][0] = max(dp[i-1][0], dp[i-1][i] + prices[i]) ->  sell = max(sell, hold + prices[i])` 
+   2. `dp[i][1] = max(dp[i-1][1], dp[i-1][0] - prices[i]) -> hold = max(hold, sell - prices[i])`
+
+```C++
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        if( prices.size() == 0) return 0;
+        int sell = 0;
+        int hold = INT_MIN; // cause hold the stock is invalid at the start
+        for (int i = 0; i < prices.size(); ++i){
+            // you sell it -> you get the profix 
+            // precondition is you must hold it first
+            sell = max(sell, hold + prices[i]);
+            // when you hold the stock. you could hold it before 
+            // or buy the stock and sell on the same day 
+            hold = max(hold, sell - prices[i]);
         }
         // must return sell, cause when you sold out the stoack, 
         // you coud get the biggest profit
