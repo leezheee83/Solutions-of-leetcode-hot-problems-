@@ -21,6 +21,7 @@
 6. `>>` : 有移： right Shift
 7. `-` : hyphen: 连接号
 8. `--` : dash : 破折号 （比hyphen长）
+8. `！`： exclamation mark ： 感叹号
 9. mop this bit up :  擦去这个 比特位
    1. erase this bit place up: 抹去这个 比特位 
 10. 二进制： binary
@@ -155,6 +156,8 @@
 
 36. one's places value： 每一位的值；eg：get one's places value `1， 2，3`  from  `123` 
 
+36. optimal approach/solution : 最佳方法、方案
+
 37. pass N to function:  给函数传参 N
 
 38. permutation：排列
@@ -188,27 +191,27 @@
 
 48. subtract: 减去，代表完整的行为， minus 是 "-"这个symbol
 
-49. sutiable : 非常合适
+50. sutiable : 非常合适
 
     1. This formula is very suitable to solve that problem：这个公式非常适合解决这个问题
 
-50. Sum of all unit: 所有单元和 
+51. Sum of all unit: 所有单元和 
 
-51. Symmetric :  对称的
+52. Symmetric :  对称的
 
-52. traverse the array : 遍历数组
+53. traverse the array : 遍历数组
 
     1. Scan through the array: 遍历数组
     2. Loop through the array/digit: 遍历数组/数字
     2. **Spiral Traversing**:  螺旋遍历
 
-53. Temporary variable： 临时变量
+54. Temporary variable： 临时变量
 
-54. typos: 错别字：
+55. typos: 错别字：
 
     1. Don't forget your typos: 别忘记处理你的错别字
 
-55. Visit each member/element : 访问每个成员
+56. Visit each member/element : 访问每个成员
 
     1. Scan each element: 扫描每个成员
     1. Go through element/digit by element/digit: 扫描每个成员/数字

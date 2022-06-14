@@ -8260,3 +8260,57 @@ public:
 };
 ```
 
+### [309. Best Time to Buy and Sell Stock with Cooldown](https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-with-cooldown/)
+
+You are given an array `prices` where `prices[i]` is the price of a given stock on the `ith` day.
+
+Find the maximum profit you can achieve. You may complete as many transactions as you like (i.e., buy one and sell one share of the stock multiple times) with the following restrictions:
+
+- After you sell your stock, you cannot buy stock on the next day (i.e., cooldown one day).
+
+**Note:** You may not engage in multiple transactions simultaneously (i.e., you must sell the stock before you buy again).
+
+**Example 1:**
+
+```
+Input: prices = [1,2,3,0,2]
+Output: 3
+Explanation: transactions = [buy, sell, cooldown, buy, sell]
+```
+
+#### Approach: 3DFSM
+
+1. It's a classic DP problem, for every we have two choices : hold the stock or not, and we need to consider that when we sell the stock or not, or we need to care the Remaining tradables times  (the number of transactions)
+2. So there has three state or factors for sell stock
+   1.  make the choice : hold stock or not 
+   2.  when to make the choice
+   3.  whether we have enough tradables times  (are we allow to have transactions (counting on sell or bug due to the request ))
+3. And we just give the definition of DP table , we call them 3-Dimension-Finite-State-Machine
+4. `dp[n][k][0] = Represents the amount of funds/money in the state when you throw the stock and there are k transactions on the nth day (till to nth)`
+5. `dp[n][k][1] = Represents the amount of funds/money in the state when you hold the stock and there are k transactions on the nth day`
+6. here's the formula And we noticed that ：`After you sell your stock, you cannot buy stock on the next day (i.e., cooldown one day).`
+   1. nth day I don't have stock, cause yesterday I don't have stock either , or I sell the stock yesterday so you get the profit `price[i]`
+      - `dp[n][k][0] = max(hold, sell) = max( dp[n-1][k][0] , dp[n-1][k][1] + price[i])` , 
+   2. nth day I have stock, cause yesterday I have stock either , or I buy the stock at the day before yesterday so you get the pay the   `price[i]`
+      - `dp[n][k][1] = max(hold, sell) = max( dp[n-1][k][1], dp[n-2][k-1][0] - price[i])`
+7. for this problem : `k = infinite` , so the above `dp expression` will turn into 
+   1. `sell = max (sell , hold + prices[i])`
+   2. `hold = max ( sell, cooldown - prices[i])`
+   3.  `cooldown  = sell` 
+
+```C++
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int sell = 0, hold = INT_MIN, coolDown = 0;
+        for (int i = 0; i < prices.size(); ++i){
+            int tmp = sell;
+            sell = max(sell, hold + prices[i]);
+            hold = max(hold, coolDown - prices[i]);
+            coolDown = tmp;
+        }
+        return sell;
+    }
+};
+```
+
