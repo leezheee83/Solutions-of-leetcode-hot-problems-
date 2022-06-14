@@ -1903,6 +1903,59 @@ public:
 
 
 
+### [371. Sum of Two Integers](https://leetcode.cn/problems/sum-of-two-integers/)
+
+**Example 1:**
+
+```
+Input: a = 1, b = 2
+Output: 3
+```
+
+**Example 2:**
+
+```
+Input: a = 2, b = 3
+Output: 5
+```
+
+#### Approach ： Bitwise XOR
+
+**Intuition**
+
+1. Using the Bit Manipulation instead of operation, It's quite often in the previous years
+
+2. We could using XOR to mock the plus operation, Actually that's how computer really did it when people using plus operator 
+
+3. XOR will added two numbers in every bit places, and we need to deal with the carry like
+
+4. ```
+   +01
+    01
+    10 
+   ```
+
+   we need to using  `(a & b) << 1 t`o left shift the carry  
+
+```C++
+class Solution {
+public:
+    int getSum(int a, int b) {
+        while ( b != 0){
+            // using unsigned type to avoid out of boundary
+            // find out which bit need to left shift(carry)
+            unsigned int carry = (unsigned int)(a & b) << 1;
+            a = a ^ b;
+            b = carry;
+        }
+        
+        return a;
+    }
+};
+```
+
+
+
 ## DFS(Depth-First Searching) / BFS(Breadth-First Searching)
 
 ### [79. Word Search](https://leetcode.cn/problems/word-search/)
@@ -8298,7 +8351,7 @@ Explanation: transactions = [buy, sell, cooldown, buy, sell]
    2. `hold = max ( sell, cooldown - prices[i])`
    3.  `cooldown  = sell` 
 
-```C++
+```
 class Solution {
 public:
     int maxProfit(vector<int>& prices) {
