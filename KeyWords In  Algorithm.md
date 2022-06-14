@@ -143,6 +143,8 @@
 
 32. Negate ： 取反
 
+    1. flip 
+
 33. non-null /nang nəl/ :非空
 
 34. Not simple and elegant enough：不够简洁优雅
@@ -186,23 +188,27 @@
 
 48. subtract: 减去，代表完整的行为， minus 是 "-"这个symbol
 
-49. Sum of all unit: 所有单元和 
+49. sutiable : 非常合适
 
-50. Symmetric :  对称的
+    1. This formula is very suitable to solve that problem：这个公式非常适合解决这个问题
 
-51. traverse the array : 遍历数组
+50. Sum of all unit: 所有单元和 
+
+51. Symmetric :  对称的
+
+52. traverse the array : 遍历数组
 
     1. Scan through the array: 遍历数组
     2. Loop through the array/digit: 遍历数组/数字
     2. **Spiral Traversing**:  螺旋遍历
 
-52. Temporary variable： 临时变量
+53. Temporary variable： 临时变量
 
-53. typos: 错别字：
+54. typos: 错别字：
 
     1. Don't forget your typos: 别忘记处理你的错别字
 
-54. Visit each member/element : 访问每个成员
+55. Visit each member/element : 访问每个成员
 
     1. Scan each element: 扫描每个成员
     1. Go through element/digit by element/digit: 扫描每个成员/数字

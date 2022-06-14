@@ -8062,7 +8062,7 @@ public:
 };
 ```
 
-### [22. Best Time to Buy and Sell Stock II](https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-ii/)
+### [122. Best Time to Buy and Sell Stock II](https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-ii/)
 
 You are given an integer array `prices` where `prices[i]` is the price of a given stock on the `ith` day.
 
@@ -8182,5 +8182,81 @@ class Solution {
         return dp[n - 1][max_k][0];
     }
 }
+```
+
+
+
+### [188. Best Time to Buy and Sell Stock IV](https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-iv/)
+
+You are given an integer array `prices` where `prices[i]` is the price of a given stock on the `ith` day, and an integer `k`.
+
+Find the maximum profit you can achieve. You may complete at most `k` transactions.
+
+**Note:** You may not engage in multiple transactions simultaneously (i.e., you must sell the stock before you buy again).
+
+**Example 1:**
+
+```
+Input: k = 2, prices = [2,4,1]
+Output: 2
+Explanation: Buy on day 1 (price = 2) and sell on day 2 (price = 4), profit = 4-2 = 2.
+```
+
+#### Approach: 3DFSM
+
+1. It's a classic DP problem, for every we have two choices : hold the stock or not, and we need to consider that when we sell the stock or not, or we need to care the Remaining tradables times  (the number of transactions)
+2. So there has three state or factors for sell stock
+   1.  make the choice : hold stock or not 
+   2.  when to make the choice
+   3.  whether we have enough tradables times  (are we allow to have transactions (counting on sell or bug due to the request ))
+3. And we just give the definition of DP table , we call them 3-Dimension-Finite-State-Machine
+4. `dp[n][k][0] = Represents the amount of funds/money in the state when you throw the stock and there are k transactions on the nth day (till to nth)`
+5. `dp[n][k][1] = Represents the amount of funds/money in the state when you hold the stock and there are k transactions on the nth day`
+6. here's the formula
+   1. nth day I don't have stock, cause yesterday I don't have stock either , or I sell the stock yesterday so you get the profit `price[i]`
+      - `dp[n][k][0] = max(hold, sell) = max( dp[n-1][k][0] , dp[n-1][k][1] + price[i])` , 
+   2. nth day I have stock, cause yesterday I have stock either , or I buy the stock yesterday so you get the pay the   `price[i]`
+      - `dp[n][k][1] = max(hold, sell) = max( dp[n-1][k][1], dp[n-1][k-1][0] - price[i])`
+7. for this problem : This formula is very suitable to solve that problem， and we need to check the value range of `k`
+   1. `if  k > length / 2 --> almost no limitation of  transactions times just turn into  problem 122`
+   2. `else  --> turn to problem 123`
+
+```C++
+class Solution {
+public:
+    int maxProfit(int k, vector<int>& prices) {
+        if(k == 0 || prices.size() == 0) return 0;
+        int n = prices.size();
+        if (k > int(n/2)){
+            int sell  = 0, hold =INT_MIN; 
+            for (int i=0; i < n;i++){
+                sell = max(sell,hold+prices[i]);
+                hold = max(hold,sell-prices[i]);
+            }
+            return sell;
+        }else{
+            int maxK = k;
+            vector<vector<vector<int>>> dp(n,vector<vector<int>>(maxK+1,vector<int>(2,0)));
+            for(int i = 0; i < n; i++){
+                for(int k = maxK; k >=0 ;k--){
+                    if(i == 0){
+                        dp[i][k][0] = 0;
+                        dp[i][k][1] = -prices[0];
+                    }
+                    else if(k == 0){
+                        dp[i][k][0] = 0;
+                        dp[i][k][1] = -prices[0];
+                    }
+                    else{
+                        dp[i][k][0] = max(dp[i-1][k][0], dp[i-1][k][1]+prices[i]);
+                        dp[i][k][1] = max(dp[i-1][k][1], dp[i-1][k-1][0]-prices[i]);
+                    }
+                }
+            }
+            return dp[n-1][maxK][0];
+        }
+
+    }
+};
 ```
 
