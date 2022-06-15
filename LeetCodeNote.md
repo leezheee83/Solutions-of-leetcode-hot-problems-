@@ -7471,7 +7471,108 @@ public:
 
 
 
+### [300. Longest Increasing Subsequence](https://leetcode.cn/problems/longest-increasing-subsequence/)
 
+Given an integer array `nums`, return the length of the longest strictly increasing subsequence.
+
+A **subsequence** is a sequence that can be derived from an array by deleting some or no elements without changing the order of the remaining elements. For example, `[3,6,2,7]` is a subsequence of the array `[0,3,1,6,2,2,7]`.
+
+**Example 1:**
+
+```
+Input: nums = [10,9,2,5,3,7,101,18]
+Output: 4
+Explanation: The longest increasing subsequence is [2,3,7,101], therefore the length is 4.
+```
+
+**Example 2:**
+
+```
+Input: nums = [0,1,0,3,2,3]
+Output: 4
+```
+
+#### Approach 1 : DP 
+
+**Intuition**
+
+1. `dp[i] =  the Longest Increasing Subsequence for the subString s[0 to i]`
+2.  `dp [i] = max (dp[i], dp[j] +1)  (j in [0 to i])`
+
+```C++
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        int n = nums.size();
+        // initialise dp list with 1, cause length should be 1 at least
+        vector<int> dp(n,1);
+        for (int i = 0; i < n; ++i){
+            for (int j  = 0; j < i; ++j){
+                if(nums[i] > nums[j]){
+                    dp[i] = max(dp[i], dp[j] + 1);
+                }
+            }
+        }
+        return *max_element(dp.begin(), dp.end());
+    }
+};
+```
+
+**Complexity Analysis**
+
+- Time : `O(N^2)`
+- Space: `O(N)`
+
+#### Approach 2: Greedy + Binary Search 
+
+**Intuition**
+
+1. how do we reduce the time cost? think about that, we are find a `increasing subsequence`
+
+2. If we can use the increasing subsequence to search and check the new element , that would be faster 
+
+3. So we will use list Increment，and 
+
+   1. `Increment[k] = the last element of Increasing Subsequence which length is k + 1`
+
+   2. res is the current length of `Increment`
+
+   3. Using the binary Search to find the position of new element in the ordered list `Increment`
+
+      
+
+```C++
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        if (nums.empty()) return 0;
+        if (nums.size() == 1) return 1;
+        vector<int> incur(nums.size(),0);
+        int incurLen = 0;
+        for (auto num: nums){
+            int left = 0, right = incurLen - 1;
+            while (left <= right){
+                int mid = left + (right - left)/2;
+                if (incur[mid] < num)
+                    left = mid + 1;
+                else
+                    right = mid - 1;
+            }
+            // extend the Increasing list
+            incur[left] = num;
+            // find a bigger element wasn't in incur 
+            if (right == incurLen - 1)
+                incurLen++;
+        }
+        return incurLen;
+    }
+};
+```
+
+**Complexity Analysis**
+
+- Time : `O(N*log(N))`
+- Space: `O(N)`
 
 ## Greedy (Scheduling)
 
