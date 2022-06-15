@@ -3376,6 +3376,59 @@ public:
 - Time: `O(N)` ,Cause traverse each Node
 - Space: `O(N)` Map required N Node
 
+### [328. Odd Even Linked List](https://leetcode.cn/problems/odd-even-linked-list/)
+
+Given the `head` of a singly linked list, group all the nodes with odd indices together followed by the nodes with even indices, and return *the reordered list*.
+
+The **first** node is considered **odd**, and the **second** node is **even**, and so on.
+
+Note that the relative order inside both the even and odd groups should remain as it was in the input.
+
+You must solve the problem in `O(1)` extra space complexity and `O(n)` time complexity.
+
+**Example 1:**
+
+![img](https://assets.leetcode.com/uploads/2021/03/10/oddeven-linked-list.jpg)
+
+```
+Input: head = [1,2,3,4,5]
+Output: [1,3,5,2,4]
+```
+
+#### Approach : separate and reLinked
+
+**Intuition**
+
+1. we need two list, odd list and even list ,after scanning the original list, just link the even list to the tail of odd list 
+
+```Java
+class Solution {
+    public ListNode oddEvenList(ListNode head) {
+        if (head == null || head.next == null){
+            return head;
+        }
+        // odd pointer
+        ListNode odd = head;
+        // p is head of even
+        ListNode p = head.next;
+        // even pointer 
+        ListNode even = p;
+        // keep separate the odd node and even nodes 
+        while(odd.next != null && even.next != null){
+            odd.next = even.next;
+            odd = odd.next;
+            even.next = odd.next;
+            even = even.next;
+        }
+        // odd point to the end of odd list 
+        odd.next = p;
+        return head;
+    }
+}
+```
+
+
+
 ## Math Tricks
 
 ### [7. Reverse Integer](https://leetcode.com/problems/reverse-integer/solution/)
