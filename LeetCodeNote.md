@@ -3977,6 +3977,63 @@ class Solution {
 
 
 
+### [279. Perfect Squares](https://leetcode.cn/problems/perfect-squares/)
+
+Given an integer `n`, return *the least number of perfect square numbers that sum to* `n`.
+
+A **perfect square** is an integer that is the square of an integer; in other words, it is the product of some integer with itself. For example, `1`, `4`, `9`, and `16` are perfect squares while `3` and `11` are not.
+
+**Example 1:**
+
+```
+Input: n = 12
+Output: 3
+Explanation: 12 = 4 + 4 + 4.
+```
+
+**Example 2:**
+
+```
+Input: n = 13
+Output: 2
+Explanation: 13 = 4 + 9.
+```
+
+#### Approach : dp 
+
+**Intuition**
+
+1. `dp[i] = the amount of perfect squares of i` 
+   1. the worst case: `dp[n] = n` ( all group by 1 (1 + 1 + ....+ 1 = n) )
+   2. otherwise there muse exist one number is perfect squares between the [1, sqrt(i) + 1) 
+      1. why we only need to search [1, sqrt(i) + 1), cause the `sqrt(i) ^ 2 = i, sqrt(i+1) ^ 2 > i` so the  sqrt(i)  is big enough to reach i
+
+2. `dp[i] = min(dp[i], dp[i - j*j] + 1)    j in [1, sqrt(i) + 1]` 
+
+```Java
+class Solution {
+    public int numSquares(int n) {
+        int[] dp = new int[n + 1];
+        // base case (assume the worst case: 1 + 1 +....+ 1)
+        for (int i = 0; i < n + 1; ++i){
+            dp[i] = i;
+        }
+        
+        for (int i = 1; i <= n; ++i){
+            for (int j = 1; j * j <= i; ++j){
+                // find the pre solution 
+                dp[i] = Math.min(dp[i], dp[i - j*j] + 1);
+            }
+        }
+        return dp[n];
+    }
+}
+```
+
+#### Approach 2： BFS
+
+#### Approach 3 ： Lagrange's four-square theorem
+
 ## Matrix
 
 ### [48  Rotate Image](https://leetcode.com/problems/rotate-image/)
@@ -8558,7 +8615,7 @@ Explanation: transactions = [buy, sell, cooldown, buy, sell]
    2. `hold = max ( sell, cooldown - prices[i])`
    3.  `cooldown  = sell` 
 
-```
+```c++
 class Solution {
 public:
     int maxProfit(vector<int>& prices) {

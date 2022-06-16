@@ -48,8 +48,8 @@
 4.  Time Limit Exceeded: 超时！
 7.  `O(3^N)`: big O of three to the Nth power 
     1.  或者 big O of Nth power of three
-
 8.  `O(n!)`: big O of  factorial of n 
+8.  `O(sqrt(N))`:  big O of squart root of n
 
 ## Describing  Algorithm
 
@@ -332,6 +332,8 @@
 10. Recurring Decimal： 循环小数
 
 11. Reverse Polish Notation: 逆波兰等式
+
+12. Square root : 平方根 
 
     
 
