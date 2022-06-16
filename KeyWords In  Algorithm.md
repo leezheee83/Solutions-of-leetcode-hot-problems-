@@ -295,15 +295,16 @@
 
 1. Arithmetic Progression: 等差数列
 
-3. Division : 除法
+3. Multiplication ： 乘法 
 
-   1. Multiplication ： 乘法 
-      1. multiple / times : 乘 
+   1. multiple / times : 乘 
+   2. Product ：乘
 
-4. Divide : 除
+4. Division : 除法
 
-   1. Remainder : 余数
-   2. truncate toward zero : 向0截断
+   1. Divide : 除
+   2. Remainder : 余数
+   3. truncate toward zero : 向0截断
 
 5. Factorial : 阶乘
 
