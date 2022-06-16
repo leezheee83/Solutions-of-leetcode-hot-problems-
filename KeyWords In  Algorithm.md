@@ -71,6 +71,7 @@
    1. showed n times ：展现了n次 
    2. visited n times： 访问n次
    3. counting the times of appearance : 记录出现的次数
+   3. occur six times: 出现了6次
 
 6. boilerplate code: 模板代码
 

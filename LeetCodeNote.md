@@ -2797,9 +2797,99 @@ class Solution {
 
 
 
+#### [347. Top K Frequent Elements](https://leetcode.cn/problems/top-k-frequent-elements/)
+
+Given an integer array `nums` and an integer `k`, return *the* `k` *most frequent elements*. You may return the answer in **any order**.
+
+**Example 1:**
+
+```
+Input: nums = [1,1,1,2,2,3], k = 2
+Output: [1,2]
+```
+
+**Example 2:**
+
+```
+Input: nums = [1], k = 1
+Output: [1]
+```
+
+#### Approach : HashMap + Heap
+
+**Intuition**
+
+1. Using `HashMap` to counting each values, so the `key = num[i] , value = occurrences` 
+2. Build the `MIN-Heap` for the `HashMap's` elements, the ruler of heap sorting should be the occurrences of each `HashMap's` elements
+3. finally just pop the heap (heap length should be k)
+
+```Java
+class Solution {
+    public int[] topKFrequent(int[] nums, int k) {
+        Map<Integer,Integer> occurrences = new HashMap<Integer,Integer>();
+        for (int num : nums){
+            occurrences.put(num, occurrences.getOrDefault(num, 0) + 1);
+        }
+        
+        // initialize MIn-heap
+        PriorityQueue<int[]> heap = new PriorityQueue<int[]>(
+            new Comparator<int[]>(){
+            public int compare(int[] m, int[] n){
+                    return m[1] - n[1];
+                }
+        });
+        
+        for (Map.Entry<Integer,Integer> entry : occurrences.entrySet()) {
+            int num = entry.getKey(), count = entry.getValue();
+            if (heap.size() == k){
+                if (heap.peek()[1] < count){
+                    heap.poll();
+                    heap.offer(new int[]{num, count});
+                }
+            }else{
+                heap.offer(new int[]{num,count});
+            }
+        }
+        int [] res = new int[k];
+        for (int i = 0; i < k; ++i){
+            res[i] = heap.poll()[0];
+        }
+        return res;
+    }
+}
+```
+
+**Python Version**
+
+```Python
+class Solution(object):
+    def topKFrequent(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: List[int]
+        """
+        if not nums or k == 0: return []
+        heap = []
+        hashMap = collections.Counter(nums)
+
+        for value,freq in hashMap.items():
+            if len(heap) < k:
+                heapq.heappush(heap,[freq,value])
+            else:
+                if freq > heap[0][0]:
+                    heapq.heappop(heap)
+                    heapq.heappush(heap,[freq,value])
+        
+        return [ item[1] for item in heap]
+```
 
 
 
+**Complexity Analysis**
+
+- Time : `O(N * log K)` ， the push of heap cost `log k` time  
+- Space: `O(N)`
 
 ## Intervals
 
