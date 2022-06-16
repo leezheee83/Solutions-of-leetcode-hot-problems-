@@ -5028,7 +5028,76 @@ class Solution {
 }
 ```
 
+### [341. Flatten Nested List Iterator](https://leetcode.cn/problems/flatten-nested-list-iterator/)
 
+You are given a nested list of integers `nestedList`. Each element is either an integer or a list whose elements may also be integers or other lists. Implement an iterator to flatten it.
+
+Implement the `NestedIterator` class:
+
+- `NestedIterator(List<NestedInteger> nestedList)` Initializes the iterator with the nested list `nestedList`.
+- `int next()` Returns the next integer in the nested list.
+- `boolean hasNext()` Returns `true` if there are still some integers in the nested list and `false` otherwise.
+
+Your code will be tested with the following pseudocode:
+
+```
+initialize iterator with nestedList
+res = []
+while iterator.hasNext()
+    append iterator.next() to the end of res
+return res
+```
+
+#### Approach : Stack traverse the polytree
+
+**Intuition**
+
+1. the Nested List is almost a `polytree` structure , every node is a value, and every list assume be a branch of the tree
+2. So we can use stack to traverse the `polytree` 
+
+```Java
+public class NestedIterator implements Iterator<Integer> {
+    // save the current travsing position 
+    private Deque<Iterator<NestedInteger>> stack;
+
+    public NestedIterator(List<NestedInteger> nestedList) {
+        stack = new LinkedList<Iterator<NestedInteger>>();
+        stack.push(nestedList.iterator());
+    }
+
+    @Override
+    public Integer next() {
+        // make sure call hasNext before next， return the top of stack
+        return stack.peek().next().getInteger();
+    }
+
+    @Override
+    public boolean hasNext() {
+        while (!stack.isEmpty()) {
+            Iterator<NestedInteger> it = stack.peek();
+            if (!it.hasNext()) { // reach to end and pop
+                stack.pop();
+                continue;
+            }
+            // if next is a interger, then create a new list and fill in the stack
+            NestedInteger nest = it.next();
+            if (nest.isInteger()) {
+                List<NestedInteger> list = new ArrayList<NestedInteger>();
+                list.add(nest);
+                stack.push(list.iterator());
+                return true;
+            }
+            stack.push(nest.getList().iterator());
+        }
+        return false;
+    }
+}
+```
+
+**Complexity Analysis**
+
+- Time : initialize and `next()` the iterator is `O(1)`, and `hashNext()` require average cost should be `O(1)`
+- Space :  `O(n)`  worst case : all node were in one branch as like a list 
 
 ## String & SubString & Subsequence & Palindrome
 
