@@ -7025,6 +7025,66 @@ public:
     }
 };
 ```
+
+
+#### [124. Binary Tree Maximum Path Sum](https://leetcode.cn/problems/binary-tree-maximum-path-sum/)
+
+A **path** in a binary tree is a sequence of nodes where each pair of adjacent nodes in the sequence has an edge connecting them. A node can only appear in the sequence **at most once**. Note that the path does not need to pass through the root.
+
+The **path sum** of a path is the sum of the node's values in the path.
+
+Given the `root` of a binary tree, return *the maximum **path sum** of any **non-empty** path*.
+
+**Example 2:**
+
+![img](https://assets.leetcode.com/uploads/2020/10/13/exx2.jpg)
+
+```
+Input: root = [-10,9,20,null,null,15,7]
+Output: 42
+Explanation: The optimal path is 15 -> 20 -> 7 with a path sum of 15 + 20 + 7 = 42.
+```
+
+#### Approach : Greedy
+
+**Intuition**
+
+1. Find the left most path , Find the right most path 
+2. Using greedy to make sure we get most Maximum path at every recursion 
+3. `result = max(result, leftMost + rightMost + cur.val)`
+
+```Java
+class Solution {
+    int res = Integer.MIN_VALUE;
+    public int maxPathSum(TreeNode root) {
+        getMaxPath(root);
+        return res;
+    }
+    
+    private int getMaxPath(TreeNode root){
+        if (root == null) return 0;
+        // search the left and right part 
+        int left = Math.max(0, getMaxPath(root.left));
+        int right = Math.max(0, getMaxPath(root.right));
+        // greedy
+        // get left maximum + right maximum + current val
+        res = Math.max(res,left + right + root.val);
+        // return the maximum path sum for one side 
+        // careful only one side/brench
+        return Math.max(left,right) + root.val;
+    }
+}
+```
+
+**Complexity Analysis**
+
+- Time :  `O(N)` , just scan through each node 
+- Space: `O(N)` , recursion require stack space , it due to the depth of tree, but  the worst case is tree turn into a list , so we need `O(N)`
+
+
+
+
+
 ## Trie (Prefix Tree)
 
 ![image-20220611212803072](LeetCodeNote.assets/image-20220611212803072.png)
