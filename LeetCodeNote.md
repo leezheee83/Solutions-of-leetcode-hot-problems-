@@ -7601,7 +7601,49 @@ The two tuples are:
 2. (1, 1, 0, 0) -> nums1[1] + nums2[1] + nums3[0] + nums4[0] = 2 + (-1) + (-1) + 0 = 0
 ```
 
-Approach: 
+#### Approach: Hash + grouping
+
+**Intuition**
+
+1. First we can turn the fumlar into
+
+   ```
+   nums1[0] + nums2[0] + nums3[0] + nums4[1] = 0 ---->
+   nums1[0] + nums2[0] = - nums3[0] - nums4[1
+   ```
+
+2. we using Hash to counting the occurrences , group by group (2 list as a group)
+3. the `nums1` and `nums2` element's addition
+4. Find the `(-nums3[i] - num3[i])` in the hash 
+
+```Java
+class Solution {
+    public int fourSumCount(int[] nums1, int[] nums2, int[] nums3, int[] nums4) {
+        Map<Integer, Integer> countAB = new HashMap<Integer, Integer>();
+        for (int u : nums1){
+            for (int v : nums2){
+                countAB.put(u + v, countAB.getOrDefault(u + v, 0) + 1);
+            }
+        }
+        
+        int ans = 0;
+        for (int u : nums3){
+            for (int v : nums4){
+                if (countAB.containsKey(-u-v)){
+                    ans += countAB.get(-u-v);
+                }
+            }
+        }
+        
+        return ans;
+    }
+}
+```
+
+**Complexity Analysis**
+
+- time :  `O(N^2)`
+- Space : `O(N ^ 2)`
 
 
 
