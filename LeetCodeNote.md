@@ -5672,6 +5672,63 @@ public:
 
 
 
+### [395. Longest Substring with At Least K Repeating Characters](https://leetcode.cn/problems/longest-substring-with-at-least-k-repeating-characters/)
+
+Given a string `s` and an integer `k`, return *the length of the longest substring of* `s` *such that the frequency of each character in this substring is greater than or equal to* `k`.
+
+**Example 1:**
+
+```
+Input: s = "aaabb", k = 3
+Output: 3
+Explanation: The longest substring is "aaa", as 'a' is repeated 3 times.
+```
+
+#### Approach :  divide And Conquer + HashMap + recursion  
+
+**Intuition**
+
+1. We need a `HashMap` to counting the  occurrence of repeating characters 
+2. we need to divide the String into many parts and check each part weather has `k` repeating characters
+   1. the best `subString` we wanted which must exist in these divided parts string
+3. if current  character Repeating times smaller than k ,then  keep dividing the string 
+
+
+
+```Java
+class Solution {
+    public int longestSubstring(String s, int k) {
+        int length = s.length();
+        if (k <= 1) return length;
+        if (s.isEmpty() || length < k) return 0;
+        
+        int[] cnt = new int[26];
+        for (int i = 0 ; i < length; ++i){
+            cnt[s.charAt(i) -'a']++;
+        }
+        
+        int i = 0;
+        while (i < length && cnt[s.charAt(i) - 'a'] >= k) i++;
+        if (i == length) return length;
+        int left = longestSubstring(s.substring(0,i), k);
+        
+        while (i < length && cnt[s.charAt(i) - 'a'] < k) i++;
+        int right = longestSubstring(s.substring(i,length), k);
+        
+        return Math.max(left,right);
+    }
+}
+```
+
+**Complexity Analysis**
+
+- time : `O(N * C)`  , N is the length of  string, `C` is the length of Character Set
+- space : `O(C* C)`, Recursion require stack space, it due to the depth of recursion, every level of require  `O(C)` stack space and we initialize a `O(C)` Character Set, so times up
+
+
+
+
+
 ## Sorting
 
 ### [148 Sort List](https://leetcode.com/problems/sort-list/)
