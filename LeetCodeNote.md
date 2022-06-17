@@ -80,6 +80,8 @@ class Solution {
 }
 ```
 
+
+
 ### [560. Subarray Sum Equals K](https://leetcode.com/problems/subarray-sum-equals-k/)  
 
 Given an array of integers `nums` and an integer `k`, return *the total number of subarrays whose sum equals to `k`*.
@@ -7512,6 +7514,94 @@ public:
   - `Sorting's` running time is `O(NlogN)`, scan whole array takes `O(N)` time, two pointers tranvers  the array required `O(N)` time, 
     - SO final required time is : `O(NlogN)+ O(N)*O(N) = O(N^2)`
 - Space complexity: `O(1)`.  constant extra memory required
+
+### [18. 4Sum](https://leetcode.cn/problems/4sum/)
+
+Given an array `nums` of `n` integers, return *an array of all the **unique** quadruplets* `[nums[a], nums[b], nums[c], nums[d]]` such that:
+
+- `0 <= a, b, c, d < n`
+- `a`, `b`, `c`, and `d` are **distinct**.
+- `nums[a] + nums[b] + nums[c] + nums[d] == target`
+
+You may return the answer in **any order**.
+
+**Example 1:**
+
+```
+Input: nums = [1,0,-1,0,-2,2], target = 0
+Output: [[-2,-1,1,2],[-2,0,0,2],[-1,0,0,1]]
+```
+
+#### Approach: Sorting+Two Pointers+De-duplication
+
+It's very similar to the problem `3Sum`
+
+```Java
+class Solution {
+    public List<List<Integer>> fourSum(int[] nums, int target) {
+        List<List<Integer>> result = new ArrayList<List<Integer>>();
+        if (nums == null || nums.length < 4) {
+            return result;
+        }
+        Arrays.sort(nums);
+        int n = nums.length;
+        for(int a = 0; a < n - 3; ++a){
+            // remove duplicates
+            if (a > 0 && nums[a] == nums[a-1]) continue;
+            for (int b = a+1; b < n - 2; ++b){
+                if (b > a + 1 && nums[b] == nums[b-1])  continue;
+                int c = b + 1;
+                int d = n - 1;
+                while( c < d){
+                    long sum = (long)nums[a] + nums[b] + nums[c] + nums[d];
+                    if (sum > target){
+                        d--;
+                    }else if (sum < target){
+                        c++;
+                    }else if (sum == target){
+                        result.add(Arrays.asList(nums[a],nums[b],nums[c],nums[d]));
+                        while (c < d && nums[c] == nums[c + 1])
+                            c++;
+                        while (c < d && nums[d] == nums[d - 1])
+                            d--;
+                        
+                        c++;
+                        d--;
+                    }
+                }
+            }            
+        }
+        return result;
+    }
+}
+```
+
+**Complexity Analysis**
+
+- Time : `O(n ^3)`
+- Space : `O( N )`
+
+
+
+### [454. 4Sum II](https://leetcode.cn/problems/4sum-ii/)
+
+Given four integer arrays `nums1`, `nums2`, `nums3`, and `nums4` all of length `n`, return the number of tuples `(i, j, k, l)` such that:
+
+- `0 <= i, j, k, l < n`
+- `nums1[i] + nums2[j] + nums3[k] + nums4[l] == 0`
+
+**Example 1:**
+
+```
+Input: nums1 = [1,2], nums2 = [-2,-1], nums3 = [-1,2], nums4 = [0,2]
+Output: 2
+Explanation:
+The two tuples are:
+1. (0, 0, 0, 1) -> nums1[0] + nums2[0] + nums3[0] + nums4[1] = 1 + (-2) + (-1) + 2 = 0
+2. (1, 1, 0, 0) -> nums1[1] + nums2[1] + nums3[0] + nums4[0] = 2 + (-1) + (-1) + 0 = 0
+```
+
+Approach: 
 
 
 
