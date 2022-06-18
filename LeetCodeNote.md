@@ -2797,9 +2797,55 @@ class Solution {
 
 ## Heap（Priority Queue） 
 
+### [215. Kth Largest Element in an Array](https://leetcode.cn/problems/kth-largest-element-in-an-array/)
 
+Given an integer array `nums` and an integer `k`, return *the* `kth` *largest element in the array*.
 
-#### [347. Top K Frequent Elements](https://leetcode.cn/problems/top-k-frequent-elements/)
+Note that it is the `kth` largest element in the sorted order, not the `kth` distinct element.
+
+**Example 1:**
+
+```
+Input: nums = [3,2,1,5,6,4], k = 2
+Output: 5
+```
+
+#### Approach ： Heap Sort
+
+**Intuition**
+
+1. It's easy to figure out this problem by using Sort 
+2. But for thus kind of `Kth` Largest problem, usually. we use heap / priority Queue to solve 
+3. we using min-Heap to maintain k numbers , the length of heap should be `k`
+4. After scanned all elements, the most largest k integers already stored in the heap, the top value of heap should be `K-th` largest element in array
+
+```Java
+class Solution {
+    public int findKthLargest(int[] nums, int k) {
+        //initialize the heap
+        
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        for (int e: nums){
+            // push each element to pq
+            pq.offer(e);
+            // keep k elements in Heap
+            if (pq.size() > k){
+                pq.poll();
+            }
+        }
+        
+        return pq.peek();
+        
+    }
+}
+```
+
+**Complexity Analysis**
+
+- Time : `O(N*logK)`
+- Space: `O(K)`
+
+### [347. Top K Frequent Elements](https://leetcode.cn/problems/top-k-frequent-elements/)
 
 Given an integer array `nums` and an integer `k`, return *the* `k` *most frequent elements*. You may return the answer in **any order**.
 
@@ -5862,53 +5908,110 @@ public:
 };
 ```
 
-### [215. Kth Largest Element in an Array](https://leetcode.cn/problems/kth-largest-element-in-an-array/)
 
-Given an integer array `nums` and an integer `k`, return *the* `kth` *largest element in the array*.
 
-Note that it is the `kth` largest element in the sorted order, not the `kth` distinct element.
+
+
+### [324. Wiggle Sort II](https://leetcode.cn/problems/wiggle-sort-ii/)
+
+Given an integer array `nums`, reorder it such that `nums[0] < nums[1] > nums[2] < nums[3]...`.
+
+You may assume the input array always has a valid answer.
 
 **Example 1:**
 
 ```
-Input: nums = [3,2,1,5,6,4], k = 2
-Output: 5
+Input: nums = [1,5,1,1,6,4]
+Output: [1,6,1,5,1,4]
+Explanation: [1,4,1,5,1,6] is also accepted.
 ```
 
-#### Approach ： Heap Sort
+**Example 2:**
 
-**Intuition**
+```
+Input: nums = [1,3,2,2,3,1]
+Output: [2,3,1,3,1,2]
+```
 
-1. It's easy to figure out this problem by using Sort 
-2. But for thus kind of `Kth` Largest problem, usually. we use heap / priority Queue to solve 
-3. we using min-Heap to maintain k numbers , the length of heap should be `k`
-4. After scanned all elements, the most largest k integers already stored in the heap, the top value of heap should be `K-th` largest element in array
+### Approach 1: Sorting + two Pointers
+
+**Intuitiond**
+
+1.  what we wanted it's like  a list group by two sorted list 
+
+   ```
+   [1, 6, 1, 5, 1, 4]
+   odd list = [ 1 , 1, 1] and even list = [6, 5, 4] with Descending Sort
+   
+   ```
+
+2. After we sorted the list,  cut the sorted list into parts, left part and right part<img src="LeetCodeNote.assets/image-20220618162849830.png" alt="image-20220618162849830" style="zoom:70%;" />
+3.  left pointer point to the middler and backward , like the right start from the end to goes backward 
+4. then we just put the value into our result list 
+
+**Code**
 
 ```Java
 class Solution {
-    public int findKthLargest(int[] nums, int k) {
-        //initialize the heap
-        
-        PriorityQueue<Integer> pq = new PriorityQueue<>();
-        for (int e: nums){
-            // push each element to pq
-            pq.offer(e);
-            // keep k elements in Heap
-            if (pq.size() > k){
-                pq.poll();
+    public void wiggleSort(int[] nums) {
+        int[] clone = nums.clone();
+        Arrays.sort(clone);
+        //two pointers
+        int left = (nums.length - 1) / 2, right = nums.length - 1;
+        //placed in sequence
+        for (int i = 0; i < nums.length; i++) {
+            if (i % 2 == 0) {
+                nums[i] = clone[left];
+                left--;
+            } else {
+                nums[i] = clone[right];
+                right--;
             }
         }
-        
-        return pq.peek();
-        
     }
 }
 ```
 
 **Complexity Analysis**
 
-- Time : `O(N*logK)`
-- Space: `O(K)`
+- Time: `O(N*Long)`
+- Space ： `O(N)`
+
+#### Approach 2: bucket sort
+
+```Java
+    public void wiggleSort(int[] nums) {
+        //bucket size = 5001
+        int[] bucket = new int[5001];
+        for (int num : nums) {
+            bucket[num]++;
+        }
+        int j = 5000;
+        //bigger value insert to the empty place
+        for (int i = 1; i < nums.length; i += 2) {
+            while (bucket[j] == 0) {
+                j--;
+            }
+            nums[i] = j;
+            bucket[j]--;
+        }
+        //smaller value insert to the empty place
+        for (int i = 0; i < nums.length; i += 2) {
+            while (bucket[j] == 0) {
+                j--;
+            }
+            nums[i] = j;
+            bucket[j]--;
+        }
+    }
+```
+
+**Complexity Analysis**
+
+- Time: `O(N)`
+- Space ： `O(C)` C= 5001， cause the Constraints of input:   `0 <= nums[i] <= 5000` 
+
+
 
 
 
