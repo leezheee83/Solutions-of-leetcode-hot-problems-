@@ -8279,6 +8279,60 @@ public:
 };
 ```
 
+###  [334. Increasing Triplet Subsequence](https://leetcode.com/problems/increasing-triplet-subsequence/) 
+
+ Given an integer array `nums`, return `true` *if there exists a triple of indices* `(i, j, k)` *such that* `i < j < k` *and* `nums[i] < nums[j] < nums[k]`. If no such indices exists, return `false`. 
+
+**Example 1:**
+
+```
+Input: nums = [1,2,3,4,5]
+Output: true
+Explanation: Any triplet where i < j < k is valid.
+```
+
+**Example 2:**
+
+```
+Input: nums = [5,4,3,2,1]
+Output: false
+Explanation: No triplet exists.
+```
+
+**Example 3:**
+
+```
+Input: nums = [2,1,5,0,4,6]
+Output: true
+Explanation: The triplet (3, 4, 5) is valid because nums[3] == 0 < nums[4] == 4 < nums[5] == 6.
+```
+
+#### Approach 1: Greedy
+
+**Intuition:**
+
+- we want to find the triplet in the array ,which is strictly increasing sub-array, so we have to start in the begin element which is lower than its right elements.
+- we use two temperate  variable to mark the position of the previous two element in triplet(left ,middle )
+- we use the  block  to judge whether we should refresh the value of left and middle  or not .
+
+**Code:**
+
+```c++
+class Solution {
+public:
+    bool increasingTriplet(vector<int>& nums) {
+        int left = INT_MAX;
+        int middle = INT_MAX;
+        for(auto i : nums){
+            if(left >=i) left = i;
+            else if(middle >=i) middle = i;
+            else return true;
+        }
+        return false;
+    }
+};
+```
+
 
 
 ## DP + Matching 
