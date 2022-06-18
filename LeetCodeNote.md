@@ -2939,6 +2939,123 @@ class Solution(object):
 - Time : `O(N * log K)` ， the push of heap cost `log k` time  
 - Space: `O(N)`
 
+
+
+### [378. Kth Smallest Element in a Sorted Matrix](https://leetcode.cn/problems/kth-smallest-element-in-a-sorted-matrix/)
+
+Given an `n x n` `matrix` where each of the rows and columns is sorted in ascending order, return *the* `kth` *smallest element in the matrix*.
+
+Note that it is the `kth` smallest element **in the sorted order**, not the `kth` **distinct** element.
+
+You must find a solution with a memory complexity better than `O(n2)`.
+
+**Example 1:**
+
+```
+Input: matrix = [[1,5,9],[10,11,13],[12,13,15]], k = 8
+Output: 13
+Explanation: The elements in the matrix are [1,5,9,10,11,12,13,13,15], and the 8th smallest number is 13
+```
+
+#### Approach 1: heap Sort 
+
+**Intuition**
+
+1. There has a memory constraints smaller than `O(n^2)`, So we could consider to use the heap(priority Queue) to reduce the memory cost 
+2. Using the heap to merge the n lists (matrix: n * n) ,It' kind of like problem  23: Merge k sorted list
+
+```Java
+class Solution {
+    public int kthSmallest(int[][] matrix, int k) {
+        PriorityQueue<int[]> pq = new PriorityQueue<int[]>(new Comparator<int[]>(){
+            public int compare(int[] a, int[] b){
+                return a[0] - b[0];
+            }
+        });
+        
+        int n = matrix.length;
+        // push the head of each list to heap 
+        for (int i =0; i < n; ++i){
+            pq.offer(new int[]{matrix[i][0], i, 0});
+        }
+        for (int i = 0; i < k - 1; ++i){
+            int[] now = pq.poll();
+            // check is the end of list 
+            if (now[2] != n - 1){
+                pq.offer(new int[]{matrix[now[1]][now[2] + 1], now[1], now[2] + 1});
+            }
+        }
+        return pq.poll()[0];
+    }
+}
+```
+
+**Complexity Analysis**
+
+- Time : `O(k*log N)` :cause  the size of heap is N (heap push require `O(log N)`), we need to merge k times
+- Space : `O(N)`
+
+
+
+#### Approach 2: binary Search
+
+**Intuition**
+
+1. from the description of problem, we could know , It's a Sorted matrix, 
+
+   ```tex
+   matrix[0][0] < matrix[0][n-1] .... < matrix[n-1][n-1]
+   matrix[n-1][0] < matrix[0][n-1] .... < matrix[n-1][n-1]
+   ```
+
+2. So we could use this matrix sorting feature for our Binary Search 
+3. we start from bottom left is `matrix[n-1][0]`, to use Binary Search , `left bound = matrix[0][0]`, r`ight bound = matrix[n-1][n-1]`
+   1. if too big , we jump up to above row 
+   2. if too small, we jump right  to next column
+   3. until we go out of matrix
+
+4. after that  when we checking the middle value, we will count the jump times for middle value and compare to `k` 
+
+**Code**
+
+```C++
+class Solution {
+public:
+    bool check(vector<vector<int>>& matrix, int mid, int k, int n){
+        int i = n - 1,j = 0, count = 0;
+        while (i >= 0 && j < n){
+            if (matrix[i][j] <= mid){
+                count += i + 1;
+                j++;
+            } else {
+                i--;
+            }
+        }
+        return count >= k;
+    }
+    
+    int kthSmallest(vector<vector<int>>& matrix, int k) {
+        int n = matrix.size();
+        int left = matrix[0][0];
+        int right = matrix[n-1][n-1];
+        while (left < right){
+            int mid = left + ((right - left) >> 1);
+            if (check(matrix, mid, k, n)){
+                right = mid ;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return left;
+    }
+};
+```
+
+**Complexity Analysis**
+
+- Time : `O(n*log (right - left))` 
+- Space : `O(1)`
+
 ## Intervals
 
 ### [56. Merge Intervals](https://leetcode.cn/problems/merge-intervals/)
@@ -5933,7 +6050,7 @@ Input: nums = [1,3,2,2,3,1]
 Output: [2,3,1,3,1,2]
 ```
 
-### Approach 1: Sorting + two Pointers
+#### Approach 1: Sorting + two Pointers
 
 **Intuitiond**
 
