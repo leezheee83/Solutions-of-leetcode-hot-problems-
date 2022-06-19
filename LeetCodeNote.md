@@ -8474,6 +8474,11 @@ Therefore, return 3 as the starting index.
 4. If  `restGas < 0(negative)`, we using greedy manners to shift the `minGas` and that prove current index is invalid 
 5. finally  if  `restGas >= 0`  that means the car can travel the circle gas station
 
+**Algorithm: **
+
+1. check the full gas is enough to take the circle ？if  it is not worked, the function return -1;
+2. we should refresh the start position to i+1  ,when you get the negative gas in the i th element ,it means that pre-elements can not be the start position .
+
 ```C++
 class Solution {
 public:
