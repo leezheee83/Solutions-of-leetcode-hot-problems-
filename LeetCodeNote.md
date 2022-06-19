@@ -8477,7 +8477,7 @@ Therefore, return 3 as the starting index.
 **Algorithm: **
 
 1. check the full gas is enough to take the circle ？if  it is not worked, the function return -1;
-2. we should refresh the start position to i+1  ,when you get the negative gas in the i th element ,it means that pre-elements can not be the start position .
+2. we should refresh the start position to i+1  ,when you get the negative gas in the ith element ,it means that pre-elements can not be the start position .
 
 ```C++
 class Solution {
@@ -8610,6 +8610,54 @@ public:
     }
 };
 ```
+
+### [121. Best Time to Buy and Sell Stock ](https://leetcode.com/problems/best-time-to-buy-and-sell-stock/)
+
+You are given an array `prices` where `prices[i]` is the price of a given stock on the `ith` day.
+
+You want to maximize your profit by choosing a **single day** to buy one stock and choosing a **different day in the future** to sell that stock.
+
+Return *the maximum profit you can achieve from this transaction*. If you cannot achieve any profit, return `0`.
+
+**Example 1:**
+
+```
+Input: prices = [7,1,5,3,6,4]
+Output: 5
+Explanation: Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5.
+Note that buying on day 2 and selling on day 1 is not allowed because you must buy before you sell.
+```
+
+#### Approach 1: Greedy 
+
+**Intuition:**
+
+- we should compare the lowest value for each elements;
+- we should compare the result with i th element minus lowest value 
+- the day is from left to right 
+
+**Code:**
+
+```c++
+class Solution {
+public:
+    int maxProfit(vector<int>& p) {
+        int low = INT_MAX;
+        int high = 0;
+        int res =0 ;
+        for(int i =0 ;i<p.size();++i){
+            if(p[i] < low){
+                low = p[i];
+            }
+            high = p[i]-low;
+            if(res < high) res = high;
+        }
+        return res;
+    }
+};
+```
+
+
 
 
 
