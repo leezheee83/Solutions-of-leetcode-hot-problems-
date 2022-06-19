@@ -4642,6 +4642,87 @@ public:
 
 ## Randomized
 
+### [384. Shuffle an Array](https://leetcode.cn/problems/shuffle-an-array/)
+
+Given an integer array `nums`, design an algorithm to randomly shuffle the array. All permutations of the array should be **equally likely** as a result of the shuffling.
+
+Implement the `Solution` class:
+
+- `Solution(int[] nums)` Initializes the object with the integer array `nums`.
+- `int[] reset()` Resets the array to its original configuration and returns it.
+- `int[] shuffle()` Returns a random shuffling of the array.
+
+**Example 1:**
+
+```
+Input
+["Solution", "shuffle", "reset", "shuffle"]
+[[[1, 2, 3]], [], [], []]
+Output
+[null, [3, 1, 2], [1, 2, 3], [1, 3, 2]]
+```
+
+#### Approach ： **Fisher-Yates **- Shuffle Algorithm
+
+**Intuition**
+
+1. There has n! (factorial )  possible combination outcomes fro the Shuffled Array 
+
+2. The probability for we get a random array should be  `1 / n!`
+
+   1. That's the point, how do we make sure we can get that probability 
+
+   ```
+   1 / n! = 
+   1 
+   / 
+   (n) * (n - 1) * (n - 2) * (n-3) ...*1
+   ```
+
+3. Could we mock this progress? yes!
+4. Create a loop : `i -> n` 
+   1. get `random_index` from `(i,n-1)`
+   2. swap `nums[i]` and `nums[randow_index]`
+
+```Java
+class Solution {
+    int[] nums;
+    int[] copy;
+    
+    public Solution(int[] nums) {
+        this.nums = nums;
+        this.copy = new int[nums.length];
+        System.arraycopy(nums, 0, copy, 0, nums.length);
+    }
+    
+    public int[] reset() {
+        System.arraycopy(copy, 0, nums, 0, nums.length);
+        return nums;
+    }
+    
+    public int[] shuffle() {
+        Random random = new Random();
+        for (int i = 0; i < nums.length; ++i){
+            // i goes forward , the number of choices for pick keep shrinking
+            // n * n-1 * n-2 .....
+            // the time for random.NextInt is O(1)
+            int j = i + random.nextInt(nums.length - i);
+            int temp = nums[i];
+            nums[i] = nums[j];
+            nums[j] = temp;
+        }
+        return nums;
+    }
+}
+
+/**
+ * Your Solution object will be instantiated and called as such:
+ * Solution obj = new Solution(nums);
+ * int[] param_1 = obj.reset();
+ * int[] param_2 = obj.shuffle();
+ */
+```
+
 
 
 ## Sliding Window
