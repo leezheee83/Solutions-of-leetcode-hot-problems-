@@ -8559,6 +8559,11 @@ Therefore, return 3 as the starting index.
 4. If  `restGas < 0(negative)`, we using greedy manners to shift the `minGas` and that prove current index is invalid 
 5. finally  if  `restGas >= 0`  that means the car can travel the circle gas station
 
+**Algorithm: **
+
+1. check the full gas is enough to take the circle ？if  it is not worked, the function return -1;
+2. we should refresh the start position to i+1  ,when you get the negative gas in the ith element ,it means that pre-elements can not be the start position .
+
 ```C++
 class Solution {
 public:
@@ -8637,6 +8642,107 @@ public:
     }
 };
 ```
+
+### [179. Largest Number ](https://leetcode.com/problems/largest-number/)
+
+Given a list of non-negative integers `nums`, arrange them such that they form the largest number and return it.
+
+Since the result may be very large, so you need to return a string instead of an integer.
+
+**Example 1:**
+
+```
+Input: nums = [10,2]
+Output: "210"
+```
+
+**Example 2:**
+
+```
+Input: nums = [3,30,34,5,9]
+Output: "9534330"
+```
+
+#### Approach 1: Greedy , customize sorting
+
+**Intuition :**
+
+-  we want to find the biggest string in full permutation .The difficult point is how to find the biggest string or the biggest substring .
+- we try to split  the full array permutation problem to two elements permutation problem .
+- we use the customize sort to make sure the greedy problem is the best result .
+-  when we use the sort algorithm ,it means that the res <=max ，and we need to prove  res>= max .If we want to prove res>= max ,we can assume that res < max , which means that we can change two element position to make res bigger ,but  because we use the sort  based on dictionary sort : a+ b >=b+a  , we cannot find two elements and change their position to make res bigger .  so res >=max is worked . 
+- the conclusion is res =max ;
+
+**Code :**
+
+```c++
+class Solution {
+public:
+    string largestNumber(vector<int>& nums) {
+        vector<string> v;
+        for(auto i:nums){
+            v.push_back(to_string(i));
+        }
+        sort(v.begin(),v.end(),[](const auto&a, const auto&b){
+            return a+b > b+a;
+        });
+        string res = "";
+        for(auto i :v){
+            res+=i;
+        }
+        
+        return  v[0] == "0"?"0":res;
+    }
+};
+```
+
+### [121. Best Time to Buy and Sell Stock ](https://leetcode.com/problems/best-time-to-buy-and-sell-stock/)
+
+You are given an array `prices` where `prices[i]` is the price of a given stock on the `ith` day.
+
+You want to maximize your profit by choosing a **single day** to buy one stock and choosing a **different day in the future** to sell that stock.
+
+Return *the maximum profit you can achieve from this transaction*. If you cannot achieve any profit, return `0`.
+
+**Example 1:**
+
+```
+Input: prices = [7,1,5,3,6,4]
+Output: 5
+Explanation: Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5.
+Note that buying on day 2 and selling on day 1 is not allowed because you must buy before you sell.
+```
+
+#### Approach 1: Greedy 
+
+**Intuition:**
+
+- we should compare the lowest value for each elements;
+- we should compare the result with i th element minus lowest value 
+- the day is from left to right 
+
+**Code:**
+
+```c++
+class Solution {
+public:
+    int maxProfit(vector<int>& p) {
+        int low = INT_MAX;
+        int high = 0;
+        int res =0 ;
+        for(int i =0 ;i<p.size();++i){
+            if(p[i] < low){
+                low = p[i];
+            }
+            high = p[i]-low;
+            if(res < high) res = high;
+        }
+        return res;
+    }
+};
+```
+
+
 
 
 
