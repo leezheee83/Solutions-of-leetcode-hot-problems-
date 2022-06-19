@@ -127,6 +127,8 @@
 
 23. initialize :  初始化
 
+23. instantiated : 实例化
+
 24. inner loop: 两层循环
 
 25. infinite loop: 死循环
