@@ -8553,6 +8553,59 @@ public:
 };
 ```
 
+### [179. Largest Number ](https://leetcode.com/problems/largest-number/)
+
+Given a list of non-negative integers `nums`, arrange them such that they form the largest number and return it.
+
+Since the result may be very large, so you need to return a string instead of an integer.
+
+**Example 1:**
+
+```
+Input: nums = [10,2]
+Output: "210"
+```
+
+**Example 2:**
+
+```
+Input: nums = [3,30,34,5,9]
+Output: "9534330"
+```
+
+#### Approach 1: Greedy , customize sorting
+
+**Intuition :**
+
+-  we want to find the biggest string in full permutation .The difficult point is how to find the biggest string or the biggest substring .
+- we try to split  the full array permutation problem to two elements permutation problem .
+- we use the customize sort to make sure the greedy problem is the best result .
+-  when we use the sort algorithm ,it means that the res <=max ，and we need to prove  res>= max .If we want to prove res>= max ,we can assume that res < max , which means that we can change two element position to make res bigger ,but  because we use the sort  based on dictionary sort : a+ b >=b+a  , we cannot find two elements and change their position to make res bigger .  so res >=max is worked . 
+- the conclusion is res =max ;
+
+**Code :**
+
+```c++
+class Solution {
+public:
+    string largestNumber(vector<int>& nums) {
+        vector<string> v;
+        for(auto i:nums){
+            v.push_back(to_string(i));
+        }
+        sort(v.begin(),v.end(),[](const auto&a, const auto&b){
+            return a+b > b+a;
+        });
+        string res = "";
+        for(auto i :v){
+            res+=i;
+        }
+        
+        return  v[0] == "0"?"0":res;
+    }
+};
+```
+
 
 
 ## DP + Matching 
