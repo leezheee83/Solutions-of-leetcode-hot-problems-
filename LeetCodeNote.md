@@ -2069,6 +2069,91 @@ public:
 };
 ```
 
+
+
+### [212. Word Search II](https://leetcode.cn/problems/word-search-ii/)
+
+Given an `m x n` `board` of characters and a list of strings `words`, return *all words on the board*.
+
+Each word must be constructed from letters of sequentially adjacent cells, where **adjacent cells** are horizontally or vertically neighboring. The same letter cell may not be used more than once in a word.
+
+ 
+
+**Example 1:**
+
+![img](https://assets.leetcode.com/uploads/2020/11/07/search1.jpg)
+
+```
+Input: board = [["o","a","a","n"],["e","t","a","e"],["i","h","k","r"],["i","f","l","v"]], words = ["oath","pea","eat","rain"]
+Output: ["eat","oath"]
+```
+
+#### Approach : DFS + prefix Tree (Trie)
+
+**Intuition**
+
+1. Using prefix tree to build  every words 
+2. Search every grid (`dfs`) in the matrix by using  prefix tree's function " `find`" ,
+3. Using the "`startWith`" function to pruning the search path in the `DFS` progress 
+4. Delete the duplicate words in the which is not the matched answer in the `trie`
+
+```python
+from collections import defaultdict
+
+class Trie:
+    def __init__(self):
+        self.children = defaultdict(Trie)
+        self.word = ""
+
+    def insert(self, word):
+        cur = self
+        for c in word:
+            cur = cur.children[c]
+        cur.is_word = True
+        cur.word = word
+
+
+class Solution:
+    def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:
+        trie = Trie()
+        for word in words:
+            trie.insert(word)
+		
+        def dfs(now, i1, j1):
+            if board[i1][j1] not in now.children:
+                return
+
+            ch = board[i1][j1]
+
+            nxt = now.children[ch]
+            if nxt.word != "":
+                ans.append(nxt.word)
+                nxt.word = ""
+
+            if nxt.children:
+                board[i1][j1] = "#"
+                for i2, j2 in [(i1 + 1, j1), (i1 - 1, j1), (i1, j1 + 1), (i1, j1 - 1)]:
+                    if 0 <= i2 < m and 0 <= j2 < n:
+                        dfs(nxt, i2, j2)
+                board[i1][j1] = ch
+
+            if not nxt.children:
+                now.children.pop(ch)
+
+        ans = []
+        m, n = len(board), len(board[0])
+
+        for i in range(m):
+            for j in range(n):
+                dfs(trie, i, j)
+
+        return ans
+```
+
+
+
+
+
 ### [130. Surrounded Regions](https://leetcode.cn/problems/surrounded-regions/)
 
 Given an `m x n` matrix `board` containing `'X'` and `'O'`, *capture all regions that are 4-directionally surrounded by* `'X'`.
