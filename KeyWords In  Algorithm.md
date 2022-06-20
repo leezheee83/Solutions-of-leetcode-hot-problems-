@@ -244,11 +244,11 @@
    1. expand Array / extend Array : 扩充数组
    1. Product Subarray ： 成绩子数组
 
-2. binary search: 二分查找
+2. Binary search: 二分查找
 
 3. bit operation:   位运算
 
-4. divide and  conquer approach :  分治法
+4. Divide and  conquer approach :  分治法
 
 5. Enumeration methods: 枚举法
 
@@ -261,37 +261,44 @@
 
    1. Transpose graph : 有向图
 
-8. *implicit* **LinkedList**.： 隐式链表
+8. Linked List :链表
 
-9. Tree
+   1. *implicit* **LinkedList**.： 隐式链表
+   2. Singly linked list ： 单链表
+   3. Doubly linked list : 双向链表
 
-   1. binary tree ： 二叉树
-   2. ternary tree：三叉树
-   3. left subTree: 左子树
-   4. BInary Tree: 二叉树
-      1. Binary Search Tree: 二叉搜索树
-   5. Inorder Traversal: 中序遍历
-      1. preOrder Traversal : 先序遍历
-      2. postOrder Traversal: 后序遍历
-         1. subsequent Traversal ：  后序遍历
-      3. Level Order Traversal ： 层级遍历
-      4. Zigzag Level Order Traversal: z字形顺序遍历
-   6. descendants ： 子孙节点
-   7. Ancestor: 祖先节点
+9. List : 列表（一般指数组 Array）
 
-10. List of List: 二维数组
+   1. List of List: 二维数组
+      1. two dimension list/array: 
 
-    1. two dimension list/array: 
+      2. nested list
 
-    2. nested list 
+   2. Adjacent List: 临近/界数组 
 
-   11. Adjacent List: 临近/界数组
+10. Stack : 栈
 
-12. monotonic stack: 单调栈
+   1. monotonic stack: 单调栈
 
-13. Priority  Queue： 优先级队列
+11. Tree
 
-14. Singly linked list ： 单链表
+    1. binary tree ： 二叉树
+    2. ternary tree：三叉树
+    3. left subTree: 左子树
+    4. BInary Tree: 二叉树
+       1. Binary Search Tree: 二叉搜索树
+    5. Inorder Traversal: 中序遍历
+       1. preOrder Traversal : 先序遍历
+       2. postOrder Traversal: 后序遍历
+          1. subsequent Traversal ：  后序遍历
+       3. Level Order Traversal ： 层级遍历
+       4. Zigzag Level Order Traversal: z字形顺序遍历
+    6. descendants ： 子孙节点
+    7. Ancestor: 祖先节点
+
+12. Priority  Queue： 优先级队列
+
+    
 
     
 
