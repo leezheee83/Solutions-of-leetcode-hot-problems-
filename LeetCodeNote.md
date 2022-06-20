@@ -2332,7 +2332,108 @@ lRUCache.get(4);    // return 4
 
 #### Approach：HashMap+Doubly Linked List = LinkedHashMap
 
+![image-20220620231949590](LeetCodeNote.assets/image-20220620231949590.png)
 
+**Intuition**
+
+1. It's a  classic Date structure that were very usual in programming
+2. Here's the hunch, cause they request for `O(1)` average time complexity, So we have to use `hashMap`
+3. The linked list will mark the order of node(key-value) being used , head of list is the most Recently used `key-value`, tail node is the least Recently `used key-value`
+4. The hash Map will map the key to the position in the linked list 
+5. After that: 
+   1. Firsty: we use hashMap to locate the position of data node we wanted 
+   2. Secondly: we move the node we just found to the head of the list
+
+6. So that's the whole idea
+
+**Code**
+
+```Java
+class LRUCache {
+    class DLinkedNode{
+        int key;
+        int value;
+        DLinkedNode prev;
+        DLinkedNode next;
+        public DLinkedNode(){};
+        public DLinkedNode(int _key, int _value) {key = _key; value = _value;}
+    }
+    
+    private Map<Integer,DLinkedNode> cache = new HashMap<Integer, DLinkedNode> ();
+    private int size;
+    private int capacity;
+    // declare/define the pointer
+    private DLinkedNode head, tail;
+    
+    public LRUCache(int capacity) {
+        this.size = 0;
+        this.capacity = capacity;
+        // using dummy head and tail nodes
+        // initialise the pointer 
+        head = new DLinkedNode();
+        tail = new DLinkedNode();
+        head.next = tail;
+        tail.prev = head;
+    }
+    
+    int get(int key) {
+        DLinkedNode node = cache.get(key);
+        if (node == null){
+            return -1;
+        }
+        //
+        moveToHead(node);
+        return node.value;
+    }
+    
+    void put(int key, int value) {
+        DLinkedNode node = cache.get(key);
+        if (node == null){
+            // creat a new node 
+            DLinkedNode newNode = new DLinkedNode(key,value);
+            // added to hashMap
+            cache.put(key,newNode);
+            addToHead(newNode);
+            ++size;
+            
+            // over sized -> just remove the tail node
+            if (size > capacity){
+                // remove the tail node from the doublely linked list 
+                DLinkedNode tail = removeTail();        
+                // Don't forget to remove the item from the hashMap
+                cache.remove(tail.key);
+                --size;
+            }
+        } else {
+            node.value = value;
+            moveToHead(node);
+        }
+    }
+    
+    private void addToHead(DLinkedNode node){
+        node.prev = head;
+        node.next = head.next;
+        head.next.prev = node;
+        head.next = node;
+    }
+    
+    private void removeNode(DLinkedNode node){
+        node.prev.next = node.next;
+        node.next.prev = node.prev;
+    }
+    
+    private void moveToHead(DLinkedNode node){
+        removeNode(node);
+        addToHead(node);
+    }
+    
+    private DLinkedNode removeTail(){
+        DLinkedNode res = tail.prev;
+        removeNode(res);
+        return res;
+    }
+}
+```
 
 
 
