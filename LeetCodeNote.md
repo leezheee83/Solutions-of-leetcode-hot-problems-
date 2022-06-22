@@ -2437,6 +2437,39 @@ class LRUCache {
 
 
 
+### [380. Insert Delete GetRandom O(1)](https://leetcode.cn/problems/insert-delete-getrandom-o1/)
+
+Implement the `RandomizedSet` class:
+
+- `RandomizedSet()` Initializes the `RandomizedSet` object.
+- `bool insert(int val)` Inserts an item `val` into the set if not present. Returns `true` if the item was not present, `false` otherwise.
+- `bool remove(int val)` Removes an item `val` from the set if present. Returns `true` if the item was present, `false` otherwise.
+- `int getRandom()` Returns a random element from the current set of elements (it's guaranteed that at least one element exists when this method is called). Each element must have the **same probability** of being returned.
+
+You must implement the functions of the class such that each function works in **average** `O(1)` time complexity.
+
+ 
+
+**Example 1:**
+
+```
+Input
+["RandomizedSet", "insert", "remove", "insert", "getRandom", "remove", "insert", "getRandom"]
+[[], [1], [2], [2], [], [1], [2], []]
+Output
+[null, true, false, true, 2, true, false, 2]
+
+Explanation
+RandomizedSet randomizedSet = new RandomizedSet();
+randomizedSet.insert(1); // Inserts 1 to the set. Returns true as 1 was inserted successfully.
+randomizedSet.remove(2); // Returns false as 2 does not exist in the set.
+randomizedSet.insert(2); // Inserts 2 to the set, returns true. Set now contains [1,2].
+randomizedSet.getRandom(); // getRandom() should return either 1 or 2 randomly.
+randomizedSet.remove(1); // Removes 1 from the set, returns true. Set now contains [2].
+randomizedSet.insert(2); // 2 was already in the set, so return false.
+randomizedSet.getRandom(); // Since 2 is the only number in the set, getRandom() will always return 2.
+```
+
 
 
 ## Fast Slow  Pointers: Floyd's Cycle-Finding 
@@ -9409,7 +9442,56 @@ public:
 
 ## DP + Interval 
 
-## DP + Package
+## DP + Knapsack
+
+### [322. Coin Change](https://leetcode.cn/problems/coin-change/)
+
+You are given an integer array `coins` representing coins of different denominations and an integer `amount` representing a total amount of money.
+
+Return *the fewest number of coins that you need to make up that amount*. If that amount of money cannot be made up by any combination of the coins, return `-1`.
+
+You may assume that you have an infinite number of each kind of coin.
+
+**Example 1:**
+
+```
+Input: coins = [1,2,5], amount = 11
+Output: 3
+Explanation: 11 = 5 + 5 + 1
+```
+
+#### Approach: Dp with Knapsack
+
+**Intuition**
+
+1. Cause they said we have infinite number of coins ,SO we have to control the amount of money 
+2. Define the `dp[x] = n` means  the amount of money `x`  by using `n` coins for the combination 
+3. SO `dp[x] = min(dp[x-n] + 1, dp[x])`
+4. edge Cases: if coins are all 1 , then the `dp[x] = x`
+
+**Code**
+
+```C++
+class Solution {
+public:
+    int coinChange(vector<int>& coins, int amount) {
+        int Max = amount + 1;
+        // the worst case: all coins are one 
+        vector<int> dp(amount + 1, Max);
+        dp[0] = 0;
+        for (int i = 1; i <= amount; ++i){
+            for (int j = 0; j < (int)coins.size(); ++j){
+                if (coins[j] <= i){
+                    dp[i] = min(dp[i], dp[i - coins[j]] + 1);
+                }
+            }
+        }
+        return dp[amount] > amount ? - 1 : dp[amount];
+    }
+};
+```
+
+
 
 ## DP + Puzzle
 
