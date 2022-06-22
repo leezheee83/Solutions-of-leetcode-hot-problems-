@@ -113,121 +113,125 @@
 
     1. the `kth` **distinct** element： 第K个不同的元素
 
-18. De-duplication:  去重
+18. Disproportionate choice : 不成比例的选择，不随机了
 
-19. Declare the variable: 声明变量
+    1. Proportionate / Random choice: 随机的选择，成比例的选择
 
-20. endless loops ：死循环
+19. De-duplication:  去重
 
-21. indentation : 缩进
+20. Declare the variable: 声明变量
 
-22. If statements: if 语句(声明)， 
+21. endless loops ：死循环
+
+22. indentation : 缩进
+
+23. If statements: if 语句(声明)， 
     1. the conditions of the first If statements / block：第一个if模块的条件
     1. **the else case = opposite case**  ，对else的情况/相反的情况
     1. we will do similary in the opposite case :  else的情况也是类似的做法
 
-23. implement ：填充，实现
+24. implement ：填充，实现
 
     1. Populating ：填充
 
-24. initialize :  初始化
+25. initialize :  初始化
 
-25. instantiated : 实例化
+26. instantiated : 实例化
 
-26. inner loop: 两层循环
+27. inner loop: 两层循环
 
-27. infinite loop: 死循环
+28. infinite loop: 死循环
 
-28. increment ：递增，decrement ： 递减；  
+29. increment ：递增，decrement ： 递减；  
 
     1. pointer left  increment by one (step): 左指针加一
 
-29. interval: 区间
+30. interval: 区间
 
-30. Kind of  modified  A： A的变种版
+31. Kind of  modified  A： A的变种版
 
-31. loop : 循环
+32. loop : 循环
 
-32. loop stop executing: 循环停止
+33. loop stop executing: 循环停止
 
-33. moves one spot of head: 链表从头指针走一步
+34. moves one spot of head: 链表从头指针走一步
 
-34. moves the pointers inwards: 让两头指针向内走，让两头指针聚拢
+35. moves the pointers inwards: 让两头指针向内走，让两头指针聚拢
 
-35. Negate ： 取反
+36. Negate ： 取反
 
     1. flip 
 
-36. non-null /nang nəl/ :非空
+37. non-null /nang nəl/ :非空
 
-37. Not simple and elegant enough：不够简洁优雅
+38. Not simple and elegant enough：不够简洁优雅
 
     1. Not the prettiest way to XX: 不是最优雅的方式
 
-38. odd： 奇数， even：偶数
+39. odd： 奇数， even：偶数
 
-39. one's places value： 每一位的值；eg：get one's places value `1， 2，3`  from  `123` 
+40. one's places value： 每一位的值；eg：get one's places value `1， 2，3`  from  `123` 
 
-40. optimal approach/solution : 最佳方法、方案
+41. optimal approach/solution : 最佳方法、方案
 
-41. pass N to function:  给函数传参 N
+42. pass N to function:  给函数传参 N
 
-42. permutation：排列
+43. permutation：排列
 
     1. combination: 组合
 
-43. Pop them off： 弹出他们
+44. Pop them off： 弹出他们
 
-44. Present : 存在/出现
+45. Present : 存在/出现
 
     1. if item not present: 如果元素没有出现
 
-45. priority：优先级 ；A has higher priority
+46. priority：优先级 ；A has higher priority
 
-46. precedence： 优先级； A has the highest precedence : A有最高有优先级
+47. precedence： 优先级； A has the highest precedence : A有最高有优先级
 
-47. remainder： 余数； 除法(fraction divide)的余数， also to destripe some things left
+48. remainder： 余数； 除法(fraction divide)的余数， also to destripe some things left
 
-48. Regular Expression: 正则表达式
+49. Regular Expression: 正则表达式
 
-49. Rounded up : 向上取整
+50. Rounded up : 向上取整
 
     1. Round down:  向下取整
     1. round towards zero: 向0舍入
 
-50. shift every time : 每次更新
+51. shift every time : 每次更新
 
-51. step forward : 前进一步
+52. step forward : 前进一步
 
-52. split the array in tow parts:  将数组分成两部分
+53. split the array in tow parts:  将数组分成两部分
 
     1. chop off the integer into different digits: 将整数分割成不同的单数
     2. chop it off:  砍掉它
     3. chop off the last digit of integer:  砍掉整数的最后一位数字 
 
-53. subtract: 减去，代表完整的行为， minus 是 "-"这个symbol
+54. subtract: 减去，代表完整的行为， minus 是 "-"这个symbol
 
-54. sutiable : 非常合适
+55. sutiable : 非常合适
 
     1. This formula is very suitable to solve that problem：这个公式非常适合解决这个问题
 
-55. Sum of all unit: 所有单元和 
+56. Sum of all unit: 所有单元和 
 
-56. Symmetric :  对称的
+57. Symmetric :  对称的
 
-57. traverse the array : 遍历数组
+58. traverse the array : 遍历数组
 
     1. Scan through the array: 遍历数组
     2. Loop through the array/digit: 遍历数组/数字
     2. **Spiral Traversing**:  螺旋遍历
 
-58. Temporary variable： 临时变量
+59. Temporary variable： 临时变量
 
-59. typos: 错别字：
+60. typos: 错别字：
 
     1. Don't forget your typos: 别忘记处理你的错别字
 
-60. Visit each member/element : 访问每个成员
+61. Visit each member/element : 访问每个成员
 
     1. Scan each element: 扫描每个成员
     1. Go through element/digit by element/digit: 扫描每个成员/数字

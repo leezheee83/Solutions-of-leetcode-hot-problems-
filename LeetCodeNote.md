@@ -2448,8 +2448,6 @@ Implement the `RandomizedSet` class:
 
 You must implement the functions of the class such that each function works in **average** `O(1)` time complexity.
 
- 
-
 **Example 1:**
 
 ```
@@ -2468,6 +2466,67 @@ randomizedSet.getRandom(); // getRandom() should return either 1 or 2 randomly.
 randomizedSet.remove(1); // Removes 1 from the set, returns true. Set now contains [2].
 randomizedSet.insert(2); // 2 was already in the set, so return false.
 randomizedSet.getRandom(); // Since 2 is the only number in the set, getRandom() will always return 2.
+```
+
+#### Approach ： List + hashMap
+
+**Intuition**
+
+1. They want constant level time to insert and remove item. only `hashMap` is suitable for that. and we all know that `hashMap` has no index, so we need another list to `getRandom` index
+2. Insert: For each new item, just insert it to the `List` and `HashMap` 
+3. Remove: just remove the last item from `hashMap` and swap the current item and last item (avoid move a list, cause move list is `O(N)` time), then delete the last one 
+4. `getRandom` ：  get the random index from list index 
+
+**Code**
+
+```Java
+class RandomizedSet {
+    List<Integer> nums;
+    Map<Integer, Integer> indices;
+    Random random;
+    
+    public RandomizedSet() {
+        nums = new ArrayList<Integer>();
+        indices = new HashMap<Integer, Integer>();
+        random = new Random();
+    }
+    
+    public boolean insert(int val) {
+        if (indices.containsKey(val)) {
+            return false;
+        }
+        int index = nums.size();
+        nums.add(val);
+        indices.put(val,index);
+        return true;
+    }
+    
+    public boolean remove(int val) {
+        if (!indices.containsKey(val)){ 
+            return false;
+        }
+        int index = indices.get(val);
+        int last = nums.get(nums.size() - 1);
+        nums.set(index,last);
+        indices.put(last,index);
+        nums.remove(nums.size() - 1);
+        indices.remove(val);
+        return true;
+    }
+    
+    public int getRandom() {
+        int randomIndex = random.nextInt(nums.size());
+        return nums.get(randomIndex);
+    }
+}
+
+/**
+ * Your RandomizedSet object will be instantiated and called as such:
+ * RandomizedSet obj = new RandomizedSet();
+ * boolean param_1 = obj.insert(val);
+ * boolean param_2 = obj.remove(val);
+ * int param_3 = obj.getRandom();
+ */
 ```
 
 
