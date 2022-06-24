@@ -99,7 +99,9 @@
 
    2. in bounds: 在界限内
 
-11. convergence： 收敛
+11. Commented out : 注释掉
+
+15. Convergence： 收敛
 
 15. Declare the variable:  声明变量
 
@@ -190,48 +192,50 @@
 
 47. precedence： 优先级； A has the highest precedence : A有最高有优先级
 
-48. remainder： 余数； 除法(fraction divide)的余数， also to destripe some things left
+49. remainder： 余数； 除法(fraction divide)的余数， 
 
-49. Regular Expression: 正则表达式
+    1. remainder list :   剩余的列表
 
-50. Rounded up : 向上取整
+50. Regular Expression: 正则表达式
+
+51. Rounded up : 向上取整
 
     1. Round down:  向下取整
     1. round towards zero: 向0舍入
 
-51. shift every time : 每次更新
+52. shift every time : 每次更新
 
-52. step forward : 前进一步
+53. step forward : 前进一步
 
-53. split the array in tow parts:  将数组分成两部分
+54. split the array in tow parts:  将数组分成两部分
 
     1. chop off the integer into different digits: 将整数分割成不同的单数
     2. chop it off:  砍掉它
     3. chop off the last digit of integer:  砍掉整数的最后一位数字 
 
-54. subtract: 减去，代表完整的行为， minus 是 "-"这个symbol
+55. subtract: 减去，代表完整的行为， minus 是 "-"这个symbol
 
-55. sutiable : 非常合适
+56. sutiable : 非常合适
 
     1. This formula is very suitable to solve that problem：这个公式非常适合解决这个问题
 
-56. Sum of all unit: 所有单元和 
+57. Sum of all unit: 所有单元和 
 
-57. Symmetric :  对称的
+58. Symmetric :  对称的
 
-58. traverse the array : 遍历数组
+59. traverse the array : 遍历数组
 
     1. Scan through the array: 遍历数组
     2. Loop through the array/digit: 遍历数组/数字
     2. **Spiral Traversing**:  螺旋遍历
 
-59. Temporary variable： 临时变量
+60. Temporary variable： 临时变量
 
-60. typos: 错别字：
+61. typos: 错别字：
 
     1. Don't forget your typos: 别忘记处理你的错别字
 
-61. Visit each member/element : 访问每个成员
+62. Visit each member/element : 访问每个成员
 
     1. Scan each element: 扫描每个成员
     1. Go through element/digit by element/digit: 扫描每个成员/数字
@@ -243,6 +247,7 @@
 ## Describing  Project
 
 1. deployed : 部署
+1. instance: 实例
 
 
 

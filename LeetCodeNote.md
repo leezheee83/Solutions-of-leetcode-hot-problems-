@@ -2474,7 +2474,7 @@ randomizedSet.getRandom(); // Since 2 is the only number in the set, getRandom()
 
 1. They want constant level time to insert and remove item. only `hashMap` is suitable for that. and we all know that `hashMap` has no index, so we need another list to `getRandom` index
 2. Insert: For each new item, just insert it to the `List` and `HashMap` 
-3. Remove: just remove the last item from `hashMap` and swap the current item and last item (avoid move a list, cause move list is `O(N)` time), then delete the last one 
+3. Remove: find the value and index from `hashMap` and copy last item value to the current index, then delete the last item, that's will avoid move a list with `O(N)` time
 4. `getRandom` ：  get the random index from list index 
 
 **Code**
@@ -8518,6 +8518,72 @@ class Solution {
    1. where `n` is the length of the string `s`. We have a total of `O(n)` states to calculate, and each calculation needs to enumerate `O(n)` split points. The hash table determines whether a string appears in a given string list. It takes `O(1)` time, so the total time complexity is `O(n^2)`
 
 2. Space complexity: `O(n)`, where n is the length of the string s. 
+
+
+
+### [140. Word Break II](https://leetcode.cn/problems/word-break-ii/)
+
+Given a string `s` and a dictionary of strings `wordDict`, add spaces in `s` to construct a sentence where each word is a valid dictionary word. Return all such possible sentences in **any order**.
+
+**Note** that the same word in the dictionary may be reused multiple times in the segmentation.
+
+**Example 1:**
+
+```
+Input: s = "catsanddog", wordDict = ["cat","cats","and","sand","dog"]
+Output: ["cats and dog","cat sand dog"]
+```
+
+#### Approach: backtracking + Memoization + set
+
+**Intuition**
+
+1. the last problem only ask for the string `s` can be sliced(separate by space) to words or not, this problem ask for return all of valid word sentences in any order
+
+2.  So we will the breaking algorithm from `problem 139` to check current split is valid or not ?
+
+3. Then we could use `hashMap` to remember every valid word after break
+
+4. The whole process should from top to bottom and by using backtrack methods and 
+
+   1. need a `hashMap` to prune the duplicate recursion path in the backtracking(decision) tree
+   2. need a `set` to check the current split word in the `wordDict` or not
+
+5. Finally we will get the optimal structure in the backtracking(decision) tree
+
+   
+
+```python
+class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:
+        wordSet = set(wordDict)
+        # prune the dulicate recursion path
+        memo = {}
+        
+        # dp(sub) will return the valid word conbination of string sub
+        def dp(sub):
+            if sub in memo:
+                return memo[sub]
+            
+            result = []
+            for i in range(len(sub)):
+                prefix = sub[:i+1]
+                if prefix in wordSet:
+                    if prefix == sub:
+                        result.append(prefix)
+                    else:
+                        restOfWords = dp(sub[i+1:])
+                        for phrase in restOfWords:
+                            result.append(prefix + ' ' + phrase)
+            memo[sub] = result
+            return result
+        return dp(s)
+```
+
+**Complexity Analysis**
+
+- Time：`O(N * 2^N)` , for sting `s`, every position we have two choices, split or not , it need `O(2^N)` 2 to Nth power, and have the traverse  the whole string to insert the space that will cost `O(N)`, So the finally time cost should be  `O(N * 2^N)`
+- Space：`O(N * 2^N)`, for the backtrack process , it need `O(2^N)` system stack space at least, except that we need a  `hashMap` and `Set` , it will cost O(N) space, So the finally space cost should be  `O(N * 2^N)`
 
 
 
