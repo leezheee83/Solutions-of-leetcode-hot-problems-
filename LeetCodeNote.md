@@ -9778,6 +9778,56 @@ public:
 };
 ```
 
+#### Optimum
+
+- 2d vector -> 1d vector
+- traverse full dp[n][0-m] - > dp[m]
+
+**Proof**
+
+- dp[0-m] = 0;
+- dp[k] = dp[k-a[j]]+v[j];
+- dp[m] = dp[m-k]+v;
+
+**Code**
+
+```
+/*
+   1. design the dp vector to store the sum of value.
+   2. i means the ith product , j means the j volume. 
+   3. dp[i][j] has two status :
+        3.1 dp[i][j] = dp[i-1][j]; 
+        3.2 dp[i][j] = dp[i-1][j-a[i-1]] + v[i-1];
+
+        dp[i][j]= max(3.1, 3.2);
+    4. res is from the dp[n][0-m]; 
+*/
+
+class Solution {
+public:
+    /**
+     * @param m: An integer m denotes the size of a backpack
+     * @param a: Given n items with size A[i]
+     * @param v: Given n items with value V[i]
+     * @return: The maximum value
+     */
+    int backPackII(int m, vector<int> &a, vector<int> &v) {
+        // write your code here
+        int n = a.size();
+        vector<int> dp(m+1,0);
+        for(int i = 1; i <= n; ++i){
+            for(int j = m; j>=a[i-1];j--){
+                dp[j] = max(dp[j], dp[j-a[i-1]] + v[i-1] );
+                cout << i << j << dp[j]<<endl;
+            }
+        }
+        return dp[m];
+    }
+};
+```
+
+
+
 
 
 
