@@ -5454,7 +5454,7 @@ The largest rectangle is shown in the red area, which has an area = 10 units.
 3. we can easily find the lower element of the element in right side traversing the array.
 4. the area of the element depends on the lower element surrounding it 
 5. the stack store the index of the array.
-  
+
 
 ***Algorithm:***
 
@@ -9674,7 +9674,123 @@ public:
 
 ## DP + Knapsack
 
-### [322. Coin Change](https://leetcode.cn/problems/coin-change/)
+### 0-1 knapsack problem
+
+#### [ 92 · Backpack ](https://www.lintcode.com/problem/92/)
+
+ Given `n` items with size A_{i}an integer `m` denotes the size of a backpack. How full you can fill this backpack?
+(Each item can only be selected once and the size of the item is a positive integer) 
+
+**Example 1:**
+
+```
+Input:array = [3,4,8,5]
+      backpack size = 10
+Ouput: 9
+```
+
+#### Approach : dynamic programming , greedy 
+
+**Intuition**
+
+- the backpack does not have the actual volume limitation
+- local optimum is same as global optimum
+
+**Code**
+
+```
+
+```
+
+#### [ 125 · Backpack II ](https://www.lintcode.com/problem/125/description)
+
+There are `n` items and a backpack with size `m`. Given array `A` representing the size of each item and array `V` representing the value of each item.
+
+What's the maximum value can you put into the backpack?
+
+**Example **
+
+```
+Input:
+m = 10
+A = [2, 3, 5, 7]
+V = [1, 5, 2, 4]
+Ouput:
+9
+```
+
+#### Approach : dynamic programming
+
+**Intuition**
+
+- design the dp vector to store the sum of value. 
+
+- i means the ith product , j means the j volume. 
+
+- dp[i][j] has two status :
+  1 dp[i][j] = dp[i-1][j]; 
+  2 dp[i][j] = dp[i-1][j-a[i-1]] + v[i-1];
+
+​         dp[i][j]= max(3.1, 3.2);
+
+- res is from the dp[n][0-m]; 
+
+**Code**
+
+```
+/*
+   1. design the dp vector to store the sum of value.
+   2. i means the ith product , j means the j volume. 
+   3. dp[i][j] has two status :
+        3.1 dp[i][j] = dp[i-1][j]; 
+        3.2 dp[i][j] = dp[i-1][j-a[i-1]] + v[i-1];
+
+        dp[i][j]= max(3.1, 3.2);
+    4. res is from the dp[n][0-m]; 
+*/
+
+class Solution {
+public:
+    /**
+     * @param m: An integer m denotes the size of a backpack
+     * @param a: Given n items with size A[i]
+     * @param v: Given n items with value V[i]
+     * @return: The maximum value
+     */
+    int backPackII(int m, vector<int> &a, vector<int> &v) {
+        // write your code here
+        int n = a.size();
+        int res = 0;
+        vector<vector<int>> dp(n+1,vector<int>(m+1,0));
+        for(int i = 1; i <=n;++i){
+            for(int j =0;j<=m ;++j){
+                dp[i][j] = dp[i-1][j];
+                if(j >=a[i-1]){
+                    dp[i][j] = max(dp[i][j], dp[i-1][j-a[i-1]]+v[i-1]);
+                }
+            }
+            for(int i = 0; i<=m;++i){
+                res = max(res, dp[n][i]);
+            }
+        }
+        return res;
+    }
+};
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+#### [322. Coin Change](https://leetcode.cn/problems/coin-change/)
 
 You are given an integer array `coins` representing coins of different denominations and an integer `amount` representing a total amount of money.
 
@@ -9720,6 +9836,14 @@ public:
     }
 };
 ```
+
+
+
+### Full knapsack problem
+
+### Multi knapsack problem
+
+### Mix knapsack problem
 
 
 
