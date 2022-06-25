@@ -13,18 +13,21 @@
 ## Bit Manipulation / symbols
 
 1. binary solution/operation: 位运算
-1. ^ : 异或 ：bitwise  XOR
-2. ~：取反： bitwise NOT / flip / bitwise negation 
-3. & : 并: bitwise AND
-4. | : 或: bitwise OR
-5. << : 左移 : left Shift 
-6. `>>` : 有移： right Shift
-7. `-` : hyphen: 连接号
-8. `--` : dash : 破折号 （比hyphen长）
-8. `！`： exclamation mark ： 感叹号
-9. mop this bit up :  擦去这个 比特位
-   1. erase this bit place up: 抹去这个 比特位 
-10. 二进制： binary
+2. ^ : 异或 ：bitwise  XOR
+3. ~：取反： bitwise NOT / flip / bitwise negation 
+4. & : 并: bitwise AND
+5. | : 或: bitwise OR
+6. << : 左移 : left Shift 
+7. `>>` : 有移： right Shift
+8. `-` : hyphen: 连接号
+9. `--` : dash : 破折号 （比hyphen长）
+10. `！`： exclamation mark ： 感叹号
+11. `,` : comma: 逗号
+    1. Using a comma as a delimiter ： 用逗号作为分隔符 
+
+12. mop this bit up :  擦去这个 比特位
+    1. erase this bit place up: 抹去这个 比特位 
+13. 二进制： binary
     1. 10进制：Decimal
     2. 16进制 ： Hexadecimal  
     3. 8进制： octal
@@ -32,7 +35,7 @@
 
 ## C++/Python/Java Specific Vocabulary
 
-1. & ：references ： 引用
+1. `&` ：references ： 引用
 2. `*`：dereference or star or pointer ：指针 指向， 
 2. `-`：delimiter ： 分界符 
 2. Reflection Mechanism: 反射机制
@@ -76,54 +79,56 @@
 
 6. boilerplate code: 模板代码
 
-6. brackets：括号
+7. brackets：括号
 
    1. parentheses ： 括弧
    1. nesting parentheses： 嵌套括号
    1. open/left parentheses:  `(`
    1. close/right parentheses: `)`
 
-7. backwards: 向后
+8. backwards: 向后
 
    1. right pointer  goes backwards:  右指针反向走
    2. left pointers goes forwards:  左指针正向走
 
-8. Bit Manipulation ：位运算/位操作
+9. Bit Manipulation ：位运算/位操作
 
-9. B is going be set to A： 把A赋值给B
+10. B is going be set to A： 把A赋值给B
    1. copy the value from A to B： 把A赋值给B
 
-10. Bounds/boundary
+11. Bounds/boundary
 
    12. out of bounds: 越界
 
    2. in bounds: 在界限内
 
-11. Commented out : 注释掉
+12. Commented out : 注释掉
 
-15. Convergence： 收敛
+13. Convergence： 收敛
 
-15. Declare the variable:  声明变量
+14. Declare the variable:  声明变量
 
     1. initialize the variable : 初始化变量
 
-16. Diagonal  : 对角线
+15. Diagonal  : 对角线
 
     - anti-diagonal：反对角线
 
-17. **distinct** element: 独立元素，不同元素
+16. **distinct** element: 独立元素，不同元素
 
     1. the `kth` **distinct** element： 第K个不同的元素
 
-18. Disproportionate choice : 不成比例的选择，不随机了
+17. Disproportionate choice : 不成比例的选择，不随机了
 
     1. Proportionate / Random choice: 随机的选择，成比例的选择
 
-19. De-duplication:  去重
+18. De-duplication:  去重
 
-20. Declare the variable: 声明变量
+19. Declare the variable: 声明变量
 
-21. endless loops ：死循环
+20. endless loops ：死循环
+
+21. etc ； 等等
 
 22. indentation : 缩进
 
@@ -192,50 +197,50 @@
 
 47. precedence： 优先级； A has the highest precedence : A有最高有优先级
 
-49. remainder： 余数； 除法(fraction divide)的余数， 
+48. remainder： 余数； 除法(fraction divide)的余数， 
 
     1. remainder list :   剩余的列表
 
-50. Regular Expression: 正则表达式
+49. Regular Expression: 正则表达式
 
-51. Rounded up : 向上取整
+50. Rounded up : 向上取整
 
     1. Round down:  向下取整
     1. round towards zero: 向0舍入
 
-52. shift every time : 每次更新
+51. shift every time : 每次更新
 
-53. step forward : 前进一步
+52. step forward : 前进一步
 
-54. split the array in tow parts:  将数组分成两部分
+53. split the array in tow parts:  将数组分成两部分
 
     1. chop off the integer into different digits: 将整数分割成不同的单数
     2. chop it off:  砍掉它
     3. chop off the last digit of integer:  砍掉整数的最后一位数字 
 
-55. subtract: 减去，代表完整的行为， minus 是 "-"这个symbol
+54. subtract: 减去，代表完整的行为， minus 是 "-"这个symbol
 
-56. sutiable : 非常合适
+55. sutiable : 非常合适
 
     1. This formula is very suitable to solve that problem：这个公式非常适合解决这个问题
 
-57. Sum of all unit: 所有单元和 
+56. Sum of all unit: 所有单元和 
 
-58. Symmetric :  对称的
+57. Symmetric :  对称的
 
-59. traverse the array : 遍历数组
+58. traverse the array : 遍历数组
 
     1. Scan through the array: 遍历数组
     2. Loop through the array/digit: 遍历数组/数字
     2. **Spiral Traversing**:  螺旋遍历
 
-60. Temporary variable： 临时变量
+59. Temporary variable： 临时变量
 
-61. typos: 错别字：
+60. typos: 错别字：
 
     1. Don't forget your typos: 别忘记处理你的错别字
 
-62. Visit each member/element : 访问每个成员
+61. Visit each member/element : 访问每个成员
 
     1. Scan each element: 扫描每个成员
     1. Go through element/digit by element/digit: 扫描每个成员/数字

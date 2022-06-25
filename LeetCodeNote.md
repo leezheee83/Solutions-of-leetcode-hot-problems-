@@ -682,8 +682,6 @@ Explanation: The arrays we are merging are [1,2,3] and [2,5,6].
 The result of the merge is [1,2,2,3,5,6] with the underlined elements coming from nums1.
 ```
 
-## 
-
 ####  Approach： follow the rulers
 
 ```C++
@@ -5456,7 +5454,7 @@ The largest rectangle is shown in the red area, which has an area = 10 units.
 3. we can easily find the lower element of the element in right side traversing the array.
 4. the area of the element depends on the lower element surrounding it 
 5. the stack store the index of the array.
-   
+  
 
 ***Algorithm:***
 
@@ -7708,6 +7706,113 @@ class Solution {
 
 
 
+### [297. Serialize and Deserialize Binary Tree](https://leetcode.cn/problems/serialize-and-deserialize-binary-tree/)
+
+Serialization is the process of converting a data structure or object into a sequence of bits so that it can be stored in a file or memory buffer, or transmitted across a network connection link to be reconstructed later in the same or another computer environment.
+
+Design an algorithm to serialize and deserialize a binary tree. There is no restriction on how your serialization/deserialization algorithm should work. You just need to ensure that a binary tree can be serialized to a string and this string can be deserialized to the original tree structure.
+
+**Clarification:** The input/output format is the same as [how LeetCode serializes a binary tree](https://leetcode.cn/faq/#binary-tree). You do not necessarily need to follow this format, so please be creative and come up with different approaches yourself.
+
+ 
+
+**Example 1:**
+
+![img](https://assets.leetcode.com/uploads/2020/09/15/serdeser.jpg)
+
+```
+Input: root = [1,2,3,null,null,4,5]
+Output: [1,2,3,null,null,4,5]
+```
+
+#### Approach 1： DFS+ Recursion +preOrder Traversal
+
+**Intuition**
+
+1. we could using the preOrder traversal the whole tree to seralized it to a string , this is a preOrder string 
+2. And also use  preOrder Traversal  to build the tree by scan the whole string  , because the in the preOder string the first item is our root node in the tree
+3. the most important thing is the order of seralized and deserialized  should be same
+4. NO matter what the order traversal you used, you need to keep the same order of seralized and deserialized
+
+**Code**
+
+```python
+class Codec:
+
+    def serialize(self, root):
+        # use '#' to mark the null pointer
+        # use '!' to separate the value
+        if not root: return '#'
+        return str(root.val) + '!' + self.serialize(root.left) + '!' + self.serialize(root.right)
+        
+
+    def deserialize(self, data):
+        def build(s):
+            if not s: return None
+            curVal = s.pop(0)
+            root = None 
+            if curVal != '#':
+                root = TreeNode(int(curVal))
+                root.left = build(s)
+                root.right = build(s)
+            return root
+        s = data.split('!')
+        return build(s)
+```
+
+
+
+#### Approach 2：BFS+ Loop + preOrder Traversal + queue
+
+**Intuition**
+
+cause the recursion require system space ,so we using queue and loop to replace the recursion
+
+**Code**
+
+```python
+class Codec:
+    def serialize(self, root):
+        if not root: return ''
+        res = ''
+        queue = [root]
+        while queue:
+            cur = queue.pop(0)
+            if cur:
+                queue.append(cur.left)
+                queue.append(cur.right)
+                res += str(cur.val)
+            else:
+                res += '#'
+            res += '!'
+        return res
+
+
+    def deserialize(self, data):
+        if not data: return []
+        def helper(s):
+            root = TreeNode(int(s.pop(0)))
+            queue = [root]
+            while queue and s:
+                cur = queue.pop(0)
+                if cur:
+                    item = s.pop(0)
+                    cur.left  = TreeNode(int(item)) if item != '#' else None
+                    item = s.pop(0)
+                    cur.right  = TreeNode(int(item)) if item != '#' else None
+                    queue.append(cur.left)
+                    queue.append(cur.right)
+            return root
+
+        return helper(data.split('!'))
+```
+
+
+
+
+
+
+
 
 
 ## Trie (Prefix Tree)
@@ -9254,7 +9359,7 @@ class Solution:
 1. every DP need to define the  meaning of DP table
 
 2. there are two Strings, so we need a **two-dimensional** array:
-   
+  
    `dp[i][j] = true` means  the `subString` of `S[0 to i-1]` and `P[0 to j-1]`is matched !
 
 3. and the details of code is **similar** to Recursion approach
