@@ -9891,6 +9891,71 @@ public:
 
 ### Full knapsack problem
 
+####  [ 440 · Backpack III ](https://www.lintcode.com/problem/440)
+
+Given `n` kinds of items, and each kind of item has an infinite number available. The `i-th` item has size `A[i]` and value `V[i]`.
+
+Also given a backpack with size `m`. What is the maximum value you can put into the backpack?
+
+**Example**
+
+```
+Input: A = [2, 3, 5, 7], V = [1, 5, 2, 4], m = 10
+Output: 15
+Explanation: Put three item 1 (A[1] = 3, V[1] = 5) into backpack.
+```
+
+
+
+#### Approach: dynamic programming
+
+**Intuition**
+
+- in the second loop ,we try to loop from v[i] to m .because the status of dp[j] depends on the dp[j-v[i]] 
+
+**Proof**
+
+```
+prerequisites:
+for (i from 1 to n)
+   for (j from m to a[i]) 
+      for (k from 0 to m/a[i])
+           dp[j] = max(dp[j], dp[j-k*a[i]]+k*v[i])
+
+```
+
+- we assumed that the (i-1)th element is certain and correct
+- we should prove that the ith element is stable .
+- for certain j ,if the status of dp[j] includes k *v[i], it means that dp[j] depends on  dp[j- k\*a[i]].
+- dp[j-k*[a[i]] means that it does have any ith element  .and because of accumulation, we refresh the dp[j - (k-1)\*a[i]]  ….
+
+**Code**
+
+```
+class Solution {
+public:
+    /**
+     * @param a: an integer array
+     * @param v: an integer array
+     * @param m: An integer
+     * @return: an array
+     */
+    int backPackIII(vector<int> &a, vector<int> &v, int m) {
+        // write your code here
+        int n = a.size();
+        vector<int>dp(m+1,0);
+        for(int i =1;i<=n;++i){
+            for(int j =a[i-1]; j<=m ;++j){
+                dp[j] = max(dp[j],dp[j-a[i-1]]+v[i-1]);
+            }
+        }
+        return dp[m];
+    }
+};
+```
+
+
+
 ### Multi knapsack problem
 
 ### Mix knapsack problem
