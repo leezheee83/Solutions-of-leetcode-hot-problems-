@@ -9958,6 +9958,110 @@ public:
 
 ### Multi knapsack problem
 
+#### Multi knapsack problem 1
+
+https://www.acwing.com/problem/content/4/
+
+because i can not find the similar question in leetcode 
+
+#### Approach : dynamic programming
+
+- the problem has the limitation of the usage in each elements
+
+- the translate formula can be 
+
+- ```
+  dp[j] = max(dp[j], dp[j-a[i]] +v[i], dp[j-2*a[i]] +2*v[i].....)
+  ```
+
+- to finish the formula  ,we add third loop to traverse the  count of usage for each element.
+
+**Code**
+
+```
+#include<iostream>
+using namespace std;
+int n,v,u,w,s,f[105];
+int main(){
+    cin>>n>>v;
+    while(n--){
+        cin>>u>>w>>s;
+        while(s--){
+            for(int i=v;i>=u;i--)
+                f[i]=max(f[i],f[i-u]+w);
+        }
+    }
+    cout<<f[v];
+    return 0;
+}
+```
+
+**Optimum 1: binary** 
+
+**Intuition**
+
+- we want to reduce the count of loop :the multi knapsack problem can be transformed to 0-1 knapsack problem 
+
+  ```
+  the case 1: 7 
+  in binary  count can be showed as : 1 + 2 + 4
+  so we can use 3 element to show full combination for 7
+  the case 3 : 10 
+  in binary count can be show as : 1 + 2 + 4 + 3
+  we can use 4 element ,but the last one is smaller than 8.because of the limitaion for 10.
+  
+  so the case can be showed as :
+  n = upbounder of sum(2- ^k) + d
+  ```
+- we transform the multi knapsack problem to 0-1 knapsack problem with binary expression
+
+**Code**
+
+```c++
+#include<iostream>
+#include<algorithm>
+#include<vector>
+using namespace std;
+const int N = 2010;
+int f[N],n,m;
+struct good
+{
+    int w,v;
+};
+
+int main()
+{
+    cin>>n>>m;
+    vector<good> Good;
+    good tmp;
+
+    //binary processing
+    for(int i = 1 ; i <= n ; i++ )
+    {
+        int v,w,s;
+        cin>>v>>w>>s;
+        //k <= s
+        for(int k = 1 ; k <= s ; k*=2 )
+        {
+            s-=k;
+            Good.push_back({k*w,k*v});
+        }
+        if(s>0) Good.push_back({s*w,s*v});
+    }
+
+    //
+    for(auto t : Good)
+        for(int j = m ; j >= t.v ; j--)
+            f[j] = max(f[j] , f[j-t.v]+t.w ); 
+
+
+    cout<<f[m]<<endl;
+    return 0;
+}
+```
+
+**Optimum 2:**
+
 ### Mix knapsack problem
 
 
