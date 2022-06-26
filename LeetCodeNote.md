@@ -10060,7 +10060,7 @@ int main()
 }
 ```
 
-**Optimum 2:**
+**Optimum 2:  Monotonic queue**
 
 ### Mix knapsack problem
 
