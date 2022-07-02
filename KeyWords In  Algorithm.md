@@ -112,7 +112,8 @@
 
 15. Diagonal  : 对角线
 
-    - anti-diagonal：反对角线
+    - anti-diagonal：反对`角线`
+    - move diagonally:  对角线移动
 
 16. **distinct** element: 独立元素，不同元素
 
@@ -132,7 +133,7 @@
 
 22. indentation : 缩进
 
-23. If statements: if 语句(声明)， 
+23. If statements: if 语句(声明)， problem statements: 问题描述
     1. the conditions of the first If statements / block：第一个if模块的条件
     1. **the else case = opposite case**  ，对else的情况/相反的情况
     1. we will do similary in the opposite case :  else的情况也是类似的做法

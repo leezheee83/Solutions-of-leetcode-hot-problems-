@@ -2150,6 +2150,75 @@ class Solution:
 
 
 
+### [329. Longest Increasing Path in a Matrix](https://leetcode.cn/problems/longest-increasing-path-in-a-matrix/)
+
+Given an `m x n` integers `matrix`, return *the length of the longest increasing path in* `matrix`.
+
+From each cell, you can either move in four directions: left, right, up, or down. You **may not** move **f** or move **outside the boundary** (i.e., wrap-around is not allowed).
+
+ 
+
+**Example 1:**
+
+![img](https://assets.leetcode.com/uploads/2021/01/05/grid1.jpg)
+
+```
+Input: matrix = [[9,9,4],[6,6,8],[2,1,1]]
+Output: 4
+Explanation: The longest increasing path is [1, 2, 6, 9]
+```
+
+#### [Approach ： DFS+Memo](https://www.youtube.com/watch?v=wCc_nd-GiEc&ab_channel=NeetCode) 
+
+**Intuition**
+
+1. we could find the path from every position, and try four direction, and using the Greedy to make sure we get the longest one 
+2. That's kind of brute force Depth-first-search methods, we all know that's quite time consuming 
+3. So we need a  cache memo to avoid that **dulipcate(repeat) path search work**, the memo will cut done lots of branch of the programming decision tree, that's will optimise a lot for the time cost/complexity 
+4. This memo is a table, it has same size of matrix,  eg: `memo[1][1]` represent the longest increasing path from `matrix [1][1]` position, we will record that result though a **basic DFS-process**, and when we serach path from `matrix[1][2]` to `matrix[1][1]` , we don't have to serach again, cause we can get the LIP result for `memo[1][1]`
+
+**Code**
+
+```python
+class Solution(object):
+    def longestIncreasingPath(self, matrix):
+        """
+        :type matrix: List[List[int]]
+        :rtype: int
+        """
+        if not matrix: return 0
+        m = len(matrix)
+        n = len(matrix[0])
+        memo = [[0]*n for _ in range(m)]
+        
+        def dfs(matrix,i,j):
+            # cut this path(pruning)
+            if memo[i][j] != 0: return  memo[i][j]
+            localRes = 1
+            for dx,dy in [[-1,0], [1,0], [0,1], [0,-1]]:
+                x = dx + i
+                y = dy + j
+                if 0 <= x < m and 0 <= y < n and matrix[x][y] > matrix[i][j]:
+                    localRes = max(localRes, 1 + dfs(matrix,x,y))
+            #save current position's result 
+            memo[i][j] = max(localRes, memo[i][j])
+            return memo[i][j]
+        res = 1
+        for i in range(m):
+            for j in range(n):
+                res = max(res, dfs(matrix,i,j))
+        return res
+```
+
+
+
+**Complexity Analysis**
+
+- Time: `O(m*n)`: M is the rows and n is the column of the matrix
+- Space:  `O(m*n)`:  space cost deu to the our cache memo (`O(m*n)`) and recursion depth (the depth less than `M*N`)
+
+
+
 
 
 ### [130. Surrounded Regions](https://leetcode.cn/problems/surrounded-regions/)
