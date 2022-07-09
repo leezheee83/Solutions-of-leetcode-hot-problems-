@@ -5321,6 +5321,143 @@ int numSubarrayProductLessThanK(int* nums, int numsSize, int k){
 
 
 
+
+
+### [239. Sliding Window Maximum](https://leetcode.cn/problems/sliding-window-maximum/)
+
+You are given an array of integers `nums`, there is a sliding window of size `k` which is moving from the very left of the array to the very right. You can only see the `k` numbers in the window. Each time the sliding window moves right by one position.
+
+Return *the max sliding window*.
+
+
+
+**Example 1:**
+
+```
+Input: nums = [1,3,-1,-3,5,3,6,7], k = 3
+Output: [3,3,5,5,6,7]
+Explanation: 
+Window position                Max
+---------------               -----
+[1  3  -1] -3  5  3  6  7       3
+ 1 [3  -1  -3] 5  3  6  7       3
+ 1  3 [-1  -3  5] 3  6  7       5
+ 1  3  -1 [-3  5  3] 6  7       5
+ 1  3  -1  -3 [5  3  6] 7       6
+ 1  3  -1  -3  5 [3  6  7]      7
+```
+
+
+
+
+
+#### Approach 1: Priority Queue
+
+**Intuition:**
+
+1. It's easy to think that we need a data structure be the window, when the window is sliding  on the the array 
+2. move right --> window head push the right item &&  window  tail pop the item 
+3. So problem is how could we find the maxinum item when the window sliding? (Brute Force will cost `O(k *(n- k))`)
+4.  Is there has a data Structure could help us to automatically find  maximum item ?
+5. Yes it has, we could using the max-heap be our window, 
+   1. when we push  new item to the max-heap, heap will sort all item
+   2. when the new item bigger than top of heap, just pop the top
+
+**Complexity Analysis** 
+
+1. Time : `O(N * LogN)`
+2. Space: `O(N)` : worst case, exist a increasing list
+
+#### Approach 2: Monotonic Queue
+
+**Intuition**
+
+1. Priorioty Queue works, but we have better approach, more efficient approach 
+
+2. Using Monotonic Queue instead of Priority Queue, Monotonic Queue only need linear time to get the maximum item ( alway be decreasing)
+
+3. So we need to keep a Monotonic decreasing Queue by sliding the array 
+
+   
+
+```Java
+class Solution {
+    class MonotonicQueue{
+        LinkedList<Integer> q = new LinkedList<>();
+        public void push(int n){
+            while (!q.isEmpty() && q.getLast() < n){
+                // just pop all item which less than n 
+                // to keep the Monotonic 
+                q.pollLast(); // queue pop the tail 
+            }
+            q.addLast(n);
+        }
+        
+        public int max(){
+            return q.getFirst();
+        }
+        
+        public void pop(int n){
+            // pop the giving item
+            if (n == q.getFirst()){
+                q.pollFirst();
+            }
+        }
+    }
+    
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        MonotonicQueue  window = new MonotonicQueue();
+        List<Integer> res = new ArrayList<>();
+        
+        for (int i = 0; i < nums.length; ++i){
+            if (i < k - 1){ // pack the previous k-1 grid
+                window.push(nums[i]);
+            } else {
+                // move right, push new item
+                window.push(nums[i]);
+                // record the maximum item
+                res.add(window.max());
+                // remove the old one
+                // we already get the max one 
+                window.pop(nums[i- k + 1]);
+            }
+        }
+        
+        return res.stream().mapToInt(Integer::valueOf).toArray();
+        
+    }
+}
+
+```
+
+C++ 
+
+```C++
+class Solution {
+public:
+    vector<int> maxSlidingWindow(vector<int>& nums, int k) {
+        // monotonic queue to record the monotonic index of nums
+        deque<int> dq;
+        vector<int> res;
+        
+        for (int i = 0; i < nums.size(); i++){
+            if ( !dq.empty() && i - dq.front() >= k) 
+                dq.pop_front();
+            while (!dq.empty() && nums[dq.back()] < nums[i])
+                dq.pop_back();
+            dq.push_back(i);
+            if (i >= k - 1)
+                res.push_back(nums[dq.front()]);
+        }
+        return res;
+    }
+};
+```
+
+
+
+
+
 ## Stack/Queue
 
 ### [20. Valid Parentheses](https://leetcode.cn/problems/valid-parentheses/)
@@ -5516,6 +5653,8 @@ Explanation: The above is a histogram where width of each bar is 1.
 The largest rectangle is shown in the red area, which has an area = 10 units.
 
 ```
+#### Approach: monotonic stack
+
 ***Intuition:***
 
 1. the detail is to find the lower bar behind each element.
