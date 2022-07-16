@@ -6741,6 +6741,81 @@ class Solution {
 
 
 
+### 315 Count of Smaller Numbers After Self
+
+You are given an integer array `nums` and you have to return a new `counts` array. The `counts` array has the property where `counts[i]` is the number of smaller elements to the right of `nums[i]`.
+
+ 
+
+**Example 1:**
+
+```
+Input: nums = [5,2,6,1]
+Output: [2,1,1,0]
+Explanation:
+To the right of 5 there are 2 smaller elements (2 and 1).
+To the right of 2 there is only 1 smaller element (1).
+To the right of 6 there is 1 smaller element (1).
+To the right of 1 there is 0 smaller element.
+```
+
+
+
+#### Approach : divide and conqure (MergeSort)
+
+**Intuition**
+
+1. So the brute force is inefficient approach , we set a double loop to find the Smaller number
+2. Asking for count the smaller number after self. It;s easy to think of sortting the list and get the position , then we will know the count of all smaller number after self.
+3. 
+4. Actually, Do you remenber the merge Sort algorithm, We don't need another extra scan the list
+5. we can count when are sortting the list 
+
+```python
+class Solution:
+    def countSmaller(self, nums: List[int]) -> List[int]:
+        if not nums: return []
+        n = len(nums)
+        res = [0]*n
+        arr = []
+        
+        for i, n in enumerate(nums):
+            #pair<index,value>
+            arr.append((i,n))
+        
+        def merge_sort(nums):
+            if len(nums) <= 1 : return nums
+            mid = (len(nums)) // 2
+            left = merge_sort(nums[:mid])
+            right = merge_sort(nums[mid:])
+            return merge(left,right)
+        
+        def merge(left,right):
+            i = j = 0
+            tmpPair = []
+            while i < len(left) or j < len(right):
+                # if j reach to the end of righ, that means  nums[j] is biggest value
+                if j == len(right) or i < len(left) and left[i][1] <= right[j][1]:
+                    tmpPair.append(left[i])
+                    # [i][0] = index, j means how many value smaller that value(nums[index]) 
+                    # cause : it's a merge sort, the right part elements must bigger than left
+                    res[left[i][0]] += j
+                    i += 1
+                else:
+                    tmpPair.append(right[j])
+                    j += 1
+            return tmpPair
+        # sort pair instead of nums
+        merge_sort(arr)
+        return res
+        
+```
+
+**Complexity Analysis**
+
+- time : `O(N*Log*N)`
+- Space: `O(N)`
+
 
 
 ## Tree / BST / AVL / RBT
