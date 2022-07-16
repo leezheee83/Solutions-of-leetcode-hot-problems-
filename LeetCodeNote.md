@@ -8090,9 +8090,265 @@ class Codec:
         return helper(data.split('!'))
 ```
 
+### [ 543. Diameter of Binary Tree ](https://leetcode.com/problems/diameter-of-binary-tree/)
+
+Given the `root` of a binary tree, return *the length of the **diameter** of the tree*.
+
+The **diameter** of a binary tree is the **length** of the longest path between any two nodes in a tree. This path may or may not pass through the `root`.
+
+The **length** of a path between two nodes is represented by the number of edges between them.
+
+**Example 1**
+
+````c++
+Input: root = [1,2,3,4,5]
+Output: 3
+Explanation: 3 is the length of the path [4,2,1,3] or [5,2,1,3].
+````
 
 
 
+**Example 2**
+
+```
+Input: root = [1,2]
+Output: 1
+```
+
+#### Approach : BFS
+
+**Intuition :**
+
+- the diameter is that the longest of the sum of  left path and right path
+
+- result is from  the diameter from sub-tree and root node .
+
+**Code :**
+
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    int res = 0;
+    int helper(TreeNode* node){
+        if(node == nullptr) return 0;
+        int left = helper(node->left);
+        int right = helper(node->right);
+        res = max(res, left+right);
+        return max(left,right) +1;
+    }
+    int diameterOfBinaryTree(TreeNode* root) {
+        if(root == nullptr) return 0;
+        int left = helper(root->left);
+        int right = helper(root->right);
+        return  left+ right;
+        
+    }
+};
+```
+
+### [ 404. Sum of Left Leaves ](https://leetcode.com/problems/sum-of-left-leaves/)
+
+Given the `root` of a binary tree, return *the sum of all left leaves.*
+
+A **leaf** is a node with no children. A **left leaf** is a leaf that is the left child of another node.
+
+**Example 1:**
+
+```
+Input: root = [3,9,20,null,null,15,7]
+Output: 24
+Explanation: There are two left leaves in the binary tree, with values 9 and 15 respectively.
+```
+
+#### Approach  :DFS, post-order traversal
+
+**Intuition:**
+
+- judge whether the left node is the leaves node or not
+- judge whether the node is the left node or not 
+
+**Code:**
+
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    int res = 0;
+    void helper(TreeNode* node,bool left){
+        if(node == nullptr) return ;
+        if(left && node->left== nullptr && node->right == nullptr){
+            res +=node->val;
+        }
+        helper(node->left, true);
+        helper(node->right, false);
+        return ;
+       
+    }
+    int sumOfLeftLeaves(TreeNode* root) {
+        helper(root,false);
+        return res;
+    }
+};
+```
+
+### [508. Most Frequent Subtree Sum ](https://leetcode.com/problems/most-frequent-subtree-sum/)
+
+Given the `root` of a binary tree, return the most frequent **subtree sum**. If there is a tie, return all the values with the highest frequency in any order.
+
+The **subtree sum** of a node is defined as the sum of all the node values formed by the subtree rooted at that node (including the node itself).
+
+**Example 1：**
+
+```
+Input: root = [5,2,-3]
+Output: [2,-3,4]
+```
+
+**Example 2：**
+
+```
+Input: root = [5,2,-5]
+Output: [2]
+```
+
+##### Approach : post-order traversal
+
+**Intuition:**
+
+- record the frequent of sum of subtree
+
+- record the biggest frequent
+
+**Code:**
+
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    unordered_map<int,int> res;
+    int frequent = 0;
+    int helper(TreeNode* root){
+        if(root == nullptr) return 0;
+        int left = helper(root->left);
+        int right = helper(root->right);
+        int sum = left + right + root->val;
+        res[sum] +=1;
+        frequent = max(frequent, res[sum]);
+        return sum;
+    }
+    vector<int> findFrequentTreeSum(TreeNode* root) {
+        vector <int> r;
+        helper(root);
+        for(auto it: res){
+            if(it.second == frequent){
+                r.push_back(it.first);
+            }
+        }
+        return r;
+    }
+};
+```
+
+### [ 113. Path Sum II ](https://leetcode.com/problems/path-sum-ii/)
+
+Given the `root` of a binary tree and an integer `targetSum`, return *all **root-to-leaf** paths where the sum of the node values in the path equals* `targetSum`*. Each path should be returned as a list of the node **values**, not node references*.
+
+A **root-to-leaf** path is a path starting from the root and ending at any leaf node. A **leaf** is a node with no children.
+
+**Example 1:**
+
+```
+Input: root = [5,4,8,11,null,13,4,7,2,null,null,5,1], targetSum = 22
+Output: [[5,4,11,2],[5,8,4,5]]
+Explanation: There are two paths whose sum equals targetSum:
+5 + 4 + 11 + 2 = 22
+5 + 8 + 4 + 5 = 22
+```
+
+#### Approach 1 : pre-order traversal, DFS
+
+**Intuition:**
+
+- we want to record the sum path .how to choose the order of traversal 
+- how to refresh the elements of path : using the value parameters instead of reference parameters.
+-  refresh the target value by minusing the value of node .
+
+**Code:**
+
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    vector<vector<int>> res;
+    void helper(TreeNode* node, int target,vector<int> path){
+        if(node == nullptr) return ;
+        target-=node->val;
+        if(node->left == nullptr && node->right == nullptr){
+            if(target ==0){
+                path.push_back(node->val);
+                res.push_back(path);
+                return ;
+            }
+        }
+        path.push_back(node->val);a
+        helper(node->left, target, path);
+        helper(node->right, target, path);
+        return ;
+    }
+    vector<vector<int>> pathSum(TreeNode* root, int targetSum) {
+        vector<int> path;
+        helper(root, targetSum,path);
+        return res;
+    }
+};
+```
+
+
+
+#### Approach 2: BFS
+
+  todo
 
 
 
@@ -8267,6 +8523,82 @@ class Trie {
 
 - Time : Initialize : `O(1)`, insert and search `O(S)` ,S = length of giving s 
 - Space: `O(SUM(all s) * 26)`
+
+
+
+### [ 437. Path Sum III ](https://leetcode.com/problems/path-sum-iii/)
+
+Given the `root` of a binary tree and an integer `targetSum`, return *the number of paths where the sum of the values along the path equals* `targetSum`.
+
+The path does not need to start or end at the root or a leaf, but it must go downwards (i.e., traveling only from parent nodes to child nodes).
+
+**Example 1:**
+
+```
+Input: root = [10,5,-3,3,2,null,11,3,-2,null,1], targetSum = 8
+Output: 3
+Explanation: The paths that sum to 8 are shown.
+```
+
+**Example 2:**
+
+```
+Input: root = [5,4,8,11,null,13,4,7,2,null,null,5,1], targetSum = 22
+Output: 3
+```
+
+#### Approach 1: DFS
+
+#### Approach 2: Prefix tree
+
+**Intuition:**
+
+- traverse the tree one time ,firstly we cho
+
+**Code:**
+
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    vector<TreeNode*> parents;
+    int res = 0;
+    void helper(TreeNode* root, int target, long long cur){
+        if(root == nullptr) return ;
+        cur+= root->val;
+        if(cur == target){
+            res++;
+        }
+        long long  temp = cur;
+        for (auto i : parents){
+            temp -= i->val;
+            if(temp == target) res++;
+        }
+        parents.push_back(root);
+        helper(root->left, target,cur);
+        helper(root->right, target , cur);
+        parents.pop_back();
+        return ;
+    }
+    int pathSum(TreeNode* root, int targetSum) {
+        if(root == nullptr) return 0;
+        helper(root,targetSum,0);
+        return res;
+    }
+};
+```
+
+
 
 ## Two Pointers
 
