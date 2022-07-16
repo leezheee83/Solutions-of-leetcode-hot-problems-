@@ -6741,7 +6741,7 @@ class Solution {
 
 
 
-### 315 Count of Smaller Numbers After Self
+### [315. Count of Smaller Numbers After Self](https://leetcode.cn/problems/count-of-smaller-numbers-after-self/)
 
 You are given an integer array `nums` and you have to return a new `counts` array. The `counts` array has the property where `counts[i]` is the number of smaller elements to the right of `nums[i]`.
 
@@ -10051,6 +10051,104 @@ class Solution:
 - Space Complexity:  `O(SP), S= len(s), P = len(p)`
 
 
+
+### [72. Edit Distance](https://leetcode.cn/problems/edit-distance/)
+
+Given two strings `word1` and `word2`, return *the minimum number of operations required to convert `word1` to `word2`*.
+
+You have the following three operations permitted on a word:
+
++ Insert a character
++ Delete a character
++ Replace a character
+
+**Example 1:**
+
+```
+Input: word1 = "horse", word2 = "ros"
+Output: 3
+Explanation: 
+horse -> rorse (replace 'h' with 'r')
+rorse -> rose (remove 'r')
+rose -> ros (remove 'e')
+```
+
+#### Approach 1: Recursion + (cache)memo
+
+**Intuition**
+
+1. It's  easy to think there are four cases to match the characters
+   1. word1[i] == word2[j]
+   2. Insert / delete/ replace 
+2. Generally speaking, when we could use the recuresion to match two strings from back  to front, So it's a from bottom to top Dynamic programming 
+3. Then this problem just divide to lots sub problem
+4. And we could use the cache to cut down dulicate branch of recursion tree
+
+```python
+class Solution:
+    def minDistance(self, word1: str, word2: str) -> int:
+        if not word2 and not word1: return 0
+        memo = dict()
+        def dp(i,j):   
+            if (i,j) in memo: return memo[(i,j)]
+            # word1/word2 reach to front, need insert j + 1 times
+            if i == -1: return j + 1 
+            if j == -1: return i + 1
+            if word1[i] == word2[j]:
+                # it's matched, do nothing, no need edit 
+                memo[(i,j)] = dp(i - 1, j - 1)
+            else:
+                # 1. i move 1 step,j don't move, cause w1 delete one letter
+                # 2. i,j all moved, cause w1 replace one letter
+                # 3. j move 1 steps, cause w1 insert one letter 
+                memo[(i,j)] = min(dp(i-1,j)+1, dp(i-1,j-1)+1, dp(i,j-1)+1)
+            return memo[(i,j)]
+        
+        return dp(len(word1) -1, len(word2) - 1)
+
+
+```
+
+
+
+#### Approach 2: Dp table + loop
+
+**intuition**
+
+1.  Use could using the dp table to instead of recursion and cache 
+2. Give the defination of dp formul
+3. `Dp[i][j] =` the minimum number of edit distance of `word1[0-i]` and word2[0-j]
+
+4. `dp[i][j] = min(dp[i-1][j] + 1 , dp[i-1][j-1] +1, dp[i][j-1] + 1) ` repesent the insert 、 replace and  delete operations 
+
+```c++
+class Solution {
+public:
+    int minDistance(string word1, string word2) {
+        int m = word1.size() , n = word2.size();
+        vector<vector<int>> dp(m + 1, vector<int>(n + 1, false));
+        
+        // fill the base cases, the top most row and left most colume
+        for (int i = 1; i< m + 1; ++i ){
+            dp[i][0] = i;
+        }
+        for (int j = 1;j < n + 1; ++j){
+            dp[0][j] = j;
+        }
+        
+        for (int i = 1; i < m + 1; ++i){
+            for (int j = 1; j < n + 1; ++j){
+                if (word1[i-1] == word2[j-1]){
+                    dp[i][j] = dp[i-1][j-1];
+                }else{
+                    dp[i][j] = 1 + min(min(dp[i-1][j],dp[i][j-1]) , dp[i-1][j-1]);
+                }
+            }
+        }
+        return dp[m][n];
+    }
+};
+```
 
 
 
