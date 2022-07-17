@@ -1040,6 +1040,89 @@ public:
 };
 ```
 
+### [1094. Car Pooling ](https://leetcode.com/problems/car-pooling/)
+
+There is a car with `capacity` empty seats. The vehicle only drives east (i.e., it cannot turn around and drive west).
+
+You are given the integer `capacity` and an array `trips` where `trips[i] = [numPassengersi, fromi, toi]` indicates that the `ith` trip has `numPassengersi` passengers and the locations to pick them up and drop them off are `fromi` and `toi` respectively. The locations are given as the number of kilometers due east from the car's initial location.
+
+Return `true` *if it is possible to pick up and drop off all passengers for all the given trips, or* `false` *otherwise*.
+
+**Example 1**
+
+```
+Input: trips = [[2,1,5],[3,3,7]], capacity = 4
+Output: false
+```
+
+**Example 2**
+
+```
+Input: trips = [[2,1,5],[3,3,7]], capacity = 5
+Output: true
+```
+
+#### Approach : diff array, prefix sum
+
+**Intuition**
+
+- we build the diff array to record the difference of the passengers pick them up and drop them off .
+- we compared the capacity and the the number of passengers in each locations.
+
+
+
+**Code**
+
+```c++
+class Solution {
+public:
+    vector<int> diff_array(vector<int>& nums){
+        int n = nums.size();
+        vector<int> diff(n,0);
+        diff[0] = nums[0];
+        for(int i = 1;i<n;++i){
+            diff[i] = nums[i]-nums[i-1];
+        }
+        return diff;
+    }
+    
+    void increment(vector<int>& diff,int i, int j ,int val){
+        int n = diff.size();
+        diff[i]+=val;
+        if(j+1 < n) diff[j+1]-=val;
+        return ;
+    }
+   vector<int> result(vector<int>& diff, int& capacity){
+        int  n = diff.size();
+        vector<int> res(n,0);
+        res[0] = diff[0];
+        for(int i = 1;i<n;++i){
+            res[i] = res[i-1] + diff[i];
+            
+        }
+        return res;
+    }
+    
+    bool carPooling(vector<vector<int>>& trips, int capacity) {
+        int size = trips.size();
+        vector<int> nums(1000,0);
+        vector<int> diff = diff_array(nums);
+        for(int i = 0; i < size;++i){
+            int left = trips[i][1];
+            // when passing the right locations ,the passengers has been dropped off .we need to refresh the right  from right -1.
+            int right = trips[i][2]-1;
+            int val = trips[i][0];
+            increment(diff, left, right, val);
+        }
+        vector<int>res =  result(diff, capacity);
+        for(auto it :res){
+            if(it > capacity) return false ;
+        }
+        return true;
+    }
+};
+```
+
 
 
 ## Backtracking & Recursion & Memory Search
@@ -4960,6 +5043,40 @@ Let `M` be the number of cells in the grid.
 
 - Time: O(M) : Reversing each row also has a cost of `O(M)`, because again we're moving the value of each cell once.
 - Space: O(1)
+
+**Code 2**
+
+```c++
+class Solution {
+public:
+    void rotate(vector<vector<int>>& matrix) {
+        int n = matrix.size();
+        int m = matrix[0].size();
+        //Diagonal symmetry
+        //traversal the elements up to diagonal
+        for (int i = 0;i< n;++i){
+            for(int j = i;j<m;++j){
+                int tmp = matrix[i][j];
+                matrix[i][j] = matrix[j][i];
+                matrix[j][i] = tmp;
+            }
+        }
+        //reverse 
+        for (int i = 0;i<matrix.size();++i){
+            int begin = 0;
+            int end = m-1;
+            while(end > begin){
+                int tmp = matrix[i][begin];
+                matrix[i][begin] = matrix[i][end];
+                matrix[i][end] =tmp;
+                begin++;
+                end--;
+            }
+        }
+        return ;
+    }
+};
+```
 
 
 
