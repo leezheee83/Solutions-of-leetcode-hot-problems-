@@ -924,6 +924,122 @@ public:
 };
 ```
 
+### [1109. Corporate Flight Bookings ](https://leetcode.com/problems/corporate-flight-bookings/)
+
+There are `n` flights that are labeled from `1` to `n`.
+
+You are given an array of flight bookings `bookings`, where `bookings[i] = [firsti, lasti, seatsi]` represents a booking for flights `firsti` through `lasti` (**inclusive**) with `seatsi` seats reserved for **each flight** in the range.
+
+Return *an array* `answer` *of length* `n`*, where* `answer[i]` *is the total number of seats reserved for flight* `i`.
+
+**Example 1**
+
+```c++
+Input: bookings = [[1,2,10],[2,3,20],[2,5,25]], n = 5
+Output: [10,55,45,25,25]
+Explanation:
+Flight labels:        1   2   3   4   5
+Booking 1 reserved:  10  10
+Booking 2 reserved:      20  20
+Booking 3 reserved:      25  25  25  25
+Total seats:         10  55  45  25  25
+Hence, answer = [10,55,45,25,25]
+```
+
+**Example 2**
+
+```c++
+Input: bookings = [[1,2,10],[2,2,15]], n = 2
+Output: [10,25]
+Explanation:
+Flight labels:        1   2
+Booking 1 reserved:  10  10
+Booking 2 reserved:      15
+Total seats:         10  25
+Hence, answer = [10,25]
+
+```
+
+#### Approach: diff array, prefix sum
+
+**Intuition:**
+
+- we want to build the difference array to record the different value between i-1 and i to ith element
+- we refresh the difference array by traversing the input nums array
+- finally ,we calculate the res elements by  difference array.
+- this problems has the template :
+
+```c++
+    vector<int> build_diff_array(vector<int>& nums){
+        int n = nums.size();
+        vector<int> diff(n,0);
+        diff[0] = nums[0];
+        for(int i = 1;i<n;++i){
+            diff[i] = nums[i]-nums[i-1];
+        }
+        return diff;
+    }
+    void increment(vector<int>&diff,int i, int j ,int val){
+        int n = diff.size();
+        diff[i]+=val;
+        if(j+1 < n) diff[j+1]-=val;
+        return ;
+    }
+    vector<int> result(vector<int>& diff){
+        int n =diff.size();
+        vector<int> res(n,0);
+        res[0] = diff[0];
+        for(int i = 1;i<n;++i){
+            res[i] = res[i-1]+diff[i];
+        }
+        return res;
+    }
+```
+
+**Code:**
+
+```c++
+class Solution {
+public:
+    vector<int> build_diff_array(vector<int>& nums){
+        int n = nums.size();
+        vector<int> diff(n,0);
+        diff[0] = nums[0];
+        for(int i = 1;i<n;++i){
+            diff[i] = nums[i]-nums[i-1];
+        }
+        return diff;
+    }
+    void increment(vector<int>&diff,int i, int j ,int val){
+        int n = diff.size();
+        diff[i]+=val;
+        if(j+1 < n) diff[j+1]-=val;
+        return ;
+    }
+    vector<int> result(vector<int>& diff){
+        int n =diff.size();
+        vector<int> res(n,0);
+        res[0] = diff[0];
+        for(int i = 1;i<n;++i){
+            res[i] = res[i-1]+diff[i];
+        }
+        return res;
+    }
+    vector<int> corpFlightBookings(vector<vector<int>>& bookings, int n) {
+        int size = bookings.size();
+        vector<int> nums(n,0);
+        vector<int> diff = build_diff_array(nums);
+        for (int i = 0;i<size;++i){
+            int begin = bookings[i][0] -1;
+            int end = bookings[i][1] -1;
+            
+            increment(diff, begin,end, bookings[i][2]);
+        }
+        return result(diff);
+    }
+};
+```
+
 
 
 ## Backtracking & Recursion & Memory Search
@@ -3658,6 +3774,37 @@ class Solution:
             DeletedNodePointer.next = None #Removing dangling pointer
        return (head)
 ```
+we add the dummpy node for those two pointer problem to avoid the cur poin 
+```c++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        ListNode* dummpy = new ListNode(-1);
+        dummpy->next = head;
+        ListNode* slow = dummpy;
+        ListNode* fast = dummpy;
+        while(n--) fast = fast->next;
+        while(fast->next){
+            fast = fast->next;
+            slow = slow->next;
+        }
+        slow->next = slow->next->next;
+        return dummpy->next;
+    }
+};
+```
+
+
 
 ### [21. Merge Two Sorted Lists](https://leetcode.cn/problems/merge-two-sorted-lists/)
 
@@ -4122,6 +4269,76 @@ class Solution {
         return head;
     }
 }
+```
+
+###  [86. Partition List ](https://leetcode.com/problems/partition-list/)
+
+Given the `head` of a linked list and a value `x`, partition it such that all nodes **less than** `x` come before nodes **greater than or equal** to `x`.
+
+You should **preserve** the original relative order of the nodes in each of the two partitions.
+
+**Example 1**
+
+```c++
+Input: head = [1,4,3,2,5,2], x = 3
+Output: [1,2,2,4,3,5]
+```
+
+**Example 2 **
+
+```
+Input: head = [2,1], x = 2
+Output: [1,2]
+```
+
+#### Approach : two pointer
+
+**Intuition:**
+
+- we use two linked list to record different node ,which is recorded for smaller node, which is recorded for bigger or equal node
+- we must delete the connection of  the original node , because we want to sort the linked list node by traversal .If we keep the original connection, some nodes will be pointed by two node.
+
+**Code：**
+
+```c++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* partition(ListNode* head, int x) {
+        if(head == nullptr) return nullptr;
+        ListNode* smaller = new ListNode(0);
+        ListNode* bigger  = new ListNode(0);
+        ListNode* s = smaller;
+        ListNode* b = bigger;
+        ListNode* p = head;
+        while(p!=nullptr){
+            if(p->val < x){
+                s->next = p;
+                s = s->next;
+            }
+            else {
+                b->next = p;
+                b = b->next;
+            }
+            //details
+            ListNode* tmp = p->next;
+            p->next = nullptr;
+            p = tmp;
+            
+        }
+        s->next = bigger->next;
+        return smaller->next;
+    }
+};
 ```
 
 
