@@ -5790,6 +5790,130 @@ public:
 
 
 
+### [567. Permutation in String ](https://leetcode.com/problems/permutation-in-string/)
+
+Given two strings `s1` and `s2`, return `true` *if* `s2` *contains a permutation of* `s1`*, or* `false` *otherwise*.
+
+In other words, return `true` if one of `s1`'s permutations is the substring of `s2`.
+
+**Example 1:**
+
+```
+Input: s1 = "ab", s2 = "eidbaooo"
+Output: true
+Explanation: s2 contains one permutation of s1 ("ba").
+```
+
+**Example 2:**
+
+```
+Input: s1 = "ab", s2 = "eidboaoo"
+Output: false
+```
+
+#### Approach : Sliding window + hashmap
+
+**Intuition:**
+
+- we use the template to maintain the sliding window ,which can be used to check whether s2 has the substring permutation as same as  s1 .
+- we move the right pointer to refresh the substring
+- when we find the substring is invalid ,we should move the left pointer to erase the invalid character 
+- we use the variable ‘valid’ to record the number of the characters of input string.
+
+**Code:**
+
+```c++
+class Solution {
+public:
+    bool checkInclusion(string s1, string s2) {
+        unordered_map<char,int> map;
+        unordered_map<char,int> windows;
+        int left = 0,right =0;
+        int valid = 0;
+        for(auto i:s1){
+            map[i]++;
+        }
+        while(right < s2.size()){
+            char c = s2[right];
+            right++;
+            if(map.find(c)!=map.end()){
+                windows[c]++;
+                if(windows[c] == map[c]) valid++;
+            }
+            while(right-left > s1.size()){
+                char d = s2[left];
+                left++;
+                if(map.find(d)!=map.end()){
+                    if(windows[d] == map[d]) valid--;
+                    windows[d]--;
+                }
+            }
+            if(valid == map.size()) return true;
+        }
+        return false;
+    }
+};
+```
+
+###  [438. Find All Anagrams in a String](https://leetcode.com/problems/find-all-anagrams-in-a-string/) 
+
+Given two strings `s` and `p`, return *an array of all the start indices of* `p`*'s anagrams in* `s`. You may return the answer in **any order**.
+
+An **Anagram** is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.
+
+**Example 1:**
+
+```c++
+Input: s = "cbaebabacd", p = "abc"
+Output: [0,6]
+Explanation:
+The substring with start index = 0 is "cba", which is an anagram of "abc".
+The substring with start index = 6 is "bac", which is an anagram of "abc".
+```
+
+#### Approach : Sliding windows ,hashmap
+
+**Intuition:**
+
+- the method is similar as 567
+
+**Code:**
+
+```c++
+class Solution {
+public:
+    vector<int> findAnagrams(string s, string p) {
+        unordered_map<char,int> map;
+        unordered_map<char,int> windows;
+        int left = 0 , right =0;
+        int valid = 0;
+        vector<int> res;
+        for(auto i:p){
+            map[i]++;
+        }
+        while(right < s.size()){
+            char c = s[right];
+            right++;
+            if(map.find(c)!=map.end()) {
+                windows[c]++;
+                if(windows[c] == map[c]) valid++;
+            }
+            
+            while(right - left > p.size()){
+                char d = s[left];
+                left++;
+                if(map.find(d) != map.end()){
+                    if(windows[d] == map[d]) valid--;
+                    windows[d]--;
+                }
+            }
+            if(valid == map.size()) res.push_back(left);
+        }
+        return res;
+    }
+};
+```
+
 
 
 ## Stack/Queue
