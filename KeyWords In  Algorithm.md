@@ -25,9 +25,10 @@
 11. `,` : comma: 逗号
     1. Using a comma as a delimiter ： 用逗号作为分隔符 
 
-12. mop this bit up :  擦去这个 比特位
+12. `？`： question mark
+13. mop this bit up :  擦去这个 比特位
     1. erase this bit place up: 抹去这个 比特位 
-13. 二进制： binary
+14. 二进制： binary
     1. 10进制：Decimal
     2. 16进制 ： Hexadecimal  
     3. 8进制： octal

@@ -6054,6 +6054,7 @@ public:
 ### [32. Longest Valid Parentheses](https://leetcode.com/problems/longest-valid-parentheses/)
 Given a string containing just the characters '(' and ')', find the length of the longest valid (well-formed) parentheses substring.
 ***Example 1:***
+
 ``` 
 Input: s = "(()"
 Output: 2
@@ -10392,8 +10393,6 @@ Output: false
 Explanation: "a" does not match the entire string "aa".
 ```
 
-
-
 #### [Approach 1: Recursion](https://www.youtube.com/watch?v=HAA8mgxlov8)
 
 **Intuition**
@@ -10673,6 +10672,69 @@ public:
 
 
 
+### [44. Wildcard Matching](https://leetcode.cn/problems/wildcard-matching/)
+
+Given an input string (s) and a pattern (p), implement wildcard pattern matching with support for '?' and '*' where:
+
+'?' Matches any single character.
+'*' Matches any sequence of characters (including the empty sequence).
+The matching should cover the entire input string (not partial). 
+
+Example 1:
+
+```
+Input: s = "aa", p = "a"
+Output: false
+Explanation: "a" does not match the entire string "aa".
+```
+
+#### Approach: Dp table
+
+**Intuition**
+
+1. this problem is very similar to the Regular expression (prpblem 10)
+2. We also analysis the start mark and question mark here 
+3. From the statement, We could find the the question mark could match any single character
+4. `*` could match any sequence of characters , so start mark could turn into two cases, make the previous letter disappear or turn the right character
+5. So we define the  dp formula as : `dp[i][j] = the sequence s[0-i] matched p[0-j] `
+   1. when we find `?`: `dp[i][j] = dp[i-1][j-1]`
+   2. when we find `*`: `dp[i][j] = dp[i][j-1] || dp[i-1][j]` 
+
+```Java
+class Solution {
+    public boolean isMatch(String s, String p) {
+        int m = s.length(), n = p.length();
+        boolean[][] dp = new boolean[m+1][n+1];
+        
+        dp[0][0] = true;
+        for (int j = 1 ; j < n + 1 ; ++j){
+            if (p.charAt(j-1) == '*' && dp[0][j-1] == true){
+                dp[0][j] = true;
+            }
+        }
+        
+        for (int i = 1; i < m + 1; ++i){
+            for (int j = 1; j < n + 1; ++j){
+                if (p.charAt(j-1) == s.charAt(i-1) || p.charAt(j-1) == '?'){
+                    dp[i][j] = dp[i-1][j-1];
+                }
+                if (p.charAt(j-1) == '*'){
+                    dp[i][j] = dp[i][j-1] || dp[i-1][j];
+                }
+            }
+            
+        }
+        return dp[m][n];
+    }
+}
+```
+
+
+
+
+
+
+
 ## DP + Memoization
 
 ### [70. Climbing Stairs](https://leetcode.cn/problems/climbing-stairs/)
@@ -10868,6 +10930,12 @@ public:
     }
 };
 ```
+
+
+
+
+
+
 
 ### [118. Pascal's Triangle](https://leetcode.cn/problems/pascals-triangle/)
 
