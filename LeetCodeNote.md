@@ -8951,6 +8951,60 @@ public:
 };
 ```
 
+### [106. Construct Binary Tree from Inorder and Postorder Traversal ]()
+
+ Given two integer arrays `inorder` and `postorder` where `inorder` is the inorder traversal of a binary tree and `postorder` is the postorder traversal of the same tree, construct and return *the binary tree*. 
+
+**Example 1:**
+
+```
+Input: inorder = [9,3,15,20,7], postorder = [9,15,7,20,3]
+Output: [3,9,20,null,null,15,7]
+```
+
+#### Approach : traversal ,divide and conquer
+
+**Intuition**
+
+- it looks like the 105 problem and we need to use the feature of inorder and postorder traversal 
+
+**Code**
+
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    unordered_map<int,int> map;
+    TreeNode* helper(vector<int>& inorder, vector<int>& postorder, int ileft, int iright, int pleft,int pright){
+        if(ileft>iright || pleft>pright) return nullptr;
+        if(ileft == iright || pleft == pright) return new TreeNode(postorder[pright]);
+        TreeNode* root = new TreeNode(postorder[pright]);
+        int index = map[postorder[pright]];
+        int dis = iright-index;
+        root->left = helper(inorder,postorder, ileft, index-1, pleft, pright-1-dis);
+        root->right = helper(inorder,postorder,index+1,iright,pright-dis,pright-1);
+        return root;
+    }
+    TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
+        int size = inorder.size();
+        for(int i= 0;i<size;++i){
+            map[inorder[i]] = i;
+        }
+        return helper(inorder,postorder,0,size-1,0,size-1);
+    }
+};
+```
+
 
 
 ## Trie (Prefix Tree)
