@@ -8872,7 +8872,84 @@ public:
 
   todo
 
+### [654. Maximum Binary Tree ]()
 
+You are given an integer array `nums` with no duplicates. A **maximum binary tree** can be built recursively from `nums` using the following algorithm:
+
+1. Create a root node whose value is the maximum value in `nums`.
+2. Recursively build the left subtree on the **subarray prefix** to the **left** of the maximum value.
+3. Recursively build the right subtree on the **subarray suffix** to the **right** of the maximum value.
+
+Return *the **maximum binary tree** built from* `nums`.
+
+**Example 1**
+
+```
+Input: nums = [3,2,1,6,0,5]
+Output: [6,3,5,null,2,0,null,null,1]
+Explanation: The recursive calls are as follow:
+- The largest value in [3,2,1,6,0,5] is 6. Left prefix is [3,2,1] and right suffix is [0,5].
+    - The largest value in [3,2,1] is 3. Left prefix is [] and right suffix is [2,1].
+        - Empty array, so no child.
+        - The largest value in [2,1] is 2. Left prefix is [] and right suffix is [1].
+            - Empty array, so no child.
+            - Only one element, so child is a node with value 1.
+    - The largest value in [0,5] is 5. Left prefix is [0] and right suffix is [].
+        - Only one element, so child is a node with value 0.
+        - Empty array, so no child.
+```
+
+#### Approach 1: traversal 
+
+**Intuition**
+
+- find the max value being the root;
+- having traversal from left subarray being left tree.
+- having traversal from right subarray being left tree.
+
+**Code**
+
+```c++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* helper(vector<int>& nums, int begin, int end) {
+       if(begin >end) return nullptr;
+        if(begin == end) return new TreeNode(nums[begin]);
+        //find the biggest node 
+        int max = -1;
+        int index = -1;
+        int i= begin;
+        for(;i<=end;++i){
+            if(max < nums[i]){
+                max = nums[i];
+                index = i;
+            }else if(max > nums[i]){
+                
+            }
+            
+        }
+        TreeNode* node = new TreeNode(max);
+        node->left = helper(nums,begin,index-1);
+        node->right = helper(nums, index+1, end);
+        return node;
+        
+    }
+    TreeNode* constructMaximumBinaryTree(vector<int>& nums) {
+        return helper(nums,0,nums.size()-1);
+    }
+};
+```
 
 
 
