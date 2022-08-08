@@ -6734,6 +6734,74 @@ class Solution:
 
 
 
+### [516. Longest Palindromic Subsequence](https://leetcode.cn/problems/longest-palindromic-subsequence/)
+
+Given a string `s`, find *the longest palindromic **subsequence**'s length in* `s`.
+
+A **subsequence** is a sequence that can be derived from another sequence by deleting some or no elements without changing the order of the remaining elements.
+
+**Example 1:**
+
+```
+Input: s = "bbbab"
+Output: 4
+Explanation: One possible longest palindromic subsequence is "bbbb".
+```
+
+**Example 2:**
+
+```
+Input: s = "cbbd"
+Output: 2
+Explanation: One possible longest palindromic subsequence is "bb".
+```
+
+#### Approach: Dp table
+
+**Intuition:**
+
+1. it's a classic dynamic programing problem, and It's very similar to problem 5
+2. For the palindromic problem, We usually  used two pointers to scan and check the giving string which is palindromic or not . left pointer and right pointer
+3. So, From this problem, so we need a 2 dimension array to solve this problem( cause we have two pointers)  I just give the definition, 
+   1. `dp[i][j] = Longest Palindromic Subsequence from string s[i-j]`
+   2. So the answer should be `dp[0][n-1]`
+
+4. So, there has two cases, 
+   1. `s[i] == s[j]  : dp[i][j] = dp[i+1][j-1] + 2`
+   2. `s[i] != s[j] : dp[i][j = max( dp[i+1][j], dp[i][j-1])` : keep find the same letter in two subString
+
+
+
+```Java
+class Solution {
+    public int longestPalindromeSubseq(String s) {
+        int n = s.length();
+        int[][] dp = new int[n][n];
+        
+        //base cases 
+        for (int i = 0; i < n; ++i){
+            dp[i][i] = 1;
+        }
+        // i from back to front
+        // j from front to back
+        for (int i = n - 1; i >= 0; i--){
+            for (int j = i +1; j < n; ++j){
+                if (s.charAt(i) == s.charAt(j)){
+                    dp[i][j] = dp[i + 1][j - 1] +2;
+                } else {
+                    dp[i][j] = Math.max(dp[i + 1][j], dp[i][j - 1]);
+                }
+            }
+        
+        }
+        return dp[0][n-1];
+        
+    }
+}
+```
+
+
+
 ### [14. Longest Common Prefix](https://leetcode.com/problems/longest-common-prefix/)
 
 Write a function to find the longest common prefix string amongst an array of strings.
