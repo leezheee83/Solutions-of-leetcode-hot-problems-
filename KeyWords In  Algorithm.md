@@ -230,11 +230,12 @@
 
 57. Symmetric :  对称的
 
-58. traverse the array : 遍历数组
+61. traverse the array : 遍历数组
 
     1. Scan through the array: 遍历数组
     2. Loop through the array/digit: 遍历数组/数字
-    2. **Spiral Traversing**:  螺旋遍历
+    3. **Spiral Traversing**:  螺旋遍历
+    4. recurrence: 复发，循环
 
 59. Temporary variable： 临时变量
 
