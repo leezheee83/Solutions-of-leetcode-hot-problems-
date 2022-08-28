@@ -11681,6 +11681,70 @@ int main()
 
 
 ## DP + Puzzle
+### [877. Stone Game](https://leetcode.cn/problems/stone-game/)
+
+
+Alice and Bob play a game with piles of stones. There are an even number of piles arranged in a row, and each pile has a positive integer number of stones piles[i].
+
+The objective of the game is to end with the most stones. The total number of stones across all the piles is odd, so there are no ties.
+
+Alice and Bob take turns, with Alice starting first. Each turn, a player takes the entire pile of stones either from the beginning or from the end of the row. This continues until there are no more piles left, at which point the person with the most stones wins.
+
+Assuming Alice and Bob play optimally, return true if Alice wins the game, or false if Bob wins.
+
+#### Approach:  mock the optimal  picking process 
+
+**Intuition**
+
+1. It's a interesting problem , and Leetcode has more than 10 Stone Game problem,
+
+2. Actually, if you analysis the statement, and You will see, Alice always win, there has a winner way guaranteed for the first picking guy, in this problem. it's Alice , Alice has the first choice can control how the game is played 
+
+3. So It's a one line solution problem. but If you meet this problem at interview, you may have to explain the reason
+
+4. So, I will show you How to mock the optimal choose process by coding. It's necessary for us to know how to mocking the  whole process of the game
+
+5. Because, There has mutilable slightly changed version of this problem we have to fix 
+
+   
+
+```python
+# brute force way: 2^N (each step has two choices for Alice to pick)
+# 1. ReCursively with caching(speed up the code)
+
+class Solution:
+    def stoneGame(self, piles: List[int]) -> bool:
+        
+        cache = {}
+        
+        def dp(left,right):
+            if left > right: return 0
+            if (left,right) in cache : return cache[(left,right)]
+            
+            # using evenOrodd to Identify who picks 
+            isEven = True if (right - left) % 2 else False 
+            
+            # if even means Alice already picked one piles
+            leftPile = piles[left] if isEven else 0
+            rightPile = piles[right] if isEven else 0
+            # Alice pick
+            #dp(left + 1, right)
+            #dp(left, right - 1)
+            
+            cache[(left,right)] = max(dp(left + 1, right) + leftPile, dp(left,right - 1) + rightPile)
+            return cache[(left,right)]
+        
+        return dp(0,len(piles)-1)
+        
+```
+
+**complexity Analysis**
+
+- time: O(N^2)
+
+
+
+
 
 ## DP + State Compression
 

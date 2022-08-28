@@ -151,9 +151,10 @@
 
 28. infinite loop: 死循环
 
-29. increment ：递增，decrement ： 递减；  
+32. increment ：递增，decrement ： 递减；  
 
     1. pointer left  increment by one (step): 左指针加一
+    1. right pointer decrementing : 右指针递减
 
 30. interval: 区间
 
