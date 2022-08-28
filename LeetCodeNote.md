@@ -11742,7 +11742,55 @@ class Solution:
 
 - time: O(N^2)
 
+### [1140. Stone Game II](https://leetcode.cn/problems/stone-game-ii/)
 
+Alice and Bob continue their games with piles of stones.  There are a number of piles arranged in a row, and each pile has a positive integer number of stones piles[i].  The objective of the game is to end with the most stones. 
+
+Alice and Bob take turns, with Alice starting first.  Initially, M = 1.
+
+On each player's turn, that player can take all the stones in the first X remaining piles, where 1 <= X <= 2M.  Then, we set M = max(M, X).
+
+The game continues until all the stones have been taken.
+
+Assuming Alice and Bob play optimally, return the maximum number of stones Alice can get.
+
+#### Approach: suffix sum+dfs+cache
+
+**intuition**
+
+1. There has a difference with Game Stone one, IN this problem we only allow to pick piles at the beginning
+2. the allowed picked amount will increase 
+3. I will show you How to mock the pick process by using Dynamic programming
+4. `dp(i,j) = maximised  number of stones Alice can get from m = 1, x = 0`
+5. the current pile count after picked `dp(i,j) = suffix sum[i] - dp(i + x, max(x, j))`
+
+```python
+class Solution:
+    def stoneGameII(self, piles: List[int]) -> int:
+        n = len(piles)
+        
+        suffix = [0] * (n + 1)
+        for i in range(n-1,-1,-1):
+            suffix[i] = suffix[i+1] + piles[i]
+        
+        cache = {}
+        
+        # i means x, j means M
+        def dp(i,j):
+            if (i,j) in cache: return cache[(i,j)]
+            if i >= n: return 0
+            # exceed the rest number, return suffixSum
+            if i + j * 2 >= n : return suffix[i]
+            
+            localMax = 0
+            # scan the range of X
+            for x in range(1, j*2+1):
+                localMax = max(localMax, suffix[i] - dp(i+x, max(x,j)))
+            cache[(i,j)] = localMax
+            return localMax
+        
+        return dp(0,1)
+```
 
 
 
