@@ -10224,6 +10224,138 @@ public:
 - Time : `O(N*log(N))`
 - Space: `O(N)`
 
+###  64.[Minimum Path Sum](https://leetcode.com/problems/minimum-path-sum/)
+
+Given a `m x n` `grid` filled with non-negative numbers, find a path from top left to bottom right, which minimizes the sum of all numbers along its path.
+
+**Note:** You can only move either down or right at any point in time.
+
+**Example 1：**
+
+ ```
+Input: grid = [[1,3,1],[1,5,1],[4,2,1]]
+Output: 7
+Explanation: Because the path 1 → 3 → 1 → 1 → 1 minimizes the sum.
+ ```
+
+#### Approach 1： dynamic programming
+
+**Intuition:**
+
+it has four branch  for dynamic formula :
+
+```c++
+if(i == 0 && j ==0){
+                    dp[i][j] = grid[i][j];
+                }
+                else if (i ==0) {
+                    dp[i][j] = dp[i][j-1] + grid[i][j];
+                }
+                else if (j ==0) {
+                    dp[i][j] = dp[i-1][j] + grid[i][j];
+                }
+                else {
+                    dp[i][j] = min(dp[i-1][j],dp[i][j-1]) + grid[i][j];
+                }
+```
+
+```c++
+class Solution {
+public:
+    int minPathSum(vector<vector<int>>& grid) {
+        int m = grid.size();
+        int n = grid[0].size();
+        vector<vector<int>> dp(m,vector<int>(n,0));
+        for(int i = 0;i< m;++i){
+            for(int j = 0;j<n;++j){
+                if(i == 0 && j ==0){
+                    dp[i][j] = grid[i][j];
+                }
+                else if (i ==0) {
+                    dp[i][j] = dp[i][j-1] + grid[i][j];
+                }
+                else if (j ==0) {
+                    dp[i][j] = dp[i-1][j] + grid[i][j];
+                }
+                else {
+                    dp[i][j] = min(dp[i-1][j],dp[i][j-1]) + grid[i][j];
+                }
+            }
+        }
+        return dp[m-1][n-1];
+        
+    }
+};
+```
+
+
+
+###  [174. Dungeon Game](https://leetcode.com/problems/dungeon-game/)
+
+The demons had captured the princess and imprisoned her in **the bottom-right corner** of a `dungeon`. The `dungeon` consists of `m x n` rooms laid out in a 2D grid. Our valiant knight was initially positioned in **the top-left room** and must fight his way through `dungeon` to rescue the princess.
+
+The knight has an initial health point represented by a positive integer. If at any point his health point drops to `0` or below, he dies immediately.
+
+Some of the rooms are guarded by demons (represented by negative integers), so the knight loses health upon entering these rooms; other rooms are either empty (represented as 0) or contain magic orbs that increase the knight's health (represented by positive integers).
+
+To reach the princess as quickly as possible, the knight decides to move only **rightward** or **downward** in each step.
+
+Return *the knight's minimum initial health so that he can rescue the princess*.
+
+**Note** that any room can contain threats or power-ups, even the first room the knight enters and the bottom-right room where the princess is imprisoned.
+
+**Example 1：**
+
+```
+Input: dungeon = [[-2,-3,3],[-5,-10,1],[10,30,-5]]
+Output: 7
+Explanation: The initial health of the knight must be at least 7 if he follows the optimal path: RIGHT-> RIGHT -> DOWN -> DOWN.
+```
+
+#### Approach 1: DP
+
+**Intuition:**
+
+1. the status of dp formula dp[i]\[j] depends on the dp[i+1]\[j] and dp[i]\[j+1] .It is different for minimum path sum .
+
+2. When the warrior run to the i,j position ,whether it is valid to arrive the end or not depends on  the value of remaining  path .
+
+3. It is not to find the most value path ,it wants to find the less cost path ,so we promise that the warrior has at least 1hp in the end and get the dynamic path value from bottom to top .
+
+```c++
+class Solution {
+public:
+    
+    int dp(vector<vector<int>>& dungeon, int i ,int j ,vector<vector<int>>& table ){
+        int m = dungeon.size();
+        int n = dungeon[0].size();
+        if (i ==m-1 && j ==n-1){
+            return dungeon[i][j]>=0 ?1 : -dungeon[i][j]+1;
+        }
+        else if (i ==m || j ==n ){
+            return INT_MAX-1;
+        }
+        if(table[i][j]!= -1){
+            return table[i][j];
+        }
+        int res =0;
+        res = min(dp(dungeon,i+1,j,table) , dp(dungeon,i,j+1,table)) - dungeon[i][j];
+        table[i][j] =  res <=0?1 : res;
+        return table[i][j];
+    }
+    int calculateMinimumHP(vector<vector<int>>& dungeon) {
+      //from bottom to top .because we want to find the initialization status
+        int m = dungeon.size();
+        int n = dungeon[0].size();
+        vector<vector<int>> table (m,vector<int>(n,-1));
+        return dp(dungeon,0,0,table);
+    }
+};
+```
+
+
+​     
+
 ## Greedy (Scheduling)
 
 ### [53. Maximum Subarray](https://leetcode.cn/problems/maximum-subarray/)
