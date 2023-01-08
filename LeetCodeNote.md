@@ -3385,6 +3385,79 @@ class Solution {
 
 ## Heap（Priority Queue） 
 
+### [295. Find Median from Data Stream](https://leetcode.cn/problems/find-median-from-data-stream/)
+
+The **median** is the middle value in an ordered integer list. If the size of the list is even, there is no middle value, and the median is the mean of the two middle values.
+
+- For example, for `arr = [2,3,4]`, the median is `3`.
+- For example, for `arr = [2,3]`, the median is `(2 + 3) / 2 = 2.5`.
+
+Implement the MedianFinder class:
+
+- `MedianFinder()` initializes the `MedianFinder` object.
+- `void addNum(int num)` adds the integer `num` from the data stream to the data structure.
+- `double findMedian()` returns the median of all elements so far. Answers within `10-5` of the actual answer will be accepted.
+
+#### Approach： Max Heap And Min Heap
+
+**Intuition:**
+
+1.  Generally speaking, find the median value of data  stream, we usually use Max heap and Min Heap
+2. the max heap's peek is the smallest element of  max heap 
+3. the min heap's peek is the biggest element of min heap
+4. So if we maintain two heap, and make sure the size of two heap is same 
+5. Then we can add this two peek value and divide by 2
+
+```Java
+class MedianFinder {
+    private PriorityQueue<Integer> large;
+    private PriorityQueue<Integer> small; 
+    public MedianFinder() {
+        
+        large = new PriorityQueue<>();
+        small = new PriorityQueue<>((a,b) -> {
+            return b - a;
+        });
+    }
+    
+    public void addNum(int num) {
+       if (small.size() >= large.size()) {
+           small.offer(num); // make sure the right order
+            large.offer(small.poll());
+       } else {
+           large.offer(num);
+           small.offer(large.poll());
+       }
+    }
+    
+    public double findMedian() {
+         // if size isn't small, just get the top element of the more heap is the median
+        if(large.size() < small.size()) {
+            return small.peek();
+        } else if (large.size() > small.size()) {
+            return large.peek();
+        }
+
+        return (large.peek() + small.peek()) / 2.0;
+    }
+}
+
+/**
+ * Your MedianFinder object will be instantiated and called as such:
+ * MedianFinder obj = new MedianFinder();
+ * obj.addNum(num);
+ * double param_2 = obj.findMedian();
+ */
+```
+
+**Complexity  Analysis:**
+
+Space : O(N)
+
+time:  O(logN)
+
+
+
 ### [215. Kth Largest Element in an Array](https://leetcode.cn/problems/kth-largest-element-in-an-array/)
 
 Given an integer array `nums` and an integer `k`, return *the* `kth` *largest element in the array*.
@@ -11281,6 +11354,65 @@ class Solution {
     }
 }
 ```
+
+
+
+### [312. Burst Balloons](https://leetcode.cn/problems/burst-balloons/)
+
+You are given `n` balloons, indexed from `0` to `n - 1`. Each balloon is painted with a number on it represented by an array `nums`. You are asked to burst all the balloons.
+
+If you burst the `ith` balloon, you will get `nums[i - 1] * nums[i] * nums[i + 1]` coins. If `i - 1` or `i + 1` goes out of bounds of the array, then treat it as if there is a balloon with a `1` painted on it.
+
+Return *the maximum coins you can collect by bursting the balloons wisely*.
+
+**Example 1:**
+
+```
+Input: nums = [3,1,5,8]
+Output: 167
+Explanation:
+nums = [3,1,5,8] --> [3,5,8] --> [3,8] --> [8] --> []
+coins =  3*1*5    +   3*5*8   +  1*3*8  + 1*8*1 = 167
+```
+
+**Example 2:**
+
+```
+Input: nums = [1,5]
+Output: 10
+```
+
+
+
+### [546. Remove Boxes](https://leetcode.cn/problems/remove-boxes/)
+
+You are given several `boxes` with different colors represented by different positive numbers.
+
+You may experience several rounds to remove boxes until there is no box left. Each time you can choose some continuous boxes with the same color (i.e., composed of `k` boxes, `k >= 1`), remove them and get `k * k` points.
+
+Return *the maximum points you can get*.
+
+**Example 1:**
+
+```
+Input: boxes = [1,3,2,2,2,3,4,3,1]
+Output: 23
+Explanation:
+[1, 3, 2, 2, 2, 3, 4, 3, 1] 
+----> [1, 3, 3, 4, 3, 1] (3*3=9 points) 
+----> [1, 3, 3, 3, 1] (1*1=1 points) 
+----> [1, 1] (3*3=9 points) 
+----> [] (2*2=4 points)
+```
+
+**Example 2:**
+
+```
+Input: boxes = [1,1,1]
+Output: 9
+```
+
+
 
 
 
